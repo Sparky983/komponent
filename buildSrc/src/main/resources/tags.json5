@@ -1,0 +1,199 @@
+{
+  // TODO: finish up
+  tags: {
+    a: {
+      attributes: {
+        href: { required: true },
+        download: {}
+      }
+    },
+    abbr: {},
+    // acronym: {}
+    address: {},
+    // TODO: <area>
+    article: {},
+    // TODO: <aside>
+    // TODO: <audio>
+    b: {},
+    // TODO: <base>-<big>
+    blockquote: { attributes: { cite: {} } },
+    // TODO: include <body>?
+    br: { void: true },
+    button: {
+      attributes: {
+        disabled: { type: "Boolean" }
+      }
+    },
+    // TODO: <canvas>
+    caption: {},
+    cite: {},
+    code: {},
+    col: {
+      attributes: {
+        span: { type: "Int" }
+      }
+    },
+    colgroup: {
+      attributes: {
+        span: { type: "Int" }
+      }
+    },
+    data: { attributes: { value: {} } },
+    datalist: {},
+    dd: {},
+    del: {
+      attributes: {
+        cite: {},
+        datetime: { parameter: "dateTime" }
+      }
+    },
+    details: {
+      attributes: {
+        open: { type: "Boolean" }
+      }
+    },
+    dfn: {},
+    dialog: {
+      attributes: {
+        open: { type: "Boolean" }
+      }
+    },
+    div: {},
+    // TODO: <dl>-<footer>
+    form: {
+      attributes: {
+        accept: {},
+        "accept-charset": { parameter: "acceptCharset" },
+        autocomplete: { parameter: "autoComplete" },
+        name: {}
+      },
+      events: {
+        submit: { type: "Event" },
+        invalid: {}
+      }
+    },
+    h1: {},
+    h2: {},
+    h3: {},
+    h4: {},
+    h5: {},
+    h6: {},
+    // TODO: <head>-<hgroup>
+    hr: { void: true },
+    // TODO: include <html>?
+    i: {},
+    // TODO: iframe
+    img: {
+     attributes: {
+       src: { required: true },
+       alt: {},
+       loading: {}
+     }
+    },
+    input: {
+      attributes: {
+        accept: {},
+        alt: {},
+        autocapitalize: { parameter: "autoCapitalize" },
+        checked: { type: "Boolean" },
+        dirname: { parameter: "dirName" },
+        disabled: { type: "Boolean" },
+        form: {},
+        inputmode: { parameter: "inputMode" },
+        list: {},
+        max: {},
+        maxlength: { type: "Int", parameter: "maxLength" },
+        min: {},
+        minlength: { type: "Int", parameter: "minLength" },
+        multiple: { type: "Boolean" },
+        name: {},
+        pattern: {},
+        placeholder: {},
+        readonly: { type: "Boolean", parameter: "readOnly" },
+        required: { type: "Boolean" },
+        src: {},
+        step: {},
+        type: {},
+        value: {}
+      },
+      events: {
+        input: { type: "InputEvent" },
+        invalid: {}
+      },
+      void: true
+    },
+    ins: {
+      attributes: {
+        cite: {},
+        datetime: { parameter: "dateTime" }
+      }
+    },
+    kbd: {},
+    label: {
+      attributes: {
+        for: { parameter: "htmlFor" }
+      }
+    },
+    legend: {},
+    li: {
+      attributes: {
+        value: { type: "Int" }
+      }
+    },
+    // TODO: include <link>?
+    main: {},
+    // TODO: <map>-<object>
+    ol: {
+      attributes: {
+        reversed: { type: "Boolean" },
+        start: { type: "Int" },
+        type: {}
+      }
+    },
+    optgroup: {
+      attributes: {
+        disabled: { type: "Boolean" },
+        label: {}
+      }
+    },
+    option: {
+      attributes: {
+        disabled: { type: "Boolean" },
+        label: {},
+        selected: { type: "Boolean" },
+        value: {}
+      }
+    },
+    // TODO: <output>
+    p: {}
+    // TODO: <picture>-<wpr>
+  },
+  global: {
+    attributes: {
+      class: { parameter: "className" },
+      draggable: { type: "String" },
+      id: {},
+      tabindex: { parameter: "tabIndex", "type": "Int" },
+      title: {}
+    },
+    events: {
+      blur: { type: "FocusEvent" },
+      click: { type: "org.w3c.dom.pointerevents.PointerEvent" },
+      focus: { type: "FocusEvent" },
+      focusin: { type: "FocusEvent", parameter: "focusIn" },
+      focusout: { type: "FocusEvent", parameter: "focusOut" },
+      keydown: { type: "KeyboardEvent", parameter: "keyDown" },
+      keyup: { type: "KeyboardEvent", parameter: "keyUp" },
+      load: {},
+      mousedown: { type: "MouseEvent", parameter: "mouseDown" },
+      mouseEnter: { type: "MouseEvent", parameter: "mouseEnter" },
+      mouseleave: { type: "MouseEvent", parameter: "mouseLeave" },
+      mousemove: { type: "MouseEvent", parameter: "mouseMove" },
+      mouseout: { type: "MouseEvent", parameter: "mouseOut" },
+      mouseover: { type: "MouseEvent", parameter: "mouseover" },
+      mouseup: { type: "MouseEvent", parameter: "mouseUp" },
+      unload: {},
+      wheel: { type: "WheelEvent" }
+    }    
+  }
+}
