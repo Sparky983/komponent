@@ -146,3 +146,71 @@ public fun <T> signal(initialValue: T): MutableSignal<T> {
         }
     }
 }
+
+public class ListSignal<E> internal constructor(
+    private val list: MutableList<E>
+) : AbstractMutableList<E>() {
+    private val mirrors: MutableMap<Subscription, Mirror> = hashMapOf()
+
+    private inner class Mirror(val fragment: Fragment, val mapper: (E) -> Html)
+
+    internal fun mirrorInto(fragment: Fragment, mapper: (E) -> Html): Subscription {
+        val subscription = object : Subscription {
+            override var canceled: Boolean = true
+                set(value) {
+                    if (value) {
+                        mirrors.remove(this)
+                    } else {
+                        if (field) {
+                            mirrors[this] = Mirror(fragment, mapper)
+                        }
+                    }
+                    field = value
+                }
+        }
+        subscription.canceled = false
+        return subscription
+    }
+
+    private fun update(performer: Fragment.((E) -> Html) -> Unit) {
+        for (mirror in mirrors.values) {
+            mirror.fragment.performer(mirror.mapper)
+        }
+    }
+
+    override fun add(index: Int, element: E) {
+        list.add(index, element)
+        update { this.add(index, it(element)) }
+    }
+
+    override fun removeAt(index: Int): E {
+        return list.removeAt(index).also {
+            update { this.removeAt(index) }
+        }
+    }
+
+    override fun set(index: Int, element: E): E {
+        return list.set(index, element).also {
+            update { this.set(index, it(element)) }
+        }
+    }
+
+    override fun isEmpty(): Boolean = list.isEmpty()
+
+    override fun get(index: Int): E = list[index]
+
+    override val size: Int
+        get() = list.size
+}
+
+public fun <E> flowList(list: List<E>): ListSignal<E> {
+    return ListSignal(list.toMutableList())
+}
+
+public fun <E> flowListOf(): ListSignal<E> {
+    return ListSignal(mutableListOf())
+}
+
+public fun <E> flowListOf(vararg element: E): ListSignal<E> {
+    return ListSignal(mutableListOf(*element))
+}
