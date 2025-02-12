@@ -30,6 +30,58 @@ internal class Fragment(contexts: Contexts) : Html(contexts) {
         }
     }
 
+    fun remove(element: Html) {
+        children.remove(element)
+        val parent = marker.parentNode
+        if (parent != null) {
+            element.onUnmount()
+            for (node in element.nodes()) {
+                parent.removeChild(node)
+            }
+        }
+    }
+
+    fun add(index: Int, element: Html) {
+        val parent = marker.parentNode
+        if (parent != null) {
+            if (parent.isConnected) {
+                element.onMount()
+            }
+            val after = children.asSequence()
+                .drop(index)
+                .flatMap { it.nodes() }
+                .elementAtOrElse(0) { marker }
+            for (node in element.nodes()) {
+                parent.insertBefore(node, after)
+            }
+        }
+        children.add(index, element)
+    }
+
+    fun removeAt(index: Int): Html {
+        val element = children[index]
+        children.remove(element)
+        val parent = marker.parentNode
+        if (parent != null) {
+            element.onUnmount()
+            for (node in element.nodes()) {
+                parent.removeChild(node)
+            }
+        }
+        return element
+    }
+
+
+    fun set(index: Int, element: Html): Html {
+        val previous = children[index]
+        val parent = marker.parentNode
+        if (parent != null) {
+            add(index, element)
+            remove(previous)
+        }
+        return previous
+    }
+
     override fun emit(child: Html) = add(child)
 
     override fun nodes(): Sequence<Node> {
