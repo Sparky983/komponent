@@ -24,3 +24,11 @@ kotlin {
 ````
 
 :::
+
+## IDE Setup
+
+1. Enabled K2 in **Settings | Languages & Frameworks | Kotlin | Enable K2 Mode**
+and restart
+2. Disable the `kotlin.k2.only.bundled.compiler.plugins.enabled` option in the
+IntelliJ registry to allow the Kotlin IntelliJ plugin to enable external Kotlin
+plugins in the IDE.
