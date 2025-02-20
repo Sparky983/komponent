@@ -147,7 +147,7 @@ this you can use the `Dynamic` component. It takes a `Signal` and renders the
 children every time the signal is updated.
 
 ```kt
-fun Html.Tabs(tab: Signal<Tab>) {
+fun Html.Tabs(tab: MutableSignal<Tab>) {
     button(onClick = { tab.value = Tab.FIRST }) { text("first") }
     button(onClick = { tab.value = Tab.SECOND }) { text("Second") } 
 
