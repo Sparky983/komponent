@@ -30,7 +30,7 @@ fun MyApp() {
 }
 
 fun Toggle() { // [!code ++]
-    val darkMode = context<Signal<Boolean>>() // [!code ++]
+    val darkMode = context<MutableSignal<Boolean>>() // [!code ++]
     button(onClick = { darkMode.value = !darkMode.value }) { // [!code ++]
         text("Toggle light/dark mode") // [!code ++]
     } // [!code ++]
