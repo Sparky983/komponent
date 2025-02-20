@@ -7,7 +7,11 @@ export default defineConfig({
     sidebar: [
       {
         items: [
-          { text: 'Installation', link: '/' }
+          { text: 'Installation', link: '/' },
+          { text: 'Your First Component', link: '/component' },
+          { text: 'Reactivity', link: '/reactivity' },
+          { text: 'Context API', link: '/context' },
+          { text: 'Client-side Routing', link: '/routing' }
         ]
       }
     ],
