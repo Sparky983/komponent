@@ -29,7 +29,7 @@ the [installation steps](index.md).
 ```kt
 fun Html.MyComponent() {
     h1(className = "title") { // [!code ++]
-        text("<h1>")
+        text("<h1>") // [!code ++]
     } // [!code ++]
 }
 ```
