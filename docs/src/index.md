@@ -4,11 +4,6 @@ Before installing, be sure to [set up a Kotlin/JS project][kotlin-js-setup].
 
 ## Plugin Installation
 
-::: warning
-As of writing this, the Gradle plugin is yet to be approved, until then, you 
-must [install manually](#manual-installation).
-:::
-
 ::: code-group
 
 ```kt [build.gradle.kts]
@@ -17,29 +12,6 @@ plugins {
 }
 ```
 
-:::
-
-## Manual Installation
-
-::: code-group
-
-```kt [build.gradle.kts]
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    kotlinCompilerPluginClasspath("me.sparky983.komponent:compiler:0.1.0")
-}
-
-kotlin {
-    sourceSets {
-        jsMain.dependencies {
-            implementation("me.sparky983.komponent:komponent:0.1.0")
-        }
-    }
-}
-```
 :::
 
 ## IDE Setup
