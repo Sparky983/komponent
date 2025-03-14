@@ -84,11 +84,12 @@
     i: {},
     // TODO: iframe
     img: {
-     attributes: {
-       src: { required: true },
-       alt: {},
-       loading: {}
-     }
+      attributes: {
+        src: { required: true },
+        alt: {},
+        loading: {}
+      },
+      void: true
     },
     input: {
       attributes: {
@@ -165,14 +166,57 @@
       }
     },
     // TODO: <output>
-    p: {}
+    p: {},
     // TODO: <picture>-<wpr>
+    span: {},
+    select: {
+      attributes: {
+        autocomplete: { parameter: "autoComplete" },
+        autofocus: { parameter: " autoFocus", type: "Boolean" },
+        disabled: { type: "Boolean" },
+        form: {},
+        multiple:  { type: "Boolean" },
+        required: { type: "Boolean" },
+        size: { "type": "Int" }
+      },
+      events: {
+        input: { type: "InputEvent" },
+        change: {}
+      }
+    },
+    selectedcontent: {},
+    textarea: {
+      attributes: {
+        autocapitalize: { parameter: "autoCapitalize" },
+        autocorrect: { parameter:  "autoCorrect" },
+        autofocus: { type: "Boolean", parameter: "autoFocus" },
+        cols: { type:  "Int" },
+        dirname: { parameter: "dirName" },
+        disabled: { type: "Boolean" },
+        form: {},
+        maxlength: { type: "Int", parameter: "maxLength" },
+        minlength: { type: "Int", parameter: "minLength" },
+        multiple: { type: "Boolean" },
+        name: {},
+        placeholder: {},
+        readonly: { type: "Boolean", parameter: "readOnly" },
+        required: { type: "Boolean" },
+        rows: { type:  "Int" },
+        spellcheck: {},
+        wrap: {}
+      },
+      events: {
+        input: { type: "InputEvent" },
+        invalid: {}
+      }
+    }
   },
   global: {
     attributes: {
       class: { parameter: "className" },
       draggable: { type: "String" },
       id: {},
+      style: {},
       tabindex: { parameter: "tabIndex", "type": "Int" },
       title: {}
     },
@@ -194,6 +238,6 @@
       mouseup: { type: "MouseEvent", parameter: "mouseUp" },
       unload: {},
       wheel: { type: "WheelEvent" }
-    }    
+    }
   }
 }

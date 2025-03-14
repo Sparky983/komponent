@@ -46,6 +46,7 @@ public fun Html.a(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     href: Signal<String>,
@@ -75,6 +76,7 @@ public fun Html.a(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
             put("href", href)
@@ -108,6 +110,7 @@ public fun Html.abbr(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     onBlur: EventHandler<FocusEvent>? = null,
@@ -135,6 +138,7 @@ public fun Html.abbr(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
@@ -166,6 +170,7 @@ public fun Html.address(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     onBlur: EventHandler<FocusEvent>? = null,
@@ -193,6 +198,7 @@ public fun Html.address(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
@@ -224,6 +230,7 @@ public fun Html.article(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     onBlur: EventHandler<FocusEvent>? = null,
@@ -251,6 +258,7 @@ public fun Html.article(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
@@ -282,6 +290,7 @@ public fun Html.b(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     onBlur: EventHandler<FocusEvent>? = null,
@@ -309,6 +318,7 @@ public fun Html.b(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
@@ -340,6 +350,7 @@ public fun Html.blockquote(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     cite: Signal<String>? = null,
@@ -368,6 +379,7 @@ public fun Html.blockquote(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
             cite?.let { put("cite", cite) }
@@ -400,6 +412,7 @@ public fun Html.br(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     onBlur: EventHandler<FocusEvent>? = null,
@@ -426,6 +439,7 @@ public fun Html.br(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
@@ -455,6 +469,7 @@ public fun Html.button(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     disabled: Signal<Boolean>? = null,
@@ -483,6 +498,7 @@ public fun Html.button(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
             disabled?.let { put("disabled", disabled { if (it) "" else null }) }
@@ -515,6 +531,7 @@ public fun Html.caption(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     onBlur: EventHandler<FocusEvent>? = null,
@@ -542,6 +559,7 @@ public fun Html.caption(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
@@ -573,6 +591,7 @@ public fun Html.cite(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     onBlur: EventHandler<FocusEvent>? = null,
@@ -600,6 +619,7 @@ public fun Html.cite(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
@@ -631,6 +651,7 @@ public fun Html.code(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     onBlur: EventHandler<FocusEvent>? = null,
@@ -658,6 +679,7 @@ public fun Html.code(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
@@ -689,6 +711,7 @@ public fun Html.col(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     span: Signal<Int>? = null,
@@ -717,6 +740,7 @@ public fun Html.col(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
             span?.let { put("span", span(Any::toString)) }
@@ -749,6 +773,7 @@ public fun Html.colgroup(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     span: Signal<Int>? = null,
@@ -777,6 +802,7 @@ public fun Html.colgroup(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
             span?.let { put("span", span(Any::toString)) }
@@ -809,6 +835,7 @@ public fun Html.data(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     value: Signal<String>? = null,
@@ -837,6 +864,7 @@ public fun Html.data(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
             value?.let { put("value", value) }
@@ -869,6 +897,7 @@ public fun Html.datalist(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     onBlur: EventHandler<FocusEvent>? = null,
@@ -896,6 +925,7 @@ public fun Html.datalist(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
@@ -927,6 +957,7 @@ public fun Html.dd(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     onBlur: EventHandler<FocusEvent>? = null,
@@ -954,6 +985,7 @@ public fun Html.dd(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
@@ -985,6 +1017,7 @@ public fun Html.del(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     cite: Signal<String>? = null,
@@ -1014,6 +1047,7 @@ public fun Html.del(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
             cite?.let { put("cite", cite) }
@@ -1047,6 +1081,7 @@ public fun Html.details(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     open: Signal<Boolean>? = null,
@@ -1075,6 +1110,7 @@ public fun Html.details(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
             open?.let { put("open", open { if (it) "" else null }) }
@@ -1107,6 +1143,7 @@ public fun Html.dfn(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     onBlur: EventHandler<FocusEvent>? = null,
@@ -1134,6 +1171,7 @@ public fun Html.dfn(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
@@ -1165,6 +1203,7 @@ public fun Html.dialog(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     open: Signal<Boolean>? = null,
@@ -1193,6 +1232,7 @@ public fun Html.dialog(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
             open?.let { put("open", open { if (it) "" else null }) }
@@ -1225,6 +1265,7 @@ public fun Html.div(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     onBlur: EventHandler<FocusEvent>? = null,
@@ -1252,6 +1293,7 @@ public fun Html.div(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
@@ -1283,6 +1325,7 @@ public fun Html.form(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     accept: Signal<String>? = null,
@@ -1316,6 +1359,7 @@ public fun Html.form(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
             accept?.let { put("accept", accept) }
@@ -1353,6 +1397,7 @@ public fun Html.h1(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     onBlur: EventHandler<FocusEvent>? = null,
@@ -1380,6 +1425,7 @@ public fun Html.h1(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
@@ -1411,6 +1457,7 @@ public fun Html.h2(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     onBlur: EventHandler<FocusEvent>? = null,
@@ -1438,6 +1485,7 @@ public fun Html.h2(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
@@ -1469,6 +1517,7 @@ public fun Html.h3(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     onBlur: EventHandler<FocusEvent>? = null,
@@ -1496,6 +1545,7 @@ public fun Html.h3(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
@@ -1527,6 +1577,7 @@ public fun Html.h4(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     onBlur: EventHandler<FocusEvent>? = null,
@@ -1554,6 +1605,7 @@ public fun Html.h4(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
@@ -1585,6 +1637,7 @@ public fun Html.h5(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     onBlur: EventHandler<FocusEvent>? = null,
@@ -1612,6 +1665,7 @@ public fun Html.h5(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
@@ -1643,6 +1697,7 @@ public fun Html.h6(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     onBlur: EventHandler<FocusEvent>? = null,
@@ -1670,6 +1725,7 @@ public fun Html.h6(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
@@ -1701,6 +1757,7 @@ public fun Html.hr(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     onBlur: EventHandler<FocusEvent>? = null,
@@ -1727,6 +1784,7 @@ public fun Html.hr(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
@@ -1756,6 +1814,7 @@ public fun Html.i(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     onBlur: EventHandler<FocusEvent>? = null,
@@ -1783,6 +1842,7 @@ public fun Html.i(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
@@ -1814,6 +1874,7 @@ public fun Html.img(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     src: Signal<String>,
@@ -1836,7 +1897,6 @@ public fun Html.img(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
 ) {
     tag(
         "img",
@@ -1844,6 +1904,7 @@ public fun Html.img(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
             put("src", src)
@@ -1868,9 +1929,7 @@ public fun Html.img(
             "mouseup" to onMouseUp, 
             "unload" to onUnload, 
             "wheel" to onWheel, 
-        ),
-        children = children
-    )
+        )    ) {}
 }
 
 @Suppress("unused")
@@ -1878,6 +1937,7 @@ public fun Html.input(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     accept: Signal<String>? = null,
@@ -1929,6 +1989,7 @@ public fun Html.input(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
             accept?.let { put("accept", accept) }
@@ -1983,6 +2044,7 @@ public fun Html.ins(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     cite: Signal<String>? = null,
@@ -2012,6 +2074,7 @@ public fun Html.ins(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
             cite?.let { put("cite", cite) }
@@ -2045,6 +2108,7 @@ public fun Html.kbd(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     onBlur: EventHandler<FocusEvent>? = null,
@@ -2072,6 +2136,7 @@ public fun Html.kbd(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
@@ -2103,6 +2168,7 @@ public fun Html.label(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     htmlFor: Signal<String>? = null,
@@ -2131,6 +2197,7 @@ public fun Html.label(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
             htmlFor?.let { put("for", htmlFor) }
@@ -2163,6 +2230,7 @@ public fun Html.legend(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     onBlur: EventHandler<FocusEvent>? = null,
@@ -2190,6 +2258,7 @@ public fun Html.legend(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
@@ -2221,6 +2290,7 @@ public fun Html.li(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     value: Signal<Int>? = null,
@@ -2249,6 +2319,7 @@ public fun Html.li(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
             value?.let { put("value", value(Any::toString)) }
@@ -2281,6 +2352,7 @@ public fun Html.main(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     onBlur: EventHandler<FocusEvent>? = null,
@@ -2308,6 +2380,7 @@ public fun Html.main(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
@@ -2339,6 +2412,7 @@ public fun Html.ol(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     reversed: Signal<Boolean>? = null,
@@ -2369,6 +2443,7 @@ public fun Html.ol(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
             reversed?.let { put("reversed", reversed { if (it) "" else null }) }
@@ -2403,6 +2478,7 @@ public fun Html.optgroup(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     disabled: Signal<Boolean>? = null,
@@ -2432,6 +2508,7 @@ public fun Html.optgroup(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
             disabled?.let { put("disabled", disabled { if (it) "" else null }) }
@@ -2465,6 +2542,7 @@ public fun Html.option(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     disabled: Signal<Boolean>? = null,
@@ -2496,6 +2574,7 @@ public fun Html.option(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
             disabled?.let { put("disabled", disabled { if (it) "" else null }) }
@@ -2531,6 +2610,7 @@ public fun Html.p(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
+    style: Signal<String>? = null,
     tabIndex: Signal<Int>? = null,
     title: Signal<String>? = null,
     onBlur: EventHandler<FocusEvent>? = null,
@@ -2558,6 +2638,7 @@ public fun Html.p(
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
             id?.let { put("id", id) }
+            style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
@@ -2579,6 +2660,302 @@ public fun Html.p(
             "mouseup" to onMouseUp, 
             "unload" to onUnload, 
             "wheel" to onWheel, 
+        ),
+        children = children
+    )
+}
+
+@Suppress("unused")
+public fun Html.span(
+    className: Signal<String>? = null,
+    draggable: Signal<String>? = null,
+    id: Signal<String>? = null,
+    style: Signal<String>? = null,
+    tabIndex: Signal<Int>? = null,
+    title: Signal<String>? = null,
+    onBlur: EventHandler<FocusEvent>? = null,
+    onClick: EventHandler<org.w3c.dom.pointerevents.PointerEvent>? = null,
+    onFocus: EventHandler<FocusEvent>? = null,
+    onFocusIn: EventHandler<FocusEvent>? = null,
+    onFocusOut: EventHandler<FocusEvent>? = null,
+    onKeyDown: EventHandler<KeyboardEvent>? = null,
+    onKeyUp: EventHandler<KeyboardEvent>? = null,
+    onLoad: EventHandler<Event>? = null,
+    onMouseDown: EventHandler<MouseEvent>? = null,
+    onMouseEnter: EventHandler<MouseEvent>? = null,
+    onMouseLeave: EventHandler<MouseEvent>? = null,
+    onMouseMove: EventHandler<MouseEvent>? = null,
+    onMouseOut: EventHandler<MouseEvent>? = null,
+    onMouseover: EventHandler<MouseEvent>? = null,
+    onMouseUp: EventHandler<MouseEvent>? = null,
+    onUnload: EventHandler<Event>? = null,
+    onWheel: EventHandler<WheelEvent>? = null,
+    children: Children
+) {
+    tag(
+        "span",
+        buildMap {
+            className?.let { put("class", className) }
+            draggable?.let { put("draggable", draggable) }
+            id?.let { put("id", id) }
+            style?.let { put("style", style) }
+            tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
+            title?.let { put("title", title) }
+        },
+        mapOf(
+            "blur" to onBlur, 
+            "click" to onClick, 
+            "focus" to onFocus, 
+            "focusin" to onFocusIn, 
+            "focusout" to onFocusOut, 
+            "keydown" to onKeyDown, 
+            "keyup" to onKeyUp, 
+            "load" to onLoad, 
+            "mousedown" to onMouseDown, 
+            "mouseEnter" to onMouseEnter, 
+            "mouseleave" to onMouseLeave, 
+            "mousemove" to onMouseMove, 
+            "mouseout" to onMouseOut, 
+            "mouseover" to onMouseover, 
+            "mouseup" to onMouseUp, 
+            "unload" to onUnload, 
+            "wheel" to onWheel, 
+        ),
+        children = children
+    )
+}
+
+@Suppress("unused")
+public fun Html.select(
+    className: Signal<String>? = null,
+    draggable: Signal<String>? = null,
+    id: Signal<String>? = null,
+    style: Signal<String>? = null,
+    tabIndex: Signal<Int>? = null,
+    title: Signal<String>? = null,
+    autoComplete: Signal<String>? = null,
+     autoFocus: Signal<Boolean>? = null,
+    disabled: Signal<Boolean>? = null,
+    form: Signal<String>? = null,
+    multiple: Signal<Boolean>? = null,
+    required: Signal<Boolean>? = null,
+    size: Signal<Int>? = null,
+    onBlur: EventHandler<FocusEvent>? = null,
+    onClick: EventHandler<org.w3c.dom.pointerevents.PointerEvent>? = null,
+    onFocus: EventHandler<FocusEvent>? = null,
+    onFocusIn: EventHandler<FocusEvent>? = null,
+    onFocusOut: EventHandler<FocusEvent>? = null,
+    onKeyDown: EventHandler<KeyboardEvent>? = null,
+    onKeyUp: EventHandler<KeyboardEvent>? = null,
+    onLoad: EventHandler<Event>? = null,
+    onMouseDown: EventHandler<MouseEvent>? = null,
+    onMouseEnter: EventHandler<MouseEvent>? = null,
+    onMouseLeave: EventHandler<MouseEvent>? = null,
+    onMouseMove: EventHandler<MouseEvent>? = null,
+    onMouseOut: EventHandler<MouseEvent>? = null,
+    onMouseover: EventHandler<MouseEvent>? = null,
+    onMouseUp: EventHandler<MouseEvent>? = null,
+    onUnload: EventHandler<Event>? = null,
+    onWheel: EventHandler<WheelEvent>? = null,
+    onInput: EventHandler<InputEvent>? = null,
+    onChange: EventHandler<Event>? = null,
+    children: Children
+) {
+    tag(
+        "select",
+        buildMap {
+            className?.let { put("class", className) }
+            draggable?.let { put("draggable", draggable) }
+            id?.let { put("id", id) }
+            style?.let { put("style", style) }
+            tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
+            title?.let { put("title", title) }
+            autoComplete?.let { put("autocomplete", autoComplete) }
+             autoFocus?.let { put("autofocus",  autoFocus { if (it) "" else null }) }
+            disabled?.let { put("disabled", disabled { if (it) "" else null }) }
+            form?.let { put("form", form) }
+            multiple?.let { put("multiple", multiple { if (it) "" else null }) }
+            required?.let { put("required", required { if (it) "" else null }) }
+            size?.let { put("size", size(Any::toString)) }
+        },
+        mapOf(
+            "blur" to onBlur, 
+            "click" to onClick, 
+            "focus" to onFocus, 
+            "focusin" to onFocusIn, 
+            "focusout" to onFocusOut, 
+            "keydown" to onKeyDown, 
+            "keyup" to onKeyUp, 
+            "load" to onLoad, 
+            "mousedown" to onMouseDown, 
+            "mouseEnter" to onMouseEnter, 
+            "mouseleave" to onMouseLeave, 
+            "mousemove" to onMouseMove, 
+            "mouseout" to onMouseOut, 
+            "mouseover" to onMouseover, 
+            "mouseup" to onMouseUp, 
+            "unload" to onUnload, 
+            "wheel" to onWheel, 
+            "input" to onInput, 
+            "change" to onChange, 
+        ),
+        children = children
+    )
+}
+
+@Suppress("unused")
+public fun Html.selectedcontent(
+    className: Signal<String>? = null,
+    draggable: Signal<String>? = null,
+    id: Signal<String>? = null,
+    style: Signal<String>? = null,
+    tabIndex: Signal<Int>? = null,
+    title: Signal<String>? = null,
+    onBlur: EventHandler<FocusEvent>? = null,
+    onClick: EventHandler<org.w3c.dom.pointerevents.PointerEvent>? = null,
+    onFocus: EventHandler<FocusEvent>? = null,
+    onFocusIn: EventHandler<FocusEvent>? = null,
+    onFocusOut: EventHandler<FocusEvent>? = null,
+    onKeyDown: EventHandler<KeyboardEvent>? = null,
+    onKeyUp: EventHandler<KeyboardEvent>? = null,
+    onLoad: EventHandler<Event>? = null,
+    onMouseDown: EventHandler<MouseEvent>? = null,
+    onMouseEnter: EventHandler<MouseEvent>? = null,
+    onMouseLeave: EventHandler<MouseEvent>? = null,
+    onMouseMove: EventHandler<MouseEvent>? = null,
+    onMouseOut: EventHandler<MouseEvent>? = null,
+    onMouseover: EventHandler<MouseEvent>? = null,
+    onMouseUp: EventHandler<MouseEvent>? = null,
+    onUnload: EventHandler<Event>? = null,
+    onWheel: EventHandler<WheelEvent>? = null,
+    children: Children
+) {
+    tag(
+        "selectedcontent",
+        buildMap {
+            className?.let { put("class", className) }
+            draggable?.let { put("draggable", draggable) }
+            id?.let { put("id", id) }
+            style?.let { put("style", style) }
+            tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
+            title?.let { put("title", title) }
+        },
+        mapOf(
+            "blur" to onBlur, 
+            "click" to onClick, 
+            "focus" to onFocus, 
+            "focusin" to onFocusIn, 
+            "focusout" to onFocusOut, 
+            "keydown" to onKeyDown, 
+            "keyup" to onKeyUp, 
+            "load" to onLoad, 
+            "mousedown" to onMouseDown, 
+            "mouseEnter" to onMouseEnter, 
+            "mouseleave" to onMouseLeave, 
+            "mousemove" to onMouseMove, 
+            "mouseout" to onMouseOut, 
+            "mouseover" to onMouseover, 
+            "mouseup" to onMouseUp, 
+            "unload" to onUnload, 
+            "wheel" to onWheel, 
+        ),
+        children = children
+    )
+}
+
+@Suppress("unused")
+public fun Html.textarea(
+    className: Signal<String>? = null,
+    draggable: Signal<String>? = null,
+    id: Signal<String>? = null,
+    style: Signal<String>? = null,
+    tabIndex: Signal<Int>? = null,
+    title: Signal<String>? = null,
+    autoCapitalize: Signal<String>? = null,
+    autoCorrect: Signal<String>? = null,
+    autoFocus: Signal<Boolean>? = null,
+    cols: Signal<Int>? = null,
+    dirName: Signal<String>? = null,
+    disabled: Signal<Boolean>? = null,
+    form: Signal<String>? = null,
+    maxLength: Signal<Int>? = null,
+    minLength: Signal<Int>? = null,
+    multiple: Signal<Boolean>? = null,
+    name: Signal<String>? = null,
+    placeholder: Signal<String>? = null,
+    readOnly: Signal<Boolean>? = null,
+    required: Signal<Boolean>? = null,
+    rows: Signal<Int>? = null,
+    spellcheck: Signal<String>? = null,
+    wrap: Signal<String>? = null,
+    onBlur: EventHandler<FocusEvent>? = null,
+    onClick: EventHandler<org.w3c.dom.pointerevents.PointerEvent>? = null,
+    onFocus: EventHandler<FocusEvent>? = null,
+    onFocusIn: EventHandler<FocusEvent>? = null,
+    onFocusOut: EventHandler<FocusEvent>? = null,
+    onKeyDown: EventHandler<KeyboardEvent>? = null,
+    onKeyUp: EventHandler<KeyboardEvent>? = null,
+    onLoad: EventHandler<Event>? = null,
+    onMouseDown: EventHandler<MouseEvent>? = null,
+    onMouseEnter: EventHandler<MouseEvent>? = null,
+    onMouseLeave: EventHandler<MouseEvent>? = null,
+    onMouseMove: EventHandler<MouseEvent>? = null,
+    onMouseOut: EventHandler<MouseEvent>? = null,
+    onMouseover: EventHandler<MouseEvent>? = null,
+    onMouseUp: EventHandler<MouseEvent>? = null,
+    onUnload: EventHandler<Event>? = null,
+    onWheel: EventHandler<WheelEvent>? = null,
+    onInput: EventHandler<InputEvent>? = null,
+    onInvalid: EventHandler<Event>? = null,
+    children: Children
+) {
+    tag(
+        "textarea",
+        buildMap {
+            className?.let { put("class", className) }
+            draggable?.let { put("draggable", draggable) }
+            id?.let { put("id", id) }
+            style?.let { put("style", style) }
+            tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
+            title?.let { put("title", title) }
+            autoCapitalize?.let { put("autocapitalize", autoCapitalize) }
+            autoCorrect?.let { put("autocorrect", autoCorrect) }
+            autoFocus?.let { put("autofocus", autoFocus { if (it) "" else null }) }
+            cols?.let { put("cols", cols(Any::toString)) }
+            dirName?.let { put("dirname", dirName) }
+            disabled?.let { put("disabled", disabled { if (it) "" else null }) }
+            form?.let { put("form", form) }
+            maxLength?.let { put("maxlength", maxLength(Any::toString)) }
+            minLength?.let { put("minlength", minLength(Any::toString)) }
+            multiple?.let { put("multiple", multiple { if (it) "" else null }) }
+            name?.let { put("name", name) }
+            placeholder?.let { put("placeholder", placeholder) }
+            readOnly?.let { put("readonly", readOnly { if (it) "" else null }) }
+            required?.let { put("required", required { if (it) "" else null }) }
+            rows?.let { put("rows", rows(Any::toString)) }
+            spellcheck?.let { put("spellcheck", spellcheck) }
+            wrap?.let { put("wrap", wrap) }
+        },
+        mapOf(
+            "blur" to onBlur, 
+            "click" to onClick, 
+            "focus" to onFocus, 
+            "focusin" to onFocusIn, 
+            "focusout" to onFocusOut, 
+            "keydown" to onKeyDown, 
+            "keyup" to onKeyUp, 
+            "load" to onLoad, 
+            "mousedown" to onMouseDown, 
+            "mouseEnter" to onMouseEnter, 
+            "mouseleave" to onMouseLeave, 
+            "mousemove" to onMouseMove, 
+            "mouseout" to onMouseOut, 
+            "mouseover" to onMouseover, 
+            "mouseup" to onMouseUp, 
+            "unload" to onUnload, 
+            "wheel" to onWheel, 
+            "input" to onInput, 
+            "invalid" to onInvalid, 
         ),
         children = children
     )
