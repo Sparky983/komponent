@@ -167,12 +167,18 @@
     },
     // TODO: <output>
     p: {},
+    progress: {
+      attributes: {
+        max: { type: "Int" },
+        value: { type: "Int" }
+      }
+    },
     // TODO: <picture>-<wpr>
     span: {},
     select: {
       attributes: {
         autocomplete: { parameter: "autoComplete" },
-        autofocus: { parameter: " autoFocus", type: "Boolean" },
+        autofocus: { type: "Boolean", parameter: " autoFocus" },
         disabled: { type: "Boolean" },
         form: {},
         multiple:  { type: "Boolean" },
@@ -202,7 +208,7 @@
         readonly: { type: "Boolean", parameter: "readOnly" },
         required: { type: "Boolean" },
         rows: { type:  "Int" },
-        spellcheck: {},
+        spellcheck: { parameter: "spellCheck" },
         wrap: {}
       },
       events: {
@@ -214,7 +220,7 @@
   global: {
     attributes: {
       class: { parameter: "className" },
-      draggable: { type: "String" },
+      draggable: {},
       id: {},
       style: {},
       tabindex: { parameter: "tabIndex", "type": "Int" },

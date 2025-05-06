@@ -2666,6 +2666,70 @@ public fun Html.p(
 }
 
 @Suppress("unused")
+public fun Html.progress(
+    className: Signal<String>? = null,
+    draggable: Signal<String>? = null,
+    id: Signal<String>? = null,
+    style: Signal<String>? = null,
+    tabIndex: Signal<Int>? = null,
+    title: Signal<String>? = null,
+    max: Signal<Int>? = null,
+    value: Signal<Int>? = null,
+    onBlur: EventHandler<FocusEvent>? = null,
+    onClick: EventHandler<org.w3c.dom.pointerevents.PointerEvent>? = null,
+    onFocus: EventHandler<FocusEvent>? = null,
+    onFocusIn: EventHandler<FocusEvent>? = null,
+    onFocusOut: EventHandler<FocusEvent>? = null,
+    onKeyDown: EventHandler<KeyboardEvent>? = null,
+    onKeyUp: EventHandler<KeyboardEvent>? = null,
+    onLoad: EventHandler<Event>? = null,
+    onMouseDown: EventHandler<MouseEvent>? = null,
+    onMouseEnter: EventHandler<MouseEvent>? = null,
+    onMouseLeave: EventHandler<MouseEvent>? = null,
+    onMouseMove: EventHandler<MouseEvent>? = null,
+    onMouseOut: EventHandler<MouseEvent>? = null,
+    onMouseover: EventHandler<MouseEvent>? = null,
+    onMouseUp: EventHandler<MouseEvent>? = null,
+    onUnload: EventHandler<Event>? = null,
+    onWheel: EventHandler<WheelEvent>? = null,
+    children: Children
+) {
+    tag(
+        "progress",
+        buildMap {
+            className?.let { put("class", className) }
+            draggable?.let { put("draggable", draggable) }
+            id?.let { put("id", id) }
+            style?.let { put("style", style) }
+            tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
+            title?.let { put("title", title) }
+            max?.let { put("max", max(Any::toString)) }
+            value?.let { put("value", value(Any::toString)) }
+        },
+        mapOf(
+            "blur" to onBlur, 
+            "click" to onClick, 
+            "focus" to onFocus, 
+            "focusin" to onFocusIn, 
+            "focusout" to onFocusOut, 
+            "keydown" to onKeyDown, 
+            "keyup" to onKeyUp, 
+            "load" to onLoad, 
+            "mousedown" to onMouseDown, 
+            "mouseEnter" to onMouseEnter, 
+            "mouseleave" to onMouseLeave, 
+            "mousemove" to onMouseMove, 
+            "mouseout" to onMouseOut, 
+            "mouseover" to onMouseover, 
+            "mouseup" to onMouseUp, 
+            "unload" to onUnload, 
+            "wheel" to onWheel, 
+        ),
+        children = children
+    )
+}
+
+@Suppress("unused")
 public fun Html.span(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
@@ -2886,7 +2950,7 @@ public fun Html.textarea(
     readOnly: Signal<Boolean>? = null,
     required: Signal<Boolean>? = null,
     rows: Signal<Int>? = null,
-    spellcheck: Signal<String>? = null,
+    spellCheck: Signal<String>? = null,
     wrap: Signal<String>? = null,
     onBlur: EventHandler<FocusEvent>? = null,
     onClick: EventHandler<org.w3c.dom.pointerevents.PointerEvent>? = null,
@@ -2933,7 +2997,7 @@ public fun Html.textarea(
             readOnly?.let { put("readonly", readOnly { if (it) "" else null }) }
             required?.let { put("required", required { if (it) "" else null }) }
             rows?.let { put("rows", rows(Any::toString)) }
-            spellcheck?.let { put("spellcheck", spellcheck) }
+            spellCheck?.let { put("spellcheck", spellCheck) }
             wrap?.let { put("wrap", wrap) }
         },
         mapOf(
