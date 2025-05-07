@@ -127,7 +127,6 @@ public fun <T> signal(initialValue: T): MutableSignal<T> {
         }
 
         override fun subscribe(subscriber: (T) -> Unit): Subscription {
-            subscriber(value)
             val subscription = object : Subscription {
                 override var canceled: Boolean = true
                     set(value) {
@@ -142,6 +141,7 @@ public fun <T> signal(initialValue: T): MutableSignal<T> {
                     }
             }
             subscription.canceled = false
+            subscriber(value)
             return subscription
         }
     }

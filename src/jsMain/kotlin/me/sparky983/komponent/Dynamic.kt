@@ -13,8 +13,8 @@ public fun <T> Html.Dynamic(signal: Signal<T>, component: Html.(T) -> Unit) {
     val subscription = signal.subscribe {
         holder.children.forEach { holder.remove(it) }
         val fragment = Fragment()
-        fragment.component(it)
         holder.emit(fragment)
+        fragment.component(it)
     }
 
     holder.onMount { subscription.canceled = false }
