@@ -9,14 +9,16 @@ package me.sparky983.komponent
 public fun <E> Html.For(each: ListSignal<E>, children: Html.(E) -> Unit) {
     val fragment = Fragment()
 
-    for (element in each) {
-        fragment.children(element)
+    each.forEach {
+        val element = Fragment()
+        element.children(it)
+        fragment.add(element)
     }
 
     val subscription = each.mirrorInto(fragment) {
-        val fragment = Fragment()
-        fragment.children(it)
-        fragment
+        val element = Fragment()
+        element.children(it)
+        element
     }
 
     onMount { subscription.canceled = false }
