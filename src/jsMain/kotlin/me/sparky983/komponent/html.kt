@@ -104,6 +104,7 @@ internal class Tag internal constructor(
 ) : Html(contexts) {
     override fun emit(child: Html) {
         onMount(child::onMount)
+        onUnmount(child::onUnmount)
         if (element.isConnected) {
             child.onMount()
         }
