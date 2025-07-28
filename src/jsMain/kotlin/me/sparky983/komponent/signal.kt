@@ -203,14 +203,14 @@ public class ListSignal<E> internal constructor(
         get() = list.size
 }
 
-public fun <E> flowList(list: List<E>): ListSignal<E> {
+public fun <E> listSignal(list: List<E>): ListSignal<E> {
     return ListSignal(list.toMutableList())
 }
 
-public fun <E> flowListOf(): ListSignal<E> {
+public fun <E> listSignalOf(): ListSignal<E> {
     return ListSignal(mutableListOf())
 }
 
-public fun <E> flowListOf(vararg element: E): ListSignal<E> {
+public fun <E> listSignalOf(vararg element: E): ListSignal<E> {
     return ListSignal(mutableListOf(*element))
 }
