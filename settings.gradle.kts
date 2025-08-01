@@ -1,3 +1,3 @@
 rootProject.name = "komponent"
 
-include("compiler", "gradle-plugin")
+include("compiler", "gradle-plugin", "router")
