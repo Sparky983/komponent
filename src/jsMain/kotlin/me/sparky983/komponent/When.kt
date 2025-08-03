@@ -25,13 +25,18 @@ public fun Html.When(
         Fragment().also { it.fallback() }
     }
 
-    val subscription = condition.subscribe {
-        if (it) {
-            holder.add(conditional)
-        } else {
-            holder.remove(conditional)
-            if (otherwise != null) {
-                holder.add(otherwise)
+    var visibility = false
+
+    val subscription = condition.subscribe { update ->
+        if (update != visibility) {
+            visibility = update
+            if (update) {
+                holder.add(conditional)
+            } else {
+                holder.remove(conditional)
+                if (otherwise != null) {
+                    holder.add(otherwise)
+                }
             }
         }
     }
