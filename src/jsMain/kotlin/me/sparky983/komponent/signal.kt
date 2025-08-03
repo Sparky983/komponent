@@ -110,7 +110,7 @@ public fun <T> just(value: T): Signal<T> {
  */
 public fun <T> signal(initialValue: T): MutableSignal<T> {
     return object : MutableSignal<T> {
-        private val subscriptions = hashMapOf<Subscription, (T) -> Unit>()
+        private var subscriptions = emptyMap<Subscription, (T) -> Unit>()
 
         override var value: T = initialValue
             set(value) {
@@ -131,10 +131,16 @@ public fun <T> signal(initialValue: T): MutableSignal<T> {
                 override var canceled: Boolean = true
                     set(value) {
                         if (value) {
-                            subscriptions.remove(this)
+                            if (!field) {
+                                val copy = subscriptions.toMutableMap()
+                                copy.remove(this)
+                                subscriptions = copy
+                            }
                         } else {
                             if (field) {
-                                subscriptions[this] = subscriber
+                                val copy = subscriptions.toMutableMap()
+                                copy[this] = subscriber
+                                subscriptions = copy
                             }
                         }
                         field = value
@@ -150,7 +156,7 @@ public fun <T> signal(initialValue: T): MutableSignal<T> {
 public class ListSignal<E> internal constructor(
     private val list: MutableList<E>
 ) : AbstractMutableList<E>() {
-    private val mirrors: MutableMap<Subscription, Mirror> = hashMapOf()
+    private var mirrors = emptyMap<Subscription, Mirror>()
 
     private inner class Mirror(val fragment: Fragment, val mapper: (E) -> Html)
 
@@ -159,10 +165,16 @@ public class ListSignal<E> internal constructor(
             override var canceled: Boolean = true
                 set(value) {
                     if (value) {
-                        mirrors.remove(this)
+                        if (!field) {
+                            val copy = mirrors.toMutableMap()
+                            copy.remove(this)
+                            mirrors = copy
+                        }
                     } else {
                         if (field) {
-                            mirrors[this] = Mirror(fragment, mapper)
+                            val copy = mirrors.toMutableMap()
+                            copy[this] = Mirror(fragment, mapper)
+                            mirrors = copy
                         }
                     }
                     field = value
