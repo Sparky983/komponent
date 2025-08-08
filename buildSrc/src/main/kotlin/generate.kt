@@ -68,23 +68,39 @@ fun generate(folder: File) {
             import org.w3c.dom.*
             
             private typealias EventHandler<E> = (E) -> Unit
-            
+
             @PublishedApi
             internal fun Html.tag(
                 name: String,
                 attributes: Map<String, Signal<String?>>,
+                dataAttributes: DataAttributes?,
                 events: Map<String, EventHandler<*>?>,
                 children: Children
             ): Node {
                 val domNode = document.createElement(name)
                 val tag = Tag(domNode, contexts)
                 for ((attribute, signal) in attributes) {
-                    signal.subscribe {
+                    val subscription = signal.subscribe {
                         if (it == null) {
                             domNode.removeAttribute(attribute)
                         } else {
                             domNode.setAttribute(attribute, it)
                         }
+                    }
+                    tag.onMount { subscription.canceled = false }
+                    tag.onUnmount { subscription.canceled = true }
+                }
+                if (dataAttributes != null) {
+                    for (dataAttribute in dataAttributes.attributes) {
+                        val subscription = dataAttribute.value.subscribe {
+                            if (it != null) {
+                                domNode.setAttribute("data-$${"{"}dataAttribute.name}", it)
+                            } else {
+                                domNode.removeAttribute("data-$${"{"}dataAttribute.name}")
+                            }
+                        }
+                        tag.onMount { subscription.canceled = false }
+                        tag.onUnmount { subscription.canceled = true }
                     }
                 }
                 for ((event, handler) in events) {
@@ -130,6 +146,8 @@ fun generate(folder: File) {
                 append(event.parameter(name))
                 append(": EventHandler<${event.type}>? = null,")
             }
+
+            append("\n    data: DataAttributes? = null,")
 
             if (!tag.void) {
                 append("\n    children: Children")
@@ -178,6 +196,7 @@ fun generate(folder: File) {
 
             append("\n")
             append("        },\n")
+            append("        data,\n")
             append("        mapOf(")
 
             for ((name, event) in events) {
@@ -194,7 +213,7 @@ fun generate(folder: File) {
                 append("\n")
                 append("    )")
             } else {
-                append("    ) {}")
+                append("\n    ) {}")
             }
 
             append("\n}")

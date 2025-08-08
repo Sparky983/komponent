@@ -14,18 +14,34 @@ private typealias EventHandler<E> = (E) -> Unit
 internal fun Html.tag(
     name: String,
     attributes: Map<String, Signal<String?>>,
+    dataAttributes: DataAttributes?,
     events: Map<String, EventHandler<*>?>,
     children: Children
 ): Node {
     val domNode = document.createElement(name)
     val tag = Tag(domNode, contexts)
     for ((attribute, signal) in attributes) {
-        signal.subscribe {
+        val subscription = signal.subscribe {
             if (it == null) {
                 domNode.removeAttribute(attribute)
             } else {
                 domNode.setAttribute(attribute, it)
             }
+        }
+        tag.onMount { subscription.canceled = false }
+        tag.onUnmount { subscription.canceled = true }
+    }
+    if (dataAttributes != null) {
+        for (dataAttribute in dataAttributes.attributes) {
+            val subscription = dataAttribute.value.subscribe {
+                if (it != null) {
+                    domNode.setAttribute("data-${dataAttribute.name}", it)
+                } else {
+                    domNode.removeAttribute("data-${dataAttribute.name}")
+                }
+            }
+            tag.onMount { subscription.canceled = false }
+            tag.onUnmount { subscription.canceled = true }
         }
     }
     for ((event, handler) in events) {
@@ -68,6 +84,7 @@ public fun Html.a(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -82,6 +99,7 @@ public fun Html.a(
             put("href", href)
             download?.let { put("download", download) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -130,6 +148,7 @@ public fun Html.abbr(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -142,6 +161,7 @@ public fun Html.abbr(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -190,6 +210,7 @@ public fun Html.address(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -202,6 +223,7 @@ public fun Html.address(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -250,6 +272,7 @@ public fun Html.article(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -262,6 +285,7 @@ public fun Html.article(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -310,6 +334,7 @@ public fun Html.b(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -322,6 +347,7 @@ public fun Html.b(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -371,6 +397,7 @@ public fun Html.blockquote(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -384,6 +411,7 @@ public fun Html.blockquote(
             title?.let { put("title", title) }
             cite?.let { put("cite", cite) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -432,6 +460,7 @@ public fun Html.br(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
 ) {
     tag(
         "br",
@@ -443,6 +472,7 @@ public fun Html.br(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -461,7 +491,8 @@ public fun Html.br(
             "mouseup" to onMouseUp, 
             "unload" to onUnload, 
             "wheel" to onWheel, 
-        )    ) {}
+        )
+    ) {}
 }
 
 @Suppress("unused")
@@ -490,6 +521,7 @@ public fun Html.button(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -503,6 +535,7 @@ public fun Html.button(
             title?.let { put("title", title) }
             disabled?.let { put("disabled", disabled { if (it) "" else null }) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -551,6 +584,7 @@ public fun Html.caption(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -563,6 +597,7 @@ public fun Html.caption(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -611,6 +646,7 @@ public fun Html.cite(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -623,6 +659,7 @@ public fun Html.cite(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -671,6 +708,7 @@ public fun Html.code(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -683,6 +721,7 @@ public fun Html.code(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -732,6 +771,7 @@ public fun Html.col(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -745,6 +785,7 @@ public fun Html.col(
             title?.let { put("title", title) }
             span?.let { put("span", span(Any::toString)) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -794,6 +835,7 @@ public fun Html.colgroup(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -807,6 +849,7 @@ public fun Html.colgroup(
             title?.let { put("title", title) }
             span?.let { put("span", span(Any::toString)) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -856,6 +899,7 @@ public fun Html.data(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -869,6 +913,7 @@ public fun Html.data(
             title?.let { put("title", title) }
             value?.let { put("value", value) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -917,6 +962,7 @@ public fun Html.datalist(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -929,6 +975,7 @@ public fun Html.datalist(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -977,6 +1024,7 @@ public fun Html.dd(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -989,6 +1037,7 @@ public fun Html.dd(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -1039,6 +1088,7 @@ public fun Html.del(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -1053,6 +1103,7 @@ public fun Html.del(
             cite?.let { put("cite", cite) }
             dateTime?.let { put("datetime", dateTime) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -1102,6 +1153,7 @@ public fun Html.details(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -1115,6 +1167,7 @@ public fun Html.details(
             title?.let { put("title", title) }
             open?.let { put("open", open { if (it) "" else null }) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -1163,6 +1216,7 @@ public fun Html.dfn(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -1175,6 +1229,7 @@ public fun Html.dfn(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -1224,6 +1279,7 @@ public fun Html.dialog(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -1237,6 +1293,7 @@ public fun Html.dialog(
             title?.let { put("title", title) }
             open?.let { put("open", open { if (it) "" else null }) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -1285,6 +1342,7 @@ public fun Html.div(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -1297,6 +1355,7 @@ public fun Html.div(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -1351,6 +1410,7 @@ public fun Html.form(
     onWheel: EventHandler<WheelEvent>? = null,
     onSubmit: EventHandler<Event>? = null,
     onInvalid: EventHandler<Event>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -1367,6 +1427,7 @@ public fun Html.form(
             autoComplete?.let { put("autocomplete", autoComplete) }
             name?.let { put("name", name) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -1417,6 +1478,7 @@ public fun Html.h1(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -1429,6 +1491,7 @@ public fun Html.h1(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -1477,6 +1540,7 @@ public fun Html.h2(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -1489,6 +1553,7 @@ public fun Html.h2(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -1537,6 +1602,7 @@ public fun Html.h3(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -1549,6 +1615,7 @@ public fun Html.h3(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -1597,6 +1664,7 @@ public fun Html.h4(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -1609,6 +1677,7 @@ public fun Html.h4(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -1657,6 +1726,7 @@ public fun Html.h5(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -1669,6 +1739,7 @@ public fun Html.h5(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -1717,6 +1788,7 @@ public fun Html.h6(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -1729,6 +1801,7 @@ public fun Html.h6(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -1777,6 +1850,7 @@ public fun Html.hr(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
 ) {
     tag(
         "hr",
@@ -1788,6 +1862,7 @@ public fun Html.hr(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -1806,7 +1881,8 @@ public fun Html.hr(
             "mouseup" to onMouseUp, 
             "unload" to onUnload, 
             "wheel" to onWheel, 
-        )    ) {}
+        )
+    ) {}
 }
 
 @Suppress("unused")
@@ -1834,6 +1910,7 @@ public fun Html.i(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -1846,6 +1923,7 @@ public fun Html.i(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -1897,6 +1975,7 @@ public fun Html.img(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
 ) {
     tag(
         "img",
@@ -1911,6 +1990,7 @@ public fun Html.img(
             alt?.let { put("alt", alt) }
             loading?.let { put("loading", loading) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -1929,7 +2009,8 @@ public fun Html.img(
             "mouseup" to onMouseUp, 
             "unload" to onUnload, 
             "wheel" to onWheel, 
-        )    ) {}
+        )
+    ) {}
 }
 
 @Suppress("unused")
@@ -1982,6 +2063,7 @@ public fun Html.input(
     onWheel: EventHandler<WheelEvent>? = null,
     onInput: EventHandler<InputEvent>? = null,
     onInvalid: EventHandler<Event>? = null,
+    data: DataAttributes? = null,
 ) {
     tag(
         "input",
@@ -2016,6 +2098,7 @@ public fun Html.input(
             type?.let { put("type", type) }
             value?.let { put("value", value) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -2036,7 +2119,8 @@ public fun Html.input(
             "wheel" to onWheel, 
             "input" to onInput, 
             "invalid" to onInvalid, 
-        )    ) {}
+        )
+    ) {}
 }
 
 @Suppress("unused")
@@ -2066,6 +2150,7 @@ public fun Html.ins(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -2080,6 +2165,7 @@ public fun Html.ins(
             cite?.let { put("cite", cite) }
             dateTime?.let { put("datetime", dateTime) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -2128,6 +2214,7 @@ public fun Html.kbd(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -2140,6 +2227,7 @@ public fun Html.kbd(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -2189,6 +2277,7 @@ public fun Html.label(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -2202,6 +2291,7 @@ public fun Html.label(
             title?.let { put("title", title) }
             htmlFor?.let { put("for", htmlFor) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -2250,6 +2340,7 @@ public fun Html.legend(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -2262,6 +2353,7 @@ public fun Html.legend(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -2311,6 +2403,7 @@ public fun Html.li(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -2324,6 +2417,7 @@ public fun Html.li(
             title?.let { put("title", title) }
             value?.let { put("value", value(Any::toString)) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -2372,6 +2466,7 @@ public fun Html.main(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -2384,6 +2479,7 @@ public fun Html.main(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -2435,6 +2531,7 @@ public fun Html.ol(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -2450,6 +2547,7 @@ public fun Html.ol(
             start?.let { put("start", start(Any::toString)) }
             type?.let { put("type", type) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -2500,6 +2598,7 @@ public fun Html.optgroup(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -2514,6 +2613,7 @@ public fun Html.optgroup(
             disabled?.let { put("disabled", disabled { if (it) "" else null }) }
             label?.let { put("label", label) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -2566,6 +2666,7 @@ public fun Html.option(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -2582,6 +2683,7 @@ public fun Html.option(
             selected?.let { put("selected", selected { if (it) "" else null }) }
             value?.let { put("value", value) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -2630,6 +2732,7 @@ public fun Html.p(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -2642,6 +2745,7 @@ public fun Html.p(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -2692,6 +2796,7 @@ public fun Html.progress(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -2706,6 +2811,7 @@ public fun Html.progress(
             max?.let { put("max", max(Any::toString)) }
             value?.let { put("value", value(Any::toString)) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -2754,6 +2860,7 @@ public fun Html.span(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -2766,6 +2873,7 @@ public fun Html.span(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -2823,6 +2931,7 @@ public fun Html.select(
     onWheel: EventHandler<WheelEvent>? = null,
     onInput: EventHandler<InputEvent>? = null,
     onChange: EventHandler<Event>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -2842,6 +2951,7 @@ public fun Html.select(
             required?.let { put("required", required { if (it) "" else null }) }
             size?.let { put("size", size(Any::toString)) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -2892,6 +3002,7 @@ public fun Html.selectedcontent(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -2904,6 +3015,7 @@ public fun Html.selectedcontent(
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
@@ -2971,6 +3083,7 @@ public fun Html.textarea(
     onWheel: EventHandler<WheelEvent>? = null,
     onInput: EventHandler<InputEvent>? = null,
     onInvalid: EventHandler<Event>? = null,
+    data: DataAttributes? = null,
     children: Children
 ) {
     tag(
@@ -3000,6 +3113,7 @@ public fun Html.textarea(
             spellCheck?.let { put("spellcheck", spellCheck) }
             wrap?.let { put("wrap", wrap) }
         },
+        data,
         mapOf(
             "blur" to onBlur, 
             "click" to onClick, 
