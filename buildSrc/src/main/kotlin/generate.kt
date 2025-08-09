@@ -68,12 +68,14 @@ fun generate(folder: File) {
             import org.w3c.dom.*
             
             private typealias EventHandler<E> = (E) -> Unit
-
+            
+            private typealias Attributes = AttributesBuilder.() -> Unit
+            
             @PublishedApi
             internal fun Html.tag(
                 name: String,
                 attributes: Map<String, Signal<String?>>,
-                dataAttributes: DataAttributes?,
+                dataAttributes: Attributes?,
                 events: Map<String, EventHandler<*>?>,
                 children: Children
             ): Node {
@@ -91,12 +93,12 @@ fun generate(folder: File) {
                     tag.onUnmount { subscription.canceled = true }
                 }
                 if (dataAttributes != null) {
-                    for (dataAttribute in dataAttributes.attributes) {
-                        val subscription = dataAttribute.value.subscribe {
+                    for ((attribute, value) in AttributesBuilder().apply(dataAttributes).attributes) {
+                        val subscription = value.subscribe {
                             if (it != null) {
-                                domNode.setAttribute("data-$${"{"}dataAttribute.name}", it)
+                                domNode.setAttribute("data-${'$'}attribute", it)
                             } else {
-                                domNode.removeAttribute("data-$${"{"}dataAttribute.name}")
+                                domNode.removeAttribute("data-${'$'}attribute")
                             }
                         }
                         tag.onMount { subscription.canceled = false }
@@ -147,7 +149,7 @@ fun generate(folder: File) {
                 append(": EventHandler<${event.type}>? = null,")
             }
 
-            append("\n    data: DataAttributes? = null,")
+            append("\n    data: Attributes? = null,")
 
             if (!tag.void) {
                 append("\n    children: Children")

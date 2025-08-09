@@ -10,11 +10,13 @@ import org.w3c.dom.*
 
 private typealias EventHandler<E> = (E) -> Unit
 
+private typealias Attributes = AttributesBuilder.() -> Unit
+
 @PublishedApi
 internal fun Html.tag(
     name: String,
     attributes: Map<String, Signal<String?>>,
-    dataAttributes: DataAttributes?,
+    dataAttributes: Attributes?,
     events: Map<String, EventHandler<*>?>,
     children: Children
 ): Node {
@@ -32,12 +34,12 @@ internal fun Html.tag(
         tag.onUnmount { subscription.canceled = true }
     }
     if (dataAttributes != null) {
-        for (dataAttribute in dataAttributes.attributes) {
-            val subscription = dataAttribute.value.subscribe {
+        for ((attribute, value) in AttributesBuilder().apply(dataAttributes).attributes) {
+            val subscription = value.subscribe {
                 if (it != null) {
-                    domNode.setAttribute("data-${dataAttribute.name}", it)
+                    domNode.setAttribute("data-$attribute", it)
                 } else {
-                    domNode.removeAttribute("data-${dataAttribute.name}")
+                    domNode.removeAttribute("data-$attribute")
                 }
             }
             tag.onMount { subscription.canceled = false }
@@ -84,7 +86,7 @@ public fun Html.a(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -148,7 +150,7 @@ public fun Html.abbr(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -210,7 +212,7 @@ public fun Html.address(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -272,7 +274,7 @@ public fun Html.article(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -334,7 +336,7 @@ public fun Html.b(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -397,7 +399,7 @@ public fun Html.blockquote(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -460,7 +462,7 @@ public fun Html.br(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
 ) {
     tag(
         "br",
@@ -521,7 +523,7 @@ public fun Html.button(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -584,7 +586,7 @@ public fun Html.caption(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -646,7 +648,7 @@ public fun Html.cite(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -708,7 +710,7 @@ public fun Html.code(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -771,7 +773,7 @@ public fun Html.col(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -835,7 +837,7 @@ public fun Html.colgroup(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -899,7 +901,7 @@ public fun Html.data(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -962,7 +964,7 @@ public fun Html.datalist(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -1024,7 +1026,7 @@ public fun Html.dd(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -1088,7 +1090,7 @@ public fun Html.del(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -1153,7 +1155,7 @@ public fun Html.details(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -1216,7 +1218,7 @@ public fun Html.dfn(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -1279,7 +1281,7 @@ public fun Html.dialog(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -1342,7 +1344,7 @@ public fun Html.div(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -1410,7 +1412,7 @@ public fun Html.form(
     onWheel: EventHandler<WheelEvent>? = null,
     onSubmit: EventHandler<Event>? = null,
     onInvalid: EventHandler<Event>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -1478,7 +1480,7 @@ public fun Html.h1(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -1540,7 +1542,7 @@ public fun Html.h2(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -1602,7 +1604,7 @@ public fun Html.h3(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -1664,7 +1666,7 @@ public fun Html.h4(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -1726,7 +1728,7 @@ public fun Html.h5(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -1788,7 +1790,7 @@ public fun Html.h6(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -1850,7 +1852,7 @@ public fun Html.hr(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
 ) {
     tag(
         "hr",
@@ -1910,7 +1912,7 @@ public fun Html.i(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -1975,7 +1977,7 @@ public fun Html.img(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
 ) {
     tag(
         "img",
@@ -2063,7 +2065,7 @@ public fun Html.input(
     onWheel: EventHandler<WheelEvent>? = null,
     onInput: EventHandler<InputEvent>? = null,
     onInvalid: EventHandler<Event>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
 ) {
     tag(
         "input",
@@ -2150,7 +2152,7 @@ public fun Html.ins(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -2214,7 +2216,7 @@ public fun Html.kbd(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -2277,7 +2279,7 @@ public fun Html.label(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -2340,7 +2342,7 @@ public fun Html.legend(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -2403,7 +2405,7 @@ public fun Html.li(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -2466,7 +2468,7 @@ public fun Html.main(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -2531,7 +2533,7 @@ public fun Html.ol(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -2598,7 +2600,7 @@ public fun Html.optgroup(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -2666,7 +2668,7 @@ public fun Html.option(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -2732,7 +2734,7 @@ public fun Html.p(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -2796,7 +2798,7 @@ public fun Html.progress(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -2860,7 +2862,7 @@ public fun Html.span(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -2931,7 +2933,7 @@ public fun Html.select(
     onWheel: EventHandler<WheelEvent>? = null,
     onInput: EventHandler<InputEvent>? = null,
     onChange: EventHandler<Event>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -3002,7 +3004,7 @@ public fun Html.selectedcontent(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
@@ -3083,7 +3085,7 @@ public fun Html.textarea(
     onWheel: EventHandler<WheelEvent>? = null,
     onInput: EventHandler<InputEvent>? = null,
     onInvalid: EventHandler<Event>? = null,
-    data: DataAttributes? = null,
+    data: Attributes? = null,
     children: Children
 ) {
     tag(
