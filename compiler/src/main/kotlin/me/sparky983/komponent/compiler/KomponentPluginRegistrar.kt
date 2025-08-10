@@ -12,7 +12,7 @@ class KomponentPluginRegistrar : CompilerPluginRegistrar() {
         configuration: CompilerConfiguration
     ) {
         FirExtensionRegistrarAdapter.registerExtension(
-            KomponentExtensionRegisrar()
+            KomponentExtensionRegistrar()
         )
     }
 }

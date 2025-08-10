@@ -11,38 +11,40 @@ import org.w3c.dom.*
 private typealias EventHandler<E> = (E) -> Unit
 
 @PublishedApi
-internal fun Html.tag(
+internal fun element(
     name: String,
     attributes: Map<String, Signal<String?>>,
     events: Map<String, EventHandler<*>?>,
-    children: Children
-): Node {
-    val domNode = document.createElement(name)
-    val tag = Tag(domNode, contexts)
+    vararg children: Element
+): Element {
+    val backing = document.createElement(name)
+    val element = DomElement(backing)
     for ((attribute, signal) in attributes) {
         signal.subscribe {
             if (it == null) {
-                domNode.removeAttribute(attribute)
+                backing.removeAttribute(attribute)
             } else {
-                domNode.setAttribute(attribute, it)
+                backing.setAttribute(attribute, it)
             }
         }
     }
     for ((event, handler) in events) {
         if (handler != null) {
-            domNode.addEventListener(
+            backing.addEventListener(
                 event,
                 handler.unsafeCast<(Event) -> Unit>()
             )
         }
     }
-    tag.children()
-    emit(tag)
-    return domNode
+    for (child in children) {
+        child.nodes().forEach(backing::appendChild)
+    }
+    return element
 }
 
 @Suppress("unused")
-public fun Html.a(
+@Component
+public fun a(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -68,9 +70,9 @@ public fun Html.a(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "a",
         buildMap {
             className?.let { put("class", className) }
@@ -106,7 +108,8 @@ public fun Html.a(
 }
 
 @Suppress("unused")
-public fun Html.abbr(
+@Component
+public fun abbr(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -130,9 +133,9 @@ public fun Html.abbr(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "abbr",
         buildMap {
             className?.let { put("class", className) }
@@ -166,7 +169,8 @@ public fun Html.abbr(
 }
 
 @Suppress("unused")
-public fun Html.address(
+@Component
+public fun address(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -190,9 +194,9 @@ public fun Html.address(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "address",
         buildMap {
             className?.let { put("class", className) }
@@ -226,7 +230,8 @@ public fun Html.address(
 }
 
 @Suppress("unused")
-public fun Html.article(
+@Component
+public fun article(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -250,9 +255,9 @@ public fun Html.article(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "article",
         buildMap {
             className?.let { put("class", className) }
@@ -286,7 +291,8 @@ public fun Html.article(
 }
 
 @Suppress("unused")
-public fun Html.b(
+@Component
+public fun b(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -310,9 +316,9 @@ public fun Html.b(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "b",
         buildMap {
             className?.let { put("class", className) }
@@ -346,7 +352,8 @@ public fun Html.b(
 }
 
 @Suppress("unused")
-public fun Html.blockquote(
+@Component
+public fun blockquote(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -371,9 +378,9 @@ public fun Html.blockquote(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "blockquote",
         buildMap {
             className?.let { put("class", className) }
@@ -408,7 +415,8 @@ public fun Html.blockquote(
 }
 
 @Suppress("unused")
-public fun Html.br(
+@Component
+public fun br(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -432,8 +440,8 @@ public fun Html.br(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-) {
-    tag(
+): Element {
+    return element(
         "br",
         buildMap {
             className?.let { put("class", className) }
@@ -461,11 +469,13 @@ public fun Html.br(
             "mouseup" to onMouseUp, 
             "unload" to onUnload, 
             "wheel" to onWheel, 
-        )    ) {}
+        )
+    )
 }
 
 @Suppress("unused")
-public fun Html.button(
+@Component
+public fun button(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -490,9 +500,9 @@ public fun Html.button(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "button",
         buildMap {
             className?.let { put("class", className) }
@@ -527,7 +537,8 @@ public fun Html.button(
 }
 
 @Suppress("unused")
-public fun Html.caption(
+@Component
+public fun caption(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -551,9 +562,9 @@ public fun Html.caption(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "caption",
         buildMap {
             className?.let { put("class", className) }
@@ -587,7 +598,8 @@ public fun Html.caption(
 }
 
 @Suppress("unused")
-public fun Html.cite(
+@Component
+public fun cite(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -611,9 +623,9 @@ public fun Html.cite(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "cite",
         buildMap {
             className?.let { put("class", className) }
@@ -647,7 +659,8 @@ public fun Html.cite(
 }
 
 @Suppress("unused")
-public fun Html.code(
+@Component
+public fun code(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -671,9 +684,9 @@ public fun Html.code(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "code",
         buildMap {
             className?.let { put("class", className) }
@@ -707,7 +720,8 @@ public fun Html.code(
 }
 
 @Suppress("unused")
-public fun Html.col(
+@Component
+public fun col(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -732,9 +746,9 @@ public fun Html.col(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "col",
         buildMap {
             className?.let { put("class", className) }
@@ -769,7 +783,8 @@ public fun Html.col(
 }
 
 @Suppress("unused")
-public fun Html.colgroup(
+@Component
+public fun colgroup(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -794,9 +809,9 @@ public fun Html.colgroup(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "colgroup",
         buildMap {
             className?.let { put("class", className) }
@@ -831,7 +846,8 @@ public fun Html.colgroup(
 }
 
 @Suppress("unused")
-public fun Html.data(
+@Component
+public fun data(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -856,9 +872,9 @@ public fun Html.data(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "data",
         buildMap {
             className?.let { put("class", className) }
@@ -893,7 +909,8 @@ public fun Html.data(
 }
 
 @Suppress("unused")
-public fun Html.datalist(
+@Component
+public fun datalist(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -917,9 +934,9 @@ public fun Html.datalist(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "datalist",
         buildMap {
             className?.let { put("class", className) }
@@ -953,7 +970,8 @@ public fun Html.datalist(
 }
 
 @Suppress("unused")
-public fun Html.dd(
+@Component
+public fun dd(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -977,9 +995,9 @@ public fun Html.dd(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "dd",
         buildMap {
             className?.let { put("class", className) }
@@ -1013,7 +1031,8 @@ public fun Html.dd(
 }
 
 @Suppress("unused")
-public fun Html.del(
+@Component
+public fun del(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -1039,9 +1058,9 @@ public fun Html.del(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "del",
         buildMap {
             className?.let { put("class", className) }
@@ -1077,7 +1096,8 @@ public fun Html.del(
 }
 
 @Suppress("unused")
-public fun Html.details(
+@Component
+public fun details(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -1102,9 +1122,9 @@ public fun Html.details(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "details",
         buildMap {
             className?.let { put("class", className) }
@@ -1139,7 +1159,8 @@ public fun Html.details(
 }
 
 @Suppress("unused")
-public fun Html.dfn(
+@Component
+public fun dfn(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -1163,9 +1184,9 @@ public fun Html.dfn(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "dfn",
         buildMap {
             className?.let { put("class", className) }
@@ -1199,7 +1220,8 @@ public fun Html.dfn(
 }
 
 @Suppress("unused")
-public fun Html.dialog(
+@Component
+public fun dialog(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -1224,9 +1246,9 @@ public fun Html.dialog(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "dialog",
         buildMap {
             className?.let { put("class", className) }
@@ -1261,7 +1283,8 @@ public fun Html.dialog(
 }
 
 @Suppress("unused")
-public fun Html.div(
+@Component
+public fun ul(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -1285,9 +1308,69 @@ public fun Html.div(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
+        "ul",
+        buildMap {
+            className?.let { put("class", className) }
+            draggable?.let { put("draggable", draggable) }
+            id?.let { put("id", id) }
+            style?.let { put("style", style) }
+            tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
+            title?.let { put("title", title) }
+        },
+        mapOf(
+            "blur" to onBlur,
+            "click" to onClick,
+            "focus" to onFocus,
+            "focusin" to onFocusIn,
+            "focusout" to onFocusOut,
+            "keydown" to onKeyDown,
+            "keyup" to onKeyUp,
+            "load" to onLoad,
+            "mousedown" to onMouseDown,
+            "mouseEnter" to onMouseEnter,
+            "mouseleave" to onMouseLeave,
+            "mousemove" to onMouseMove,
+            "mouseout" to onMouseOut,
+            "mouseover" to onMouseover,
+            "mouseup" to onMouseUp,
+            "unload" to onUnload,
+            "wheel" to onWheel,
+        ),
+        children = children
+    )
+}
+@Suppress("unused")
+@Component
+public fun div(
+    className: Signal<String>? = null,
+    draggable: Signal<String>? = null,
+    id: Signal<String>? = null,
+    style: Signal<String>? = null,
+    tabIndex: Signal<Int>? = null,
+    title: Signal<String>? = null,
+    onBlur: EventHandler<FocusEvent>? = null,
+    onClick: EventHandler<org.w3c.dom.pointerevents.PointerEvent>? = null,
+    onFocus: EventHandler<FocusEvent>? = null,
+    onFocusIn: EventHandler<FocusEvent>? = null,
+    onFocusOut: EventHandler<FocusEvent>? = null,
+    onKeyDown: EventHandler<KeyboardEvent>? = null,
+    onKeyUp: EventHandler<KeyboardEvent>? = null,
+    onLoad: EventHandler<Event>? = null,
+    onMouseDown: EventHandler<MouseEvent>? = null,
+    onMouseEnter: EventHandler<MouseEvent>? = null,
+    onMouseLeave: EventHandler<MouseEvent>? = null,
+    onMouseMove: EventHandler<MouseEvent>? = null,
+    onMouseOut: EventHandler<MouseEvent>? = null,
+    onMouseover: EventHandler<MouseEvent>? = null,
+    onMouseUp: EventHandler<MouseEvent>? = null,
+    onUnload: EventHandler<Event>? = null,
+    onWheel: EventHandler<WheelEvent>? = null,
+    vararg children: Element
+): Element {
+    return element(
         "div",
         buildMap {
             className?.let { put("class", className) }
@@ -1321,7 +1404,8 @@ public fun Html.div(
 }
 
 @Suppress("unused")
-public fun Html.form(
+@Component
+public fun form(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -1351,9 +1435,9 @@ public fun Html.form(
     onWheel: EventHandler<WheelEvent>? = null,
     onSubmit: EventHandler<Event>? = null,
     onInvalid: EventHandler<Event>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "form",
         buildMap {
             className?.let { put("class", className) }
@@ -1393,7 +1477,8 @@ public fun Html.form(
 }
 
 @Suppress("unused")
-public fun Html.h1(
+@Component
+public fun h1(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -1417,9 +1502,9 @@ public fun Html.h1(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "h1",
         buildMap {
             className?.let { put("class", className) }
@@ -1453,7 +1538,8 @@ public fun Html.h1(
 }
 
 @Suppress("unused")
-public fun Html.h2(
+@Component
+public fun h2(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -1477,9 +1563,9 @@ public fun Html.h2(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "h2",
         buildMap {
             className?.let { put("class", className) }
@@ -1513,7 +1599,8 @@ public fun Html.h2(
 }
 
 @Suppress("unused")
-public fun Html.h3(
+@Component
+public fun h3(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -1537,9 +1624,9 @@ public fun Html.h3(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "h3",
         buildMap {
             className?.let { put("class", className) }
@@ -1573,7 +1660,8 @@ public fun Html.h3(
 }
 
 @Suppress("unused")
-public fun Html.h4(
+@Component
+public fun h4(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -1597,9 +1685,9 @@ public fun Html.h4(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "h4",
         buildMap {
             className?.let { put("class", className) }
@@ -1633,7 +1721,8 @@ public fun Html.h4(
 }
 
 @Suppress("unused")
-public fun Html.h5(
+@Component
+public fun h5(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -1657,9 +1746,9 @@ public fun Html.h5(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "h5",
         buildMap {
             className?.let { put("class", className) }
@@ -1693,7 +1782,8 @@ public fun Html.h5(
 }
 
 @Suppress("unused")
-public fun Html.h6(
+@Component
+public fun h6(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -1717,9 +1807,9 @@ public fun Html.h6(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "h6",
         buildMap {
             className?.let { put("class", className) }
@@ -1753,7 +1843,8 @@ public fun Html.h6(
 }
 
 @Suppress("unused")
-public fun Html.hr(
+@Component
+public fun hr(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -1777,8 +1868,8 @@ public fun Html.hr(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-) {
-    tag(
+): Element {
+    return element(
         "hr",
         buildMap {
             className?.let { put("class", className) }
@@ -1806,11 +1897,13 @@ public fun Html.hr(
             "mouseup" to onMouseUp, 
             "unload" to onUnload, 
             "wheel" to onWheel, 
-        )    ) {}
+        )
+    )
 }
 
 @Suppress("unused")
-public fun Html.i(
+@Component
+public fun i(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -1834,9 +1927,9 @@ public fun Html.i(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "i",
         buildMap {
             className?.let { put("class", className) }
@@ -1870,7 +1963,8 @@ public fun Html.i(
 }
 
 @Suppress("unused")
-public fun Html.img(
+@Component
+public fun img(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -1897,8 +1991,8 @@ public fun Html.img(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-) {
-    tag(
+): Element {
+    return element(
         "img",
         buildMap {
             className?.let { put("class", className) }
@@ -1929,11 +2023,13 @@ public fun Html.img(
             "mouseup" to onMouseUp, 
             "unload" to onUnload, 
             "wheel" to onWheel, 
-        )    ) {}
+        )
+    )
 }
 
 @Suppress("unused")
-public fun Html.input(
+@Component
+public fun input(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -1982,8 +2078,8 @@ public fun Html.input(
     onWheel: EventHandler<WheelEvent>? = null,
     onInput: EventHandler<InputEvent>? = null,
     onInvalid: EventHandler<Event>? = null,
-) {
-    tag(
+): Element {
+    return element(
         "input",
         buildMap {
             className?.let { put("class", className) }
@@ -2036,11 +2132,13 @@ public fun Html.input(
             "wheel" to onWheel, 
             "input" to onInput, 
             "invalid" to onInvalid, 
-        )    ) {}
+        )
+    )
 }
 
 @Suppress("unused")
-public fun Html.ins(
+@Component
+public fun ins(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -2066,9 +2164,9 @@ public fun Html.ins(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "ins",
         buildMap {
             className?.let { put("class", className) }
@@ -2104,7 +2202,8 @@ public fun Html.ins(
 }
 
 @Suppress("unused")
-public fun Html.kbd(
+@Component
+public fun kbd(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -2128,9 +2227,9 @@ public fun Html.kbd(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "kbd",
         buildMap {
             className?.let { put("class", className) }
@@ -2164,7 +2263,8 @@ public fun Html.kbd(
 }
 
 @Suppress("unused")
-public fun Html.label(
+@Component
+public fun label(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -2189,9 +2289,9 @@ public fun Html.label(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "label",
         buildMap {
             className?.let { put("class", className) }
@@ -2226,7 +2326,8 @@ public fun Html.label(
 }
 
 @Suppress("unused")
-public fun Html.legend(
+@Component
+public fun legend(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -2250,9 +2351,9 @@ public fun Html.legend(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "legend",
         buildMap {
             className?.let { put("class", className) }
@@ -2286,7 +2387,8 @@ public fun Html.legend(
 }
 
 @Suppress("unused")
-public fun Html.li(
+@Component
+public fun li(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -2311,9 +2413,9 @@ public fun Html.li(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "li",
         buildMap {
             className?.let { put("class", className) }
@@ -2348,7 +2450,8 @@ public fun Html.li(
 }
 
 @Suppress("unused")
-public fun Html.main(
+@Component
+public fun main(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -2372,9 +2475,9 @@ public fun Html.main(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "main",
         buildMap {
             className?.let { put("class", className) }
@@ -2408,7 +2511,8 @@ public fun Html.main(
 }
 
 @Suppress("unused")
-public fun Html.ol(
+@Component
+public fun ol(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -2435,9 +2539,9 @@ public fun Html.ol(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "ol",
         buildMap {
             className?.let { put("class", className) }
@@ -2474,7 +2578,8 @@ public fun Html.ol(
 }
 
 @Suppress("unused")
-public fun Html.optgroup(
+@Component
+public fun optgroup(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -2500,9 +2605,9 @@ public fun Html.optgroup(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "optgroup",
         buildMap {
             className?.let { put("class", className) }
@@ -2538,7 +2643,8 @@ public fun Html.optgroup(
 }
 
 @Suppress("unused")
-public fun Html.option(
+@Component
+public fun option(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -2566,9 +2672,9 @@ public fun Html.option(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "option",
         buildMap {
             className?.let { put("class", className) }
@@ -2606,7 +2712,8 @@ public fun Html.option(
 }
 
 @Suppress("unused")
-public fun Html.p(
+@Component
+public fun p(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -2630,9 +2737,9 @@ public fun Html.p(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "p",
         buildMap {
             className?.let { put("class", className) }
@@ -2666,7 +2773,8 @@ public fun Html.p(
 }
 
 @Suppress("unused")
-public fun Html.progress(
+@Component
+public fun progress(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -2692,9 +2800,9 @@ public fun Html.progress(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "progress",
         buildMap {
             className?.let { put("class", className) }
@@ -2730,7 +2838,8 @@ public fun Html.progress(
 }
 
 @Suppress("unused")
-public fun Html.span(
+@Component
+public fun span(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -2754,9 +2863,9 @@ public fun Html.span(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "span",
         buildMap {
             className?.let { put("class", className) }
@@ -2790,7 +2899,8 @@ public fun Html.span(
 }
 
 @Suppress("unused")
-public fun Html.select(
+@Component
+public fun select(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -2823,9 +2933,9 @@ public fun Html.select(
     onWheel: EventHandler<WheelEvent>? = null,
     onInput: EventHandler<InputEvent>? = null,
     onChange: EventHandler<Event>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "select",
         buildMap {
             className?.let { put("class", className) }
@@ -2868,7 +2978,8 @@ public fun Html.select(
 }
 
 @Suppress("unused")
-public fun Html.selectedcontent(
+@Component
+public fun selectedcontent(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -2892,9 +3003,9 @@ public fun Html.selectedcontent(
     onMouseUp: EventHandler<MouseEvent>? = null,
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "selectedcontent",
         buildMap {
             className?.let { put("class", className) }
@@ -2928,7 +3039,8 @@ public fun Html.selectedcontent(
 }
 
 @Suppress("unused")
-public fun Html.textarea(
+@Component
+public fun textarea(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
     id: Signal<String>? = null,
@@ -2971,9 +3083,9 @@ public fun Html.textarea(
     onWheel: EventHandler<WheelEvent>? = null,
     onInput: EventHandler<InputEvent>? = null,
     onInvalid: EventHandler<Event>? = null,
-    children: Children
-) {
-    tag(
+    vararg children: Element
+): Element {
+    return element(
         "textarea",
         buildMap {
             className?.let { put("class", className) }
