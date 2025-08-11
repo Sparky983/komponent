@@ -158,9 +158,9 @@ public class ListSignal<E> internal constructor(
 ) : AbstractMutableList<E>() {
     private var mirrors = emptyMap<Subscription, Mirror>()
 
-    private inner class Mirror(val fragment: Fragment, val mapper: (E) -> Element)
+    private inner class Mirror(val fragment: FragmentElement, val mapper: (E) -> Element)
 
-    internal fun mirrorInto(fragment: Fragment, mapper: (E) -> Element): Subscription {
+    internal fun mirrorInto(fragment: FragmentElement, mapper: (E) -> Element): Subscription {
         val subscription = object : Subscription {
             override var canceled: Boolean = true
                 set(value) {
@@ -184,7 +184,7 @@ public class ListSignal<E> internal constructor(
         return subscription
     }
 
-    private fun update(performer: Fragment.((E) -> Element) -> Unit) {
+    private fun update(performer: FragmentElement.((E) -> Element) -> Unit) {
         for (mirror in mirrors.values) {
             mirror.fragment.performer(mirror.mapper)
         }

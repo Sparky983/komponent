@@ -7,7 +7,7 @@ public sealed class Element {
      * Returns a shallow sequence of all actual dom nodes that this element
      * represents.
      *
-     * A [Fragment] represents multiple elements.
+     * A [FragmentElement] represents multiple elements.
      */
     internal abstract fun nodes(): Sequence<Node>
 }

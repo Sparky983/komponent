@@ -14,7 +14,7 @@ public fun When(
     fallback: Element? = null,
     vararg children: Element
 ) {
-    val holder = Fragment()
+    val holder = FragmentElement()
 
     var visibility = false
 

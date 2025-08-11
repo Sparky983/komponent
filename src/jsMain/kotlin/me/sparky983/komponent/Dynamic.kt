@@ -9,7 +9,7 @@ package me.sparky983.komponent
  * @since 0.1.0
  */
 public fun <T> Dynamic(signal: Signal<T>, component: (T) -> Element): Element {
-    val holder = Fragment()
+    val holder = FragmentElement()
     var current: Element? = null
     signal.subscribe {
         current?.let { holder.remove(it) }

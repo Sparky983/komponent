@@ -7,7 +7,7 @@ package me.sparky983.komponent
  * @since 0.1.0
  */
 public fun <E> For(each: ListSignal<E>, children: (E) -> Element): Element {
-    val fragment = Fragment()
+    val fragment = FragmentElement()
 
     each.forEach {
         fragment.add(children(it))

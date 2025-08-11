@@ -6,7 +6,7 @@ import org.w3c.dom.Node
 /**
  * Effectively a non-existent element that is in-place of all its children.
  */
-internal class Fragment : Element() {
+internal class FragmentElement : Element() {
     /*
      * Fragments work by creating a marker element that represents the last 
      * child. All children are placed relative to either the marker or 
@@ -76,4 +76,13 @@ internal class Fragment : Element() {
     override fun nodes(): Sequence<Node> {
         return children.asSequence().flatMap { it.nodes() } + marker
     }
+}
+
+@Component
+public fun Fragment(vararg children: Element): Element {
+    // Note that the component's name differs from the class' name due to weird resolution behaviour
+    // when no candidates are applicable causing erroneous Fragment calls to resolve to the internal
+    // constructor (if it were to have the same name)
+
+    return FragmentElement().also { children.forEach(it::add) }
 }
