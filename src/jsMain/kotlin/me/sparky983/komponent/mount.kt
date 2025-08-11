@@ -7,9 +7,6 @@ package me.sparky983.komponent
  * @param children the children
  * @since 0.1.0
  */
-public fun mount(to: org.w3c.dom.Node, children: Html.() -> Unit) {
-    val node = Tag(to, Contexts.Empty).apply {
-        emit(Fragment().also(children))
-    }
-    node.onMount()
+public fun mount(to: org.w3c.dom.Node, children: Element) {
+    children.nodes().forEach { to.appendChild(it) }
 }

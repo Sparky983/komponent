@@ -70,34 +70,35 @@ fun generate(folder: File) {
             private typealias EventHandler<E> = (E) -> Unit
             
             @PublishedApi
-            internal fun Html.tag(
+            internal fun element(
                 name: String,
                 attributes: Map<String, Signal<String?>>,
                 events: Map<String, EventHandler<*>?>,
-                children: Children
-            ): Node {
-                val domNode = document.createElement(name)
-                val tag = Tag(domNode, contexts)
+                vararg children: Element
+            ): Element {
+                val backing = document.createElement(name)
+                val element = DomElement(backing)
                 for ((attribute, signal) in attributes) {
                     signal.subscribe {
                         if (it == null) {
-                            domNode.removeAttribute(attribute)
+                            backing.removeAttribute(attribute)
                         } else {
-                            domNode.setAttribute(attribute, it)
+                            backing.setAttribute(attribute, it)
                         }
                     }
                 }
                 for ((event, handler) in events) {
                     if (handler != null) {
-                        domNode.addEventListener(
+                        backing.addEventListener(
                             event,
                             handler.unsafeCast<(Event) -> Unit>()
                         )
                     }
                 }
-                tag.children()
-                emit(tag)
-                return domNode
+                for (child in children) {
+                    child.nodes().forEach(backing::appendChild)
+                }
+                return element
             }
             """.trimIndent()
         )
@@ -108,7 +109,8 @@ fun generate(folder: File) {
             append("\n\n")
             append("""@Suppress("unused")""")
             append("\n")
-            append("public fun Html.${name}(")
+            append("@Component\n")
+            append("public fun ${name}(")
 
             val attributes = global.attributes + tag.attributes
 
@@ -132,12 +134,12 @@ fun generate(folder: File) {
             }
 
             if (!tag.void) {
-                append("\n    children: Children")
+                append("\n    vararg children: Element")
             }
 
             append("\n")
-            append(") {\n")
-            append("    tag(\n")
+            append("): Element {\n")
+            append("    return element(\n")
             append("        \"$name\",\n")
             append("        buildMap {")
 
@@ -194,7 +196,7 @@ fun generate(folder: File) {
                 append("\n")
                 append("    )")
             } else {
-                append("    ) {}")
+                append("\n    )")
             }
 
             append("\n}")

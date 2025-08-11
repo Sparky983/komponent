@@ -3,7 +3,7 @@ import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
-    kotlin("multiplatform") version "2.1.10"
+    kotlin("multiplatform") version "2.2.20-Beta2"
     id("com.vanniktech.maven.publish") version "0.30.0"
     id("org.jetbrains.dokka") version "2.0.0"
 }

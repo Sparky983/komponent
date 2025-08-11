@@ -8,17 +8,12 @@ package me.sparky983.komponent
  * @param component the renderer for each received value
  * @since 0.1.0
  */
-public fun <T> Html.Dynamic(signal: Signal<T>, component: Html.(T) -> Unit) {
+public fun <T> Dynamic(signal: Signal<T>, component: (T) -> Element): Element {
     val holder = Fragment()
-    val subscription = signal.subscribe {
-        holder.children.forEach { holder.remove(it) }
-        val fragment = Fragment()
-        holder.emit(fragment)
-        fragment.component(it)
+    var current: Element? = null
+    signal.subscribe {
+        current?.let { holder.remove(it) }
+        current = component(it)
     }
-
-    holder.onMount { subscription.canceled = false }
-    holder.onUnmount { subscription.canceled = true }
-
-    emit(holder)
+    return holder
 }

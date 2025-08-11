@@ -9,40 +9,26 @@ package me.sparky983.komponent
  * @param children the default component to render
  * @since 0.1.0
  */
-public fun Html.When(
+public fun When(
     condition: Signal<Boolean>,
-    fallback: Children? = null,
-    children: Children
+    fallback: Element? = null,
+    vararg children: Element
 ) {
     val holder = Fragment()
 
-    val conditional = Fragment()
-    conditional.children()
-
-    val otherwise = if (fallback == null) {
-        null
-    } else {
-        Fragment().also { it.fallback() }
-    }
-
     var visibility = false
 
-    val subscription = condition.subscribe { update ->
+    condition.subscribe { update ->
         if (update != visibility) {
             visibility = update
             if (update) {
-                holder.add(conditional)
+                children.forEach(holder::add)
             } else {
-                holder.remove(conditional)
-                if (otherwise != null) {
-                    holder.add(otherwise)
+                children.forEach(holder::remove)
+                if (fallback != null) {
+                    holder.add(fallback)
                 }
             }
         }
     }
-
-    holder.onMount { subscription.canceled = false }
-    holder.onUnmount { subscription.canceled = true }
-
-    emit(holder)
 }

@@ -7,8 +7,8 @@ import kotlinx.browser.document
  *
  * @since 0.1.0
  */
-public fun Html.text(content: String) {
-    emit(Tag(document.createTextNode(content), contexts))
+public fun text(content: String): Element {
+    return DomElement(document.createTextNode(content))
 }
 
 /**
@@ -19,17 +19,8 @@ public fun Html.text(content: String) {
  * 
  * @since 0.1.0
  */
-public fun Html.text(content: Signal<String>) {
+public fun text(content: Signal<String>): Element {
     val node = document.createTextNode("")
-    val subscription = content.subscribe {
-        node.data = it
-    }
-    val tag = Tag(node, contexts)
-    tag.onMount {
-        subscription.canceled = false
-    }
-    tag.onUnmount {
-        subscription.canceled = true
-    }
-    emit(tag)
+    content.subscribe { node.data = it }
+    return DomElement(node)
 }

@@ -6,7 +6,7 @@ import org.w3c.dom.Node
 /**
  * Effectively a non-existent element that is in-place of all its children.
  */
-internal class Fragment(contexts: Contexts) : Html(contexts) {
+internal class Fragment : Element() {
     /*
      * Fragments work by creating a marker element that represents the last 
      * child. All children are placed relative to either the marker or 
@@ -14,39 +14,32 @@ internal class Fragment(contexts: Contexts) : Html(contexts) {
      */
     
     private val marker = document.createTextNode("")
-    val children: MutableList<Html> = mutableListOf()
+    private val children: MutableList<Element> = mutableListOf()
 
-    fun add(element: Html) {
+    fun add(element: Element) {
         children.add(element)
 
         val parent = marker.parentNode
         if (parent != null) {
-            if (parent.isConnected) {
-                element.onMount()
-            }
             for (node in element.nodes()) {
                 parent.insertBefore(node, marker)
             }
         }
     }
 
-    fun remove(element: Html) {
+    fun remove(element: Element) {
         children.remove(element)
         val parent = marker.parentNode
         if (parent != null) {
-            element.onUnmount()
             for (node in element.nodes()) {
                 parent.removeChild(node)
             }
         }
     }
 
-    fun add(index: Int, element: Html) {
+    fun add(index: Int, element: Element) {
         val parent = marker.parentNode
         if (parent != null) {
-            if (parent.isConnected) {
-                element.onMount()
-            }
             val after = children.asSequence()
                 .drop(index)
                 .flatMap { it.nodes() }
@@ -58,12 +51,11 @@ internal class Fragment(contexts: Contexts) : Html(contexts) {
         children.add(index, element)
     }
 
-    fun removeAt(index: Int): Html {
+    fun removeAt(index: Int): Element {
         val element = children[index]
         children.remove(element)
         val parent = marker.parentNode
         if (parent != null) {
-            element.onUnmount()
             for (node in element.nodes()) {
                 parent.removeChild(node)
             }
@@ -71,8 +63,7 @@ internal class Fragment(contexts: Contexts) : Html(contexts) {
         return element
     }
 
-
-    fun set(index: Int, element: Html): Html {
+    fun set(index: Int, element: Element): Element {
         val previous = children[index]
         val parent = marker.parentNode
         if (parent != null) {
@@ -82,24 +73,7 @@ internal class Fragment(contexts: Contexts) : Html(contexts) {
         return previous
     }
 
-    override fun emit(child: Html) = add(child)
-
     override fun nodes(): Sequence<Node> {
         return children.asSequence().flatMap { it.nodes() } + marker
     }
-
-    override fun onMount() {
-        super.onMount()
-        children.forEach(Html::onMount)
-    }
-
-    override fun onUnmount() {
-        super.onUnmount()
-        children.forEach(Html::onUnmount)
-    }
 }
-
-/**
- * A fragment element.
- */
-internal fun Html.Fragment() = Fragment(contexts)
