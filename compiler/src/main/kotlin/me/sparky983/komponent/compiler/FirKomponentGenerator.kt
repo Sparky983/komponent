@@ -17,11 +17,7 @@ import org.jetbrains.kotlin.fir.references.FirNamedReference
 import org.jetbrains.kotlin.fir.references.FirResolvedErrorReference
 import org.jetbrains.kotlin.fir.references.builder.buildResolvedErrorReference
 import org.jetbrains.kotlin.fir.references.builder.buildResolvedNamedReference
-import org.jetbrains.kotlin.fir.resolve.calls.ArgumentTypeMismatch
-import org.jetbrains.kotlin.fir.resolve.calls.MixingNamedAndPositionArguments
-import org.jetbrains.kotlin.fir.resolve.calls.NonVarargSpread
-import org.jetbrains.kotlin.fir.resolve.calls.ResolutionDiagnostic
-import org.jetbrains.kotlin.fir.resolve.calls.TooManyArguments
+import org.jetbrains.kotlin.fir.resolve.calls.*
 import org.jetbrains.kotlin.fir.resolve.calls.candidate.CallInfo
 import org.jetbrains.kotlin.fir.resolve.diagnostics.ConeInapplicableCandidateError
 import org.jetbrains.kotlin.fir.resolve.providers.symbolProvider
@@ -29,8 +25,6 @@ import org.jetbrains.kotlin.fir.symbols.SymbolInternals
 import org.jetbrains.kotlin.fir.symbols.impl.FirNamedFunctionSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.FirRegularClassSymbol
 import org.jetbrains.kotlin.fir.types.*
-import org.jetbrains.kotlin.fir.types.impl.ConeClassLikeTypeImpl
-import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.name.StandardClassIds
@@ -41,6 +35,13 @@ import org.jetbrains.kotlin.name.StandardClassIds
 @OptIn(FirExtensionApiInternals::class)
 class FirKomponentGenerator(session: FirSession) :
     FirFunctionCallRefinementExtension(session) {
+    private companion object {
+        val STRING_TYPE = StandardClassIds.String.toConeKotlinType()
+        val STRING_SIGNAL_TYPE = KomponentClassId.SIGNAL.toConeKotlinType(STRING_TYPE)
+
+        val FROM_STRING_COERCIBLE_TYPES = setOf(STRING_TYPE, STRING_SIGNAL_TYPE)
+    }
+
     @OptIn(SymbolInternals::class)
     override fun intercept(
         callInfo: CallInfo,
@@ -106,7 +107,7 @@ class FirKomponentGenerator(session: FirSession) :
             if (paramType is ConeClassLikeType
                 && paramType.classId == KomponentClassId.SIGNAL
                 && !argType.isSubtypeOf(paramType, session)
-                && KomponentClassId.SIGNAL.toConeClassLikeType(argType).isSubtypeOf(paramType, session)
+                && KomponentClassId.SIGNAL.toConeKotlinType(argType).isSubtypeOf(paramType, session)
             ) {
                 diagnostics.removeArgumentTypeMismatchFor(expression)
                 arguments[createJustCall(paramType, value = expression)] = parameter
@@ -138,8 +139,8 @@ class FirKomponentGenerator(session: FirSession) :
 
             val childrenType = vararg.resolvedReturnType
             val elementType = childrenType.typeArguments.firstOrNull()?.type
-                ?: StandardClassIds.elementTypeByPrimitiveArrayType[childrenType.classId]?.toConeClassLikeType()
-                ?: StandardClassIds.elementTypeByUnsignedArrayType[childrenType.classId]?.toConeClassLikeType()
+                ?: StandardClassIds.elementTypeByPrimitiveArrayType[childrenType.classId]?.toConeKotlinType()
+                ?: StandardClassIds.elementTypeByUnsignedArrayType[childrenType.classId]?.toConeKotlinType()
             elementType!! // There is no other type a varargs argument can be right?
 
             val namedChildrenArgument = originalArgumentList
@@ -152,31 +153,43 @@ class FirKomponentGenerator(session: FirSession) :
                 }
             } else {
                 for (argument in positionalArguments) {
+                    val argType = argument.resolvedType
+
                     /*
                      * How arguments are resolved:
                      * 1. If an argument is positional, it is automatically put into the children
                      * varargs
                      * 2. Otherwise, it is a "prop" and is passed in like normal
                      */
-                    if (StandardClassIds.Array.toConeClassLikeType(argument.resolvedType).isSubtypeOf(childrenType, session) ||
-                        (argument is FirSpreadArgumentExpression
-                            && argument.resolvedType.isSubtypeOf(childrenType, session))) {
-                        children.add(argument)
-                        arguments.remove(argument)
-                        diagnostics.removeArgumentTypeMismatchFor(argument)
-                        diagnostics.removeIf { it is NonVarargSpread && it.argument == argument }
-                    } else {
-                        // invalidArguments.add(argument)
-                        // this is sometimes redundant/not even correct if the argument is a vararg because it's wrapped in a vararg argument thing
-                        // we should see what happens when we add it anyway and/or check if its not a vararg
-                        if (diagnostics.none { it is ArgumentTypeMismatch && it.argument == argument }) {
-                            // No type mismatch can occur if the parameter is an extra parameter, mix of positional and named, etc.
-                            diagnostics.add(ArgumentTypeMismatch(
-                                expectedType = elementType,
-                                actualType = argument.resolvedType,
-                                argument = argument,
-                                isMismatchDueToNullability = false // TODO: check this
-                            ))
+                    when {
+                        StandardClassIds.Array.toConeKotlinType(argType).isSubtypeOf(childrenType, session) ||
+                        (argument is FirSpreadArgumentExpression && argType.isSubtypeOf(childrenType, session)) -> {
+                            children.add(argument)
+                            arguments.remove(argument)
+                            diagnostics.removeArgumentTypeMismatchFor(argument)
+                            diagnostics.removeIf { it is NonVarargSpread && it.argument == argument }
+                        }
+                        else -> {
+                            val coercibleType = FROM_STRING_COERCIBLE_TYPES.firstOrNull { argType.isSubtypeOf(it, session) }
+                            if (coercibleType != null) {
+                                val wrapped = createTextCall(coercibleType, argument)
+                                children.add(wrapped)
+                                arguments.remove(argument)
+                                diagnostics.removeArgumentTypeMismatchFor(argument)
+                            } else {
+                                // invalidArguments.add(argument)
+                                // this is sometimes redundant/not even correct if the argument is a vararg because it's wrapped in a vararg argument thing
+                                // we should see what happens when we add it anyway and/or check if its not a vararg
+                                if (diagnostics.none { it is ArgumentTypeMismatch && it.argument == argument }) {
+                                    // No type mismatch can occur if the parameter is an extra parameter, mix of positional and named, etc.
+                                    diagnostics.add(ArgumentTypeMismatch(
+                                        expectedType = elementType,
+                                        actualType = argType,
+                                        argument = argument,
+                                        isMismatchDueToNullability = false // TODO: check this
+                                    ))
+                                }
+                            }
                         }
                     }
                 }
@@ -269,7 +282,7 @@ class FirKomponentGenerator(session: FirSession) :
         return buildFunctionCall {
             this.coneTypeOrNull = type
             this.source = value.source // TODO: fake source
-            val factory = session.symbolProvider
+            val function = session.symbolProvider
                 .getTopLevelFunctionSymbols(
                     FqName("me.sparky983.komponent"),
                     Name.identifier("just")
@@ -277,11 +290,35 @@ class FirKomponentGenerator(session: FirSession) :
                 .single()
             this.calleeReference = buildResolvedNamedReference {
                 this.name = Name.identifier("just")
-                this.resolvedSymbol = factory
+                this.resolvedSymbol = function
             }
             this.argumentList = buildResolvedArgumentList(
                 null,
-                linkedMapOf(value to factory.valueParameterSymbols.single().fir)
+                linkedMapOf(value to function.valueParameterSymbols.single().fir)
+            )
+        }
+    }
+
+    @OptIn(SymbolInternals::class)
+    private fun createTextCall(type: ConeKotlinType, value: FirExpression): FirFunctionCall {
+        return buildFunctionCall {
+            val function = session.symbolProvider
+                .getTopLevelFunctionSymbols(
+                    FqName("me.sparky983.komponent"),
+                    Name.identifier("text")
+                )
+                .single {
+                    it.valueParameterSymbols.size == 1 &&
+                        it.valueParameterSymbols[0].resolvedReturnType == type
+                }
+            this.coneTypeOrNull = function.resolvedReturnType
+            this.calleeReference = buildResolvedNamedReference {
+                this.name = Name.identifier("text")
+                this.resolvedSymbol = function
+            }
+            this.argumentList = buildResolvedArgumentList(
+                null,
+                linkedMapOf(value to function.valueParameterSymbols.single().fir)
             )
         }
     }

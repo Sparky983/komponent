@@ -13,8 +13,8 @@ import org.jetbrains.kotlin.name.StandardClassIds
 import org.jetbrains.kotlin.types.Variance
 
 object ComponentFunctionChecker : FirDeclarationChecker<FirSimpleFunction>(MppCheckerKind.Common) {
-    private val ELEMENTS = StandardClassIds.Array.toConeClassLikeType(
-        KomponentClassId.ELEMENT.toConeClassLikeType().toTypeProjection(Variance.OUT_VARIANCE)
+    private val ELEMENTS = StandardClassIds.Array.toConeKotlinType(
+        KomponentClassId.ELEMENT.toConeKotlinType().toTypeProjection(Variance.OUT_VARIANCE)
     )
 
     @OptIn(UnresolvedExpressionTypeAccess::class)

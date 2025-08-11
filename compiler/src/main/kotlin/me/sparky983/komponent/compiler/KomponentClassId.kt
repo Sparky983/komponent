@@ -6,7 +6,6 @@ import org.jetbrains.kotlin.fir.types.toLookupTag
 import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
-import org.jetbrains.kotlin.name.StandardClassIds
 
 object KomponentClassId {
     val SIGNAL = ClassId(
@@ -25,7 +24,7 @@ object KomponentClassId {
     )
 }
 
-fun ClassId.toConeClassLikeType(vararg typeArguments: ConeTypeProjection) = ConeClassLikeTypeImpl(
+fun ClassId.toConeKotlinType(vararg typeArguments: ConeTypeProjection) = ConeClassLikeTypeImpl(
     lookupTag = this.toLookupTag(),
     typeArguments = typeArguments,
     isMarkedNullable = false
