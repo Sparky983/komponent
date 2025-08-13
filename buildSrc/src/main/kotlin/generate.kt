@@ -20,6 +20,7 @@ data class Global(
 
 @Serializable
 data class Tag(
+    val type: String = "HTMLElement",
     val attributes: Map<String, Attribute> = mapOf(),
     val events: Map<String, Event> = mapOf(),
     val void: Boolean = false
@@ -136,8 +137,8 @@ fun generate(folder: File) {
             }
 
             append("\n")
-            append(") {\n")
-            append("    tag(\n")
+            append("): ${tag.type} {\n")
+            append("    return tag(\n")
             append("        \"$name\",\n")
             append("        buildMap {")
 
@@ -197,7 +198,7 @@ fun generate(folder: File) {
                 append("    ) {}")
             }
 
-            append("\n}")
+            append(" as ${tag.type}\n}")
         }
     }
 
