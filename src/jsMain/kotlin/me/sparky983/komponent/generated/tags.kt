@@ -88,8 +88,8 @@ public fun Html.a(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLAnchorElement {
+    return tag(
         "a",
         buildMap {
             className?.let { put("class", className) }
@@ -122,7 +122,7 @@ public fun Html.a(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLAnchorElement
 }
 
 @Suppress("unused")
@@ -152,8 +152,8 @@ public fun Html.abbr(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLElement {
+    return tag(
         "abbr",
         buildMap {
             className?.let { put("class", className) }
@@ -184,7 +184,7 @@ public fun Html.abbr(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLElement
 }
 
 @Suppress("unused")
@@ -214,8 +214,8 @@ public fun Html.address(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLElement {
+    return tag(
         "address",
         buildMap {
             className?.let { put("class", className) }
@@ -246,7 +246,7 @@ public fun Html.address(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLElement
 }
 
 @Suppress("unused")
@@ -276,8 +276,8 @@ public fun Html.article(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLElement {
+    return tag(
         "article",
         buildMap {
             className?.let { put("class", className) }
@@ -308,7 +308,7 @@ public fun Html.article(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLElement
 }
 
 @Suppress("unused")
@@ -338,8 +338,8 @@ public fun Html.b(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLElement {
+    return tag(
         "b",
         buildMap {
             className?.let { put("class", className) }
@@ -370,7 +370,7 @@ public fun Html.b(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLElement
 }
 
 @Suppress("unused")
@@ -401,8 +401,8 @@ public fun Html.blockquote(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLQuoteElement {
+    return tag(
         "blockquote",
         buildMap {
             className?.let { put("class", className) }
@@ -434,7 +434,7 @@ public fun Html.blockquote(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLQuoteElement
 }
 
 @Suppress("unused")
@@ -463,8 +463,8 @@ public fun Html.br(
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
-) {
-    tag(
+): HTMLBRElement {
+    return tag(
         "br",
         buildMap {
             className?.let { put("class", className) }
@@ -494,7 +494,7 @@ public fun Html.br(
             "unload" to onUnload, 
             "wheel" to onWheel, 
         )
-    ) {}
+    ) {} as HTMLBRElement
 }
 
 @Suppress("unused")
@@ -525,8 +525,8 @@ public fun Html.button(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLButtonElement {
+    return tag(
         "button",
         buildMap {
             className?.let { put("class", className) }
@@ -558,7 +558,7 @@ public fun Html.button(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLButtonElement
 }
 
 @Suppress("unused")
@@ -588,8 +588,8 @@ public fun Html.caption(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLTableCaptionElement {
+    return tag(
         "caption",
         buildMap {
             className?.let { put("class", className) }
@@ -620,7 +620,7 @@ public fun Html.caption(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLTableCaptionElement
 }
 
 @Suppress("unused")
@@ -650,8 +650,8 @@ public fun Html.cite(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLElement {
+    return tag(
         "cite",
         buildMap {
             className?.let { put("class", className) }
@@ -682,7 +682,7 @@ public fun Html.cite(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLElement
 }
 
 @Suppress("unused")
@@ -712,8 +712,8 @@ public fun Html.code(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLElement {
+    return tag(
         "code",
         buildMap {
             className?.let { put("class", className) }
@@ -744,7 +744,7 @@ public fun Html.code(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLElement
 }
 
 @Suppress("unused")
@@ -775,8 +775,8 @@ public fun Html.col(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLTableColElement {
+    return tag(
         "col",
         buildMap {
             className?.let { put("class", className) }
@@ -808,7 +808,7 @@ public fun Html.col(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLTableColElement
 }
 
 @Suppress("unused")
@@ -839,8 +839,8 @@ public fun Html.colgroup(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLTableColElement {
+    return tag(
         "colgroup",
         buildMap {
             className?.let { put("class", className) }
@@ -872,7 +872,7 @@ public fun Html.colgroup(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLTableColElement
 }
 
 @Suppress("unused")
@@ -903,8 +903,8 @@ public fun Html.data(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLDataElement {
+    return tag(
         "data",
         buildMap {
             className?.let { put("class", className) }
@@ -936,7 +936,7 @@ public fun Html.data(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLDataElement
 }
 
 @Suppress("unused")
@@ -966,8 +966,8 @@ public fun Html.datalist(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLDataListElement {
+    return tag(
         "datalist",
         buildMap {
             className?.let { put("class", className) }
@@ -998,7 +998,7 @@ public fun Html.datalist(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLDataListElement
 }
 
 @Suppress("unused")
@@ -1028,8 +1028,8 @@ public fun Html.dd(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLElement {
+    return tag(
         "dd",
         buildMap {
             className?.let { put("class", className) }
@@ -1060,7 +1060,7 @@ public fun Html.dd(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLElement
 }
 
 @Suppress("unused")
@@ -1092,8 +1092,8 @@ public fun Html.del(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLModElement {
+    return tag(
         "del",
         buildMap {
             className?.let { put("class", className) }
@@ -1126,7 +1126,7 @@ public fun Html.del(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLModElement
 }
 
 @Suppress("unused")
@@ -1157,8 +1157,8 @@ public fun Html.details(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLDetailsElement {
+    return tag(
         "details",
         buildMap {
             className?.let { put("class", className) }
@@ -1190,7 +1190,7 @@ public fun Html.details(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLDetailsElement
 }
 
 @Suppress("unused")
@@ -1220,8 +1220,8 @@ public fun Html.dfn(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLElement {
+    return tag(
         "dfn",
         buildMap {
             className?.let { put("class", className) }
@@ -1252,7 +1252,7 @@ public fun Html.dfn(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLElement
 }
 
 @Suppress("unused")
@@ -1283,8 +1283,8 @@ public fun Html.dialog(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLDialogElement {
+    return tag(
         "dialog",
         buildMap {
             className?.let { put("class", className) }
@@ -1316,7 +1316,7 @@ public fun Html.dialog(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLDialogElement
 }
 
 @Suppress("unused")
@@ -1346,8 +1346,8 @@ public fun Html.div(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLDivElement {
+    return tag(
         "div",
         buildMap {
             className?.let { put("class", className) }
@@ -1378,7 +1378,7 @@ public fun Html.div(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLDivElement
 }
 
 @Suppress("unused")
@@ -1414,8 +1414,8 @@ public fun Html.form(
     onInvalid: EventHandler<Event>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLFormElement {
+    return tag(
         "form",
         buildMap {
             className?.let { put("class", className) }
@@ -1452,7 +1452,7 @@ public fun Html.form(
             "invalid" to onInvalid, 
         ),
         children = children
-    )
+    ) as HTMLFormElement
 }
 
 @Suppress("unused")
@@ -1482,8 +1482,8 @@ public fun Html.h1(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLHeadingElement {
+    return tag(
         "h1",
         buildMap {
             className?.let { put("class", className) }
@@ -1514,7 +1514,7 @@ public fun Html.h1(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLHeadingElement
 }
 
 @Suppress("unused")
@@ -1544,8 +1544,8 @@ public fun Html.h2(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLHeadingElement {
+    return tag(
         "h2",
         buildMap {
             className?.let { put("class", className) }
@@ -1576,7 +1576,7 @@ public fun Html.h2(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLHeadingElement
 }
 
 @Suppress("unused")
@@ -1606,8 +1606,8 @@ public fun Html.h3(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLHeadingElement {
+    return tag(
         "h3",
         buildMap {
             className?.let { put("class", className) }
@@ -1638,7 +1638,7 @@ public fun Html.h3(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLHeadingElement
 }
 
 @Suppress("unused")
@@ -1668,8 +1668,8 @@ public fun Html.h4(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLHeadingElement {
+    return tag(
         "h4",
         buildMap {
             className?.let { put("class", className) }
@@ -1700,7 +1700,7 @@ public fun Html.h4(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLHeadingElement
 }
 
 @Suppress("unused")
@@ -1730,8 +1730,8 @@ public fun Html.h5(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLHeadingElement {
+    return tag(
         "h5",
         buildMap {
             className?.let { put("class", className) }
@@ -1762,7 +1762,7 @@ public fun Html.h5(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLHeadingElement
 }
 
 @Suppress("unused")
@@ -1792,8 +1792,8 @@ public fun Html.h6(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLHeadingElement {
+    return tag(
         "h6",
         buildMap {
             className?.let { put("class", className) }
@@ -1824,7 +1824,7 @@ public fun Html.h6(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLHeadingElement
 }
 
 @Suppress("unused")
@@ -1853,8 +1853,8 @@ public fun Html.hr(
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
-) {
-    tag(
+): HTMLHRElement {
+    return tag(
         "hr",
         buildMap {
             className?.let { put("class", className) }
@@ -1884,7 +1884,7 @@ public fun Html.hr(
             "unload" to onUnload, 
             "wheel" to onWheel, 
         )
-    ) {}
+    ) {} as HTMLHRElement
 }
 
 @Suppress("unused")
@@ -1914,8 +1914,8 @@ public fun Html.i(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLElement {
+    return tag(
         "i",
         buildMap {
             className?.let { put("class", className) }
@@ -1946,7 +1946,7 @@ public fun Html.i(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLElement
 }
 
 @Suppress("unused")
@@ -1978,8 +1978,8 @@ public fun Html.img(
     onUnload: EventHandler<Event>? = null,
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
-) {
-    tag(
+): HTMLImageElement {
+    return tag(
         "img",
         buildMap {
             className?.let { put("class", className) }
@@ -2012,7 +2012,7 @@ public fun Html.img(
             "unload" to onUnload, 
             "wheel" to onWheel, 
         )
-    ) {}
+    ) {} as HTMLImageElement
 }
 
 @Suppress("unused")
@@ -2066,8 +2066,8 @@ public fun Html.input(
     onInput: EventHandler<InputEvent>? = null,
     onInvalid: EventHandler<Event>? = null,
     data: Attributes? = null,
-) {
-    tag(
+): HTMLInputElement {
+    return tag(
         "input",
         buildMap {
             className?.let { put("class", className) }
@@ -2122,7 +2122,7 @@ public fun Html.input(
             "input" to onInput, 
             "invalid" to onInvalid, 
         )
-    ) {}
+    ) {} as HTMLInputElement
 }
 
 @Suppress("unused")
@@ -2154,8 +2154,8 @@ public fun Html.ins(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLModElement {
+    return tag(
         "ins",
         buildMap {
             className?.let { put("class", className) }
@@ -2188,7 +2188,7 @@ public fun Html.ins(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLModElement
 }
 
 @Suppress("unused")
@@ -2218,8 +2218,8 @@ public fun Html.kbd(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLElement {
+    return tag(
         "kbd",
         buildMap {
             className?.let { put("class", className) }
@@ -2250,7 +2250,7 @@ public fun Html.kbd(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLElement
 }
 
 @Suppress("unused")
@@ -2281,8 +2281,8 @@ public fun Html.label(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLLabelElement {
+    return tag(
         "label",
         buildMap {
             className?.let { put("class", className) }
@@ -2314,7 +2314,7 @@ public fun Html.label(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLLabelElement
 }
 
 @Suppress("unused")
@@ -2344,8 +2344,8 @@ public fun Html.legend(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLLegendElement {
+    return tag(
         "legend",
         buildMap {
             className?.let { put("class", className) }
@@ -2376,7 +2376,7 @@ public fun Html.legend(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLLegendElement
 }
 
 @Suppress("unused")
@@ -2407,8 +2407,8 @@ public fun Html.li(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLLIElement {
+    return tag(
         "li",
         buildMap {
             className?.let { put("class", className) }
@@ -2440,7 +2440,7 @@ public fun Html.li(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLLIElement
 }
 
 @Suppress("unused")
@@ -2470,8 +2470,8 @@ public fun Html.main(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLElement {
+    return tag(
         "main",
         buildMap {
             className?.let { put("class", className) }
@@ -2502,7 +2502,7 @@ public fun Html.main(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLElement
 }
 
 @Suppress("unused")
@@ -2535,8 +2535,8 @@ public fun Html.ol(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLOListElement {
+    return tag(
         "ol",
         buildMap {
             className?.let { put("class", className) }
@@ -2570,7 +2570,7 @@ public fun Html.ol(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLOListElement
 }
 
 @Suppress("unused")
@@ -2602,8 +2602,8 @@ public fun Html.optgroup(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLOptGroupElement {
+    return tag(
         "optgroup",
         buildMap {
             className?.let { put("class", className) }
@@ -2636,7 +2636,7 @@ public fun Html.optgroup(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLOptGroupElement
 }
 
 @Suppress("unused")
@@ -2670,8 +2670,8 @@ public fun Html.option(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLOptionElement {
+    return tag(
         "option",
         buildMap {
             className?.let { put("class", className) }
@@ -2706,7 +2706,7 @@ public fun Html.option(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLOptionElement
 }
 
 @Suppress("unused")
@@ -2736,8 +2736,8 @@ public fun Html.p(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLParagraphElement {
+    return tag(
         "p",
         buildMap {
             className?.let { put("class", className) }
@@ -2768,7 +2768,7 @@ public fun Html.p(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLParagraphElement
 }
 
 @Suppress("unused")
@@ -2800,8 +2800,8 @@ public fun Html.progress(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLProgressElement {
+    return tag(
         "progress",
         buildMap {
             className?.let { put("class", className) }
@@ -2834,7 +2834,7 @@ public fun Html.progress(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLProgressElement
 }
 
 @Suppress("unused")
@@ -2864,8 +2864,8 @@ public fun Html.span(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLSpanElement {
+    return tag(
         "span",
         buildMap {
             className?.let { put("class", className) }
@@ -2896,7 +2896,7 @@ public fun Html.span(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLSpanElement
 }
 
 @Suppress("unused")
@@ -2935,8 +2935,8 @@ public fun Html.select(
     onChange: EventHandler<Event>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLSelectElement {
+    return tag(
         "select",
         buildMap {
             className?.let { put("class", className) }
@@ -2976,7 +2976,7 @@ public fun Html.select(
             "change" to onChange, 
         ),
         children = children
-    )
+    ) as HTMLSelectElement
 }
 
 @Suppress("unused")
@@ -3006,8 +3006,8 @@ public fun Html.selectedcontent(
     onWheel: EventHandler<WheelEvent>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLElement {
+    return tag(
         "selectedcontent",
         buildMap {
             className?.let { put("class", className) }
@@ -3038,7 +3038,7 @@ public fun Html.selectedcontent(
             "wheel" to onWheel, 
         ),
         children = children
-    )
+    ) as HTMLElement
 }
 
 @Suppress("unused")
@@ -3087,8 +3087,8 @@ public fun Html.textarea(
     onInvalid: EventHandler<Event>? = null,
     data: Attributes? = null,
     children: Children
-) {
-    tag(
+): HTMLTextAreaElement {
+    return tag(
         "textarea",
         buildMap {
             className?.let { put("class", className) }
@@ -3138,5 +3138,5 @@ public fun Html.textarea(
             "invalid" to onInvalid, 
         ),
         children = children
-    )
+    ) as HTMLTextAreaElement
 }

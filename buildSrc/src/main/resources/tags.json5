@@ -2,6 +2,7 @@
   // TODO: finish up
   tags: {
     a: {
+      type: "HTMLAnchorElement",
       attributes: {
         href: { required: true },
         download: {}
@@ -16,51 +17,58 @@
     // TODO: <audio>
     b: {},
     // TODO: <base>-<big>
-    blockquote: { attributes: { cite: {} } },
+    blockquote: { type: "HTMLQuoteElement", attributes: { cite: {} } },
     // TODO: include <body>?
-    br: { void: true },
+    br: { type: "HTMLBRElement", void: true },
     button: {
+      type: "HTMLButtonElement",
       attributes: {
         disabled: { type: "Boolean" }
       }
     },
     // TODO: <canvas>
-    caption: {},
+    caption: { type: "HTMLTableCaptionElement" },
     cite: {},
     code: {},
     col: {
+      type: "HTMLTableColElement",
       attributes: {
         span: { type: "Int" }
       }
     },
     colgroup: {
+      type: "HTMLTableColElement",
       attributes: {
         span: { type: "Int" }
       }
     },
-    data: { attributes: { value: {} } },
-    datalist: {},
+    data: { type: "HTMLDataElement", attributes: { value: {} } },
+    datalist: { type: "HTMLDataListElement" },
     dd: {},
     del: {
+      type: "HTMLModElement",
       attributes: {
         cite: {},
         datetime: { parameter: "dateTime" }
       }
     },
     details: {
+      type: "HTMLDetailsElement",
       attributes: {
         open: { type: "Boolean" }
       }
     },
     dfn: {},
     dialog: {
+      type: "HTMLDialogElement",
       attributes: {
         open: { type: "Boolean" }
       }
     },
-    div: {},
+    div: { type: "HTMLDivElement" },
     // TODO: <dl>-<footer>
     form: {
+      type: "HTMLFormElement",
       attributes: {
         accept: {},
         "accept-charset": { parameter: "acceptCharset" },
@@ -72,18 +80,19 @@
         invalid: {}
       }
     },
-    h1: {},
-    h2: {},
-    h3: {},
-    h4: {},
-    h5: {},
-    h6: {},
+    h1: { type: "HTMLHeadingElement" },
+    h2: { type: "HTMLHeadingElement" },
+    h3: { type: "HTMLHeadingElement" },
+    h4: { type: "HTMLHeadingElement" },
+    h5: { type: "HTMLHeadingElement" },
+    h6: { type: "HTMLHeadingElement" },
     // TODO: <head>-<hgroup>
-    hr: { void: true },
+    hr: { type: "HTMLHRElement", void: true },
     // TODO: include <html>?
     i: {},
     // TODO: iframe
     img: {
+      type: "HTMLImageElement",
       attributes: {
         src: { required: true },
         alt: {},
@@ -92,6 +101,7 @@
       void: true
     },
     input: {
+      type: "HTMLInputElement",
       attributes: {
         accept: {},
         alt: {},
@@ -124,6 +134,7 @@
       void: true
     },
     ins: {
+      type: "HTMLModElement",
       attributes: {
         cite: {},
         datetime: { parameter: "dateTime" }
@@ -131,12 +142,14 @@
     },
     kbd: {},
     label: {
+      type: "HTMLLabelElement",
       attributes: {
         for: { parameter: "htmlFor" }
       }
     },
-    legend: {},
+    legend: { type: "HTMLLegendElement" },
     li: {
+      type: "HTMLLIElement",
       attributes: {
         value: { type: "Int" }
       }
@@ -145,6 +158,7 @@
     main: {},
     // TODO: <map>-<object>
     ol: {
+      type: "HTMLOListElement",
       attributes: {
         reversed: { type: "Boolean" },
         start: { type: "Int" },
@@ -152,12 +166,14 @@
       }
     },
     optgroup: {
+      type: "HTMLOptGroupElement",
       attributes: {
         disabled: { type: "Boolean" },
         label: {}
       }
     },
     option: {
+      type: "HTMLOptionElement",
       attributes: {
         disabled: { type: "Boolean" },
         label: {},
@@ -166,16 +182,18 @@
       }
     },
     // TODO: <output>
-    p: {},
+    p: { type: "HTMLParagraphElement" },
     progress: {
+      type: "HTMLProgressElement",
       attributes: {
         max: { type: "Int" },
         value: { type: "Int" }
       }
     },
     // TODO: <picture>-<wpr>
-    span: {},
+    span: { type: "HTMLSpanElement" },
     select: {
+      type: "HTMLSelectElement",
       attributes: {
         autocomplete: { parameter: "autoComplete" },
         autofocus: { type: "Boolean", parameter: " autoFocus" },
@@ -192,6 +210,7 @@
     },
     selectedcontent: {},
     textarea: {
+      type: "HTMLTextAreaElement",
       attributes: {
         autocapitalize: { parameter: "autoCapitalize" },
         autocorrect: { parameter:  "autoCorrect" },
