@@ -70,22 +70,40 @@ fun generate(folder: File) {
             
             private typealias EventHandler<E> = (E) -> Unit
             
+            private typealias Attributes = AttributesBuilder.() -> Unit
+            
             @PublishedApi
             internal fun Html.tag(
                 name: String,
                 attributes: Map<String, Signal<String?>>,
+                dataAttributes: Attributes?,
                 events: Map<String, EventHandler<*>?>,
                 children: Children
             ): Node {
                 val domNode = document.createElement(name)
                 val tag = Tag(domNode, contexts)
                 for ((attribute, signal) in attributes) {
-                    signal.subscribe {
+                    val subscription = signal.subscribe {
                         if (it == null) {
                             domNode.removeAttribute(attribute)
                         } else {
                             domNode.setAttribute(attribute, it)
                         }
+                    }
+                    tag.onMount { subscription.canceled = false }
+                    tag.onUnmount { subscription.canceled = true }
+                }
+                if (dataAttributes != null) {
+                    for ((attribute, value) in AttributesBuilder().apply(dataAttributes).attributes) {
+                        val subscription = value.subscribe {
+                            if (it != null) {
+                                domNode.setAttribute("data-${'$'}attribute", it)
+                            } else {
+                                domNode.removeAttribute("data-${'$'}attribute")
+                            }
+                        }
+                        tag.onMount { subscription.canceled = false }
+                        tag.onUnmount { subscription.canceled = true }
                     }
                 }
                 for ((event, handler) in events) {
@@ -131,6 +149,8 @@ fun generate(folder: File) {
                 append(event.parameter(name))
                 append(": EventHandler<${event.type}>? = null,")
             }
+
+            append("\n    data: Attributes? = null,")
 
             if (!tag.void) {
                 append("\n    children: Children")
@@ -179,6 +199,7 @@ fun generate(folder: File) {
 
             append("\n")
             append("        },\n")
+            append("        data,\n")
             append("        mapOf(")
 
             for ((name, event) in events) {
@@ -195,7 +216,7 @@ fun generate(folder: File) {
                 append("\n")
                 append("    )")
             } else {
-                append("    ) {}")
+                append("\n    ) {}")
             }
 
             append(" as ${tag.type}\n}")
