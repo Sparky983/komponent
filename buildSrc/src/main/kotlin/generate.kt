@@ -21,6 +21,7 @@ data class Global(
 @Serializable
 data class Tag(
     val type: String = "HTMLElement",
+    val ns: String? = null,
     val attributes: Map<String, Attribute> = mapOf(),
     val events: Map<String, Event> = mapOf(),
     val void: Boolean = false
@@ -71,16 +72,14 @@ fun generate(folder: File) {
             private typealias EventHandler<E> = (E) -> Unit
             
             private typealias Attributes = AttributesBuilder.() -> Unit
-            
-            @PublishedApi
-            internal fun Html.tag(
-                name: String,
+
+            private fun <T: Element> Html.tag(
+                domNode: T,
                 attributes: Map<String, Signal<String?>>,
                 dataAttributes: Attributes?,
                 events: Map<String, EventHandler<*>?>,
                 children: Children
-            ): Node {
-                val domNode = document.createElement(name)
+            ): T {
                 val tag = Tag(domNode, contexts)
                 for ((attribute, signal) in attributes) {
                     val subscription = signal.subscribe {
@@ -159,7 +158,13 @@ fun generate(folder: File) {
             append("\n")
             append("): ${tag.type} {\n")
             append("    return tag(\n")
-            append("        \"$name\",\n")
+            append("        ")
+            if (tag.ns != null) {
+                append("document.createElementNS(\"${tag.ns}\", ")
+            } else {
+                append("document.createElement(")
+            }
+            append("\"$name\") as ${tag.type},\n")
             append("        buildMap {")
 
             for ((name, attribute) in attributes) {
@@ -219,7 +224,7 @@ fun generate(folder: File) {
                 append("\n    ) {}")
             }
 
-            append(" as ${tag.type}\n}")
+            append("\n}")
         }
     }
 

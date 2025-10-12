@@ -12,15 +12,13 @@ private typealias EventHandler<E> = (E) -> Unit
 
 private typealias Attributes = AttributesBuilder.() -> Unit
 
-@PublishedApi
-internal fun Html.tag(
-    name: String,
+private fun <T: Element> Html.tag(
+    domNode: T,
     attributes: Map<String, Signal<String?>>,
     dataAttributes: Attributes?,
     events: Map<String, EventHandler<*>?>,
     children: Children
-): Node {
-    val domNode = document.createElement(name)
+): T {
     val tag = Tag(domNode, contexts)
     for ((attribute, signal) in attributes) {
         val subscription = signal.subscribe {
@@ -90,7 +88,7 @@ public fun Html.a(
     children: Children
 ): HTMLAnchorElement {
     return tag(
-        "a",
+        document.createElement("a") as HTMLAnchorElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -122,7 +120,7 @@ public fun Html.a(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLAnchorElement
+    )
 }
 
 @Suppress("unused")
@@ -154,7 +152,7 @@ public fun Html.abbr(
     children: Children
 ): HTMLElement {
     return tag(
-        "abbr",
+        document.createElement("abbr") as HTMLElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -184,7 +182,7 @@ public fun Html.abbr(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLElement
+    )
 }
 
 @Suppress("unused")
@@ -216,7 +214,7 @@ public fun Html.address(
     children: Children
 ): HTMLElement {
     return tag(
-        "address",
+        document.createElement("address") as HTMLElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -246,7 +244,7 @@ public fun Html.address(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLElement
+    )
 }
 
 @Suppress("unused")
@@ -278,7 +276,7 @@ public fun Html.article(
     children: Children
 ): HTMLElement {
     return tag(
-        "article",
+        document.createElement("article") as HTMLElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -308,7 +306,7 @@ public fun Html.article(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLElement
+    )
 }
 
 @Suppress("unused")
@@ -340,7 +338,7 @@ public fun Html.b(
     children: Children
 ): HTMLElement {
     return tag(
-        "b",
+        document.createElement("b") as HTMLElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -370,7 +368,7 @@ public fun Html.b(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLElement
+    )
 }
 
 @Suppress("unused")
@@ -403,7 +401,7 @@ public fun Html.blockquote(
     children: Children
 ): HTMLQuoteElement {
     return tag(
-        "blockquote",
+        document.createElement("blockquote") as HTMLQuoteElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -434,7 +432,7 @@ public fun Html.blockquote(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLQuoteElement
+    )
 }
 
 @Suppress("unused")
@@ -465,7 +463,7 @@ public fun Html.br(
     data: Attributes? = null,
 ): HTMLBRElement {
     return tag(
-        "br",
+        document.createElement("br") as HTMLBRElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -494,7 +492,7 @@ public fun Html.br(
             "unload" to onUnload, 
             "wheel" to onWheel, 
         )
-    ) {} as HTMLBRElement
+    ) {}
 }
 
 @Suppress("unused")
@@ -527,7 +525,7 @@ public fun Html.button(
     children: Children
 ): HTMLButtonElement {
     return tag(
-        "button",
+        document.createElement("button") as HTMLButtonElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -558,7 +556,7 @@ public fun Html.button(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLButtonElement
+    )
 }
 
 @Suppress("unused")
@@ -590,7 +588,7 @@ public fun Html.caption(
     children: Children
 ): HTMLTableCaptionElement {
     return tag(
-        "caption",
+        document.createElement("caption") as HTMLTableCaptionElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -620,7 +618,7 @@ public fun Html.caption(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLTableCaptionElement
+    )
 }
 
 @Suppress("unused")
@@ -652,7 +650,7 @@ public fun Html.cite(
     children: Children
 ): HTMLElement {
     return tag(
-        "cite",
+        document.createElement("cite") as HTMLElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -682,7 +680,7 @@ public fun Html.cite(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLElement
+    )
 }
 
 @Suppress("unused")
@@ -714,7 +712,7 @@ public fun Html.code(
     children: Children
 ): HTMLElement {
     return tag(
-        "code",
+        document.createElement("code") as HTMLElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -744,7 +742,7 @@ public fun Html.code(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLElement
+    )
 }
 
 @Suppress("unused")
@@ -777,7 +775,7 @@ public fun Html.col(
     children: Children
 ): HTMLTableColElement {
     return tag(
-        "col",
+        document.createElement("col") as HTMLTableColElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -808,7 +806,7 @@ public fun Html.col(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLTableColElement
+    )
 }
 
 @Suppress("unused")
@@ -841,7 +839,7 @@ public fun Html.colgroup(
     children: Children
 ): HTMLTableColElement {
     return tag(
-        "colgroup",
+        document.createElement("colgroup") as HTMLTableColElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -872,7 +870,7 @@ public fun Html.colgroup(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLTableColElement
+    )
 }
 
 @Suppress("unused")
@@ -905,7 +903,7 @@ public fun Html.data(
     children: Children
 ): HTMLDataElement {
     return tag(
-        "data",
+        document.createElement("data") as HTMLDataElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -936,7 +934,7 @@ public fun Html.data(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLDataElement
+    )
 }
 
 @Suppress("unused")
@@ -968,7 +966,7 @@ public fun Html.datalist(
     children: Children
 ): HTMLDataListElement {
     return tag(
-        "datalist",
+        document.createElement("datalist") as HTMLDataListElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -998,7 +996,7 @@ public fun Html.datalist(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLDataListElement
+    )
 }
 
 @Suppress("unused")
@@ -1030,7 +1028,7 @@ public fun Html.dd(
     children: Children
 ): HTMLElement {
     return tag(
-        "dd",
+        document.createElement("dd") as HTMLElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -1060,7 +1058,7 @@ public fun Html.dd(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLElement
+    )
 }
 
 @Suppress("unused")
@@ -1094,7 +1092,7 @@ public fun Html.del(
     children: Children
 ): HTMLModElement {
     return tag(
-        "del",
+        document.createElement("del") as HTMLModElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -1126,7 +1124,7 @@ public fun Html.del(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLModElement
+    )
 }
 
 @Suppress("unused")
@@ -1159,7 +1157,7 @@ public fun Html.details(
     children: Children
 ): HTMLDetailsElement {
     return tag(
-        "details",
+        document.createElement("details") as HTMLDetailsElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -1190,7 +1188,7 @@ public fun Html.details(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLDetailsElement
+    )
 }
 
 @Suppress("unused")
@@ -1222,7 +1220,7 @@ public fun Html.dfn(
     children: Children
 ): HTMLElement {
     return tag(
-        "dfn",
+        document.createElement("dfn") as HTMLElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -1252,7 +1250,7 @@ public fun Html.dfn(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLElement
+    )
 }
 
 @Suppress("unused")
@@ -1285,7 +1283,7 @@ public fun Html.dialog(
     children: Children
 ): HTMLDialogElement {
     return tag(
-        "dialog",
+        document.createElement("dialog") as HTMLDialogElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -1316,7 +1314,7 @@ public fun Html.dialog(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLDialogElement
+    )
 }
 
 @Suppress("unused")
@@ -1348,7 +1346,7 @@ public fun Html.div(
     children: Children
 ): HTMLDivElement {
     return tag(
-        "div",
+        document.createElement("div") as HTMLDivElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -1378,7 +1376,7 @@ public fun Html.div(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLDivElement
+    )
 }
 
 @Suppress("unused")
@@ -1416,7 +1414,7 @@ public fun Html.form(
     children: Children
 ): HTMLFormElement {
     return tag(
-        "form",
+        document.createElement("form") as HTMLFormElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -1452,7 +1450,7 @@ public fun Html.form(
             "invalid" to onInvalid, 
         ),
         children = children
-    ) as HTMLFormElement
+    )
 }
 
 @Suppress("unused")
@@ -1484,7 +1482,7 @@ public fun Html.h1(
     children: Children
 ): HTMLHeadingElement {
     return tag(
-        "h1",
+        document.createElement("h1") as HTMLHeadingElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -1514,7 +1512,7 @@ public fun Html.h1(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLHeadingElement
+    )
 }
 
 @Suppress("unused")
@@ -1546,7 +1544,7 @@ public fun Html.h2(
     children: Children
 ): HTMLHeadingElement {
     return tag(
-        "h2",
+        document.createElement("h2") as HTMLHeadingElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -1576,7 +1574,7 @@ public fun Html.h2(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLHeadingElement
+    )
 }
 
 @Suppress("unused")
@@ -1608,7 +1606,7 @@ public fun Html.h3(
     children: Children
 ): HTMLHeadingElement {
     return tag(
-        "h3",
+        document.createElement("h3") as HTMLHeadingElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -1638,7 +1636,7 @@ public fun Html.h3(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLHeadingElement
+    )
 }
 
 @Suppress("unused")
@@ -1670,7 +1668,7 @@ public fun Html.h4(
     children: Children
 ): HTMLHeadingElement {
     return tag(
-        "h4",
+        document.createElement("h4") as HTMLHeadingElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -1700,7 +1698,7 @@ public fun Html.h4(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLHeadingElement
+    )
 }
 
 @Suppress("unused")
@@ -1732,7 +1730,7 @@ public fun Html.h5(
     children: Children
 ): HTMLHeadingElement {
     return tag(
-        "h5",
+        document.createElement("h5") as HTMLHeadingElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -1762,7 +1760,7 @@ public fun Html.h5(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLHeadingElement
+    )
 }
 
 @Suppress("unused")
@@ -1794,7 +1792,7 @@ public fun Html.h6(
     children: Children
 ): HTMLHeadingElement {
     return tag(
-        "h6",
+        document.createElement("h6") as HTMLHeadingElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -1824,7 +1822,7 @@ public fun Html.h6(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLHeadingElement
+    )
 }
 
 @Suppress("unused")
@@ -1855,7 +1853,7 @@ public fun Html.hr(
     data: Attributes? = null,
 ): HTMLHRElement {
     return tag(
-        "hr",
+        document.createElement("hr") as HTMLHRElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -1884,7 +1882,7 @@ public fun Html.hr(
             "unload" to onUnload, 
             "wheel" to onWheel, 
         )
-    ) {} as HTMLHRElement
+    ) {}
 }
 
 @Suppress("unused")
@@ -1916,7 +1914,7 @@ public fun Html.i(
     children: Children
 ): HTMLElement {
     return tag(
-        "i",
+        document.createElement("i") as HTMLElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -1946,7 +1944,7 @@ public fun Html.i(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLElement
+    )
 }
 
 @Suppress("unused")
@@ -1980,7 +1978,7 @@ public fun Html.img(
     data: Attributes? = null,
 ): HTMLImageElement {
     return tag(
-        "img",
+        document.createElement("img") as HTMLImageElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -2012,7 +2010,7 @@ public fun Html.img(
             "unload" to onUnload, 
             "wheel" to onWheel, 
         )
-    ) {} as HTMLImageElement
+    ) {}
 }
 
 @Suppress("unused")
@@ -2068,7 +2066,7 @@ public fun Html.input(
     data: Attributes? = null,
 ): HTMLInputElement {
     return tag(
-        "input",
+        document.createElement("input") as HTMLInputElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -2122,7 +2120,7 @@ public fun Html.input(
             "input" to onInput, 
             "invalid" to onInvalid, 
         )
-    ) {} as HTMLInputElement
+    ) {}
 }
 
 @Suppress("unused")
@@ -2156,7 +2154,7 @@ public fun Html.ins(
     children: Children
 ): HTMLModElement {
     return tag(
-        "ins",
+        document.createElement("ins") as HTMLModElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -2188,7 +2186,7 @@ public fun Html.ins(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLModElement
+    )
 }
 
 @Suppress("unused")
@@ -2220,7 +2218,7 @@ public fun Html.kbd(
     children: Children
 ): HTMLElement {
     return tag(
-        "kbd",
+        document.createElement("kbd") as HTMLElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -2250,7 +2248,7 @@ public fun Html.kbd(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLElement
+    )
 }
 
 @Suppress("unused")
@@ -2283,7 +2281,7 @@ public fun Html.label(
     children: Children
 ): HTMLLabelElement {
     return tag(
-        "label",
+        document.createElement("label") as HTMLLabelElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -2314,7 +2312,7 @@ public fun Html.label(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLLabelElement
+    )
 }
 
 @Suppress("unused")
@@ -2346,7 +2344,7 @@ public fun Html.legend(
     children: Children
 ): HTMLLegendElement {
     return tag(
-        "legend",
+        document.createElement("legend") as HTMLLegendElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -2376,7 +2374,7 @@ public fun Html.legend(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLLegendElement
+    )
 }
 
 @Suppress("unused")
@@ -2409,7 +2407,7 @@ public fun Html.li(
     children: Children
 ): HTMLLIElement {
     return tag(
-        "li",
+        document.createElement("li") as HTMLLIElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -2440,7 +2438,7 @@ public fun Html.li(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLLIElement
+    )
 }
 
 @Suppress("unused")
@@ -2472,7 +2470,7 @@ public fun Html.main(
     children: Children
 ): HTMLElement {
     return tag(
-        "main",
+        document.createElement("main") as HTMLElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -2502,7 +2500,7 @@ public fun Html.main(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLElement
+    )
 }
 
 @Suppress("unused")
@@ -2537,7 +2535,7 @@ public fun Html.ol(
     children: Children
 ): HTMLOListElement {
     return tag(
-        "ol",
+        document.createElement("ol") as HTMLOListElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -2570,7 +2568,7 @@ public fun Html.ol(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLOListElement
+    )
 }
 
 @Suppress("unused")
@@ -2604,7 +2602,7 @@ public fun Html.optgroup(
     children: Children
 ): HTMLOptGroupElement {
     return tag(
-        "optgroup",
+        document.createElement("optgroup") as HTMLOptGroupElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -2636,7 +2634,7 @@ public fun Html.optgroup(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLOptGroupElement
+    )
 }
 
 @Suppress("unused")
@@ -2672,7 +2670,7 @@ public fun Html.option(
     children: Children
 ): HTMLOptionElement {
     return tag(
-        "option",
+        document.createElement("option") as HTMLOptionElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -2706,7 +2704,7 @@ public fun Html.option(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLOptionElement
+    )
 }
 
 @Suppress("unused")
@@ -2738,7 +2736,7 @@ public fun Html.p(
     children: Children
 ): HTMLParagraphElement {
     return tag(
-        "p",
+        document.createElement("p") as HTMLParagraphElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -2768,7 +2766,7 @@ public fun Html.p(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLParagraphElement
+    )
 }
 
 @Suppress("unused")
@@ -2802,7 +2800,7 @@ public fun Html.progress(
     children: Children
 ): HTMLProgressElement {
     return tag(
-        "progress",
+        document.createElement("progress") as HTMLProgressElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -2834,7 +2832,7 @@ public fun Html.progress(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLProgressElement
+    )
 }
 
 @Suppress("unused")
@@ -2866,7 +2864,7 @@ public fun Html.span(
     children: Children
 ): HTMLSpanElement {
     return tag(
-        "span",
+        document.createElement("span") as HTMLSpanElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -2896,7 +2894,7 @@ public fun Html.span(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLSpanElement
+    )
 }
 
 @Suppress("unused")
@@ -2937,7 +2935,7 @@ public fun Html.select(
     children: Children
 ): HTMLSelectElement {
     return tag(
-        "select",
+        document.createElement("select") as HTMLSelectElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -2976,7 +2974,7 @@ public fun Html.select(
             "change" to onChange, 
         ),
         children = children
-    ) as HTMLSelectElement
+    )
 }
 
 @Suppress("unused")
@@ -3008,7 +3006,7 @@ public fun Html.selectedcontent(
     children: Children
 ): HTMLElement {
     return tag(
-        "selectedcontent",
+        document.createElement("selectedcontent") as HTMLElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -3038,7 +3036,209 @@ public fun Html.selectedcontent(
             "wheel" to onWheel, 
         ),
         children = children
-    ) as HTMLElement
+    )
+}
+
+@Suppress("unused")
+public fun Html.svg(
+    className: Signal<String>? = null,
+    draggable: Signal<String>? = null,
+    id: Signal<String>? = null,
+    style: Signal<String>? = null,
+    tabIndex: Signal<Int>? = null,
+    title: Signal<String>? = null,
+    alignmentBaseline: Signal<String>? = null,
+    baselineShift: Signal<String>? = null,
+    clip: Signal<String>? = null,
+    clipPath: Signal<String>? = null,
+    clipRule: Signal<String>? = null,
+    color: Signal<String>? = null,
+    colorInterpolation: Signal<String>? = null,
+    colorInterpolationFilters: Signal<String>? = null,
+    cursor: Signal<String>? = null,
+    cx: Signal<String>? = null,
+    cy: Signal<String>? = null,
+    d: Signal<String>? = null,
+    direction: Signal<String>? = null,
+    display: Signal<String>? = null,
+    dominantBaseline: Signal<String>? = null,
+    fill: Signal<String>? = null,
+    fillOpacity: Signal<String>? = null,
+    fillRule: Signal<String>? = null,
+    filter: Signal<String>? = null,
+    floodColor: Signal<String>? = null,
+    floodOpacity: Signal<String>? = null,
+    fontFamily: Signal<String>? = null,
+    fontSize: Signal<String>? = null,
+    fontSizeAdjust: Signal<String>? = null,
+    fontStretch: Signal<String>? = null,
+    fontStyle: Signal<String>? = null,
+    fontVariant: Signal<String>? = null,
+    fontWeight: Signal<String>? = null,
+    glyphOrientationHorizontal: Signal<String>? = null,
+    glyphOrientationVertical: Signal<String>? = null,
+    height: Signal<String>? = null,
+    imageRendering: Signal<String>? = null,
+    letterSpacing: Signal<String>? = null,
+    lightingColor: Signal<String>? = null,
+    markerEnd: Signal<String>? = null,
+    markerMid: Signal<String>? = null,
+    markerStart: Signal<String>? = null,
+    mask: Signal<String>? = null,
+    maskType: Signal<String>? = null,
+    opacity: Signal<String>? = null,
+    overflow: Signal<String>? = null,
+    pointerEvents: Signal<String>? = null,
+    r: Signal<String>? = null,
+    rx: Signal<String>? = null,
+    ry: Signal<String>? = null,
+    shapeRendering: Signal<String>? = null,
+    stopColor: Signal<String>? = null,
+    stopOpacity: Signal<String>? = null,
+    stroke: Signal<String>? = null,
+    strokeDashArray: Signal<String>? = null,
+    strokeDashOffset: Signal<String>? = null,
+    strokeLineCap: Signal<String>? = null,
+    strokeLineJoin: Signal<String>? = null,
+    strokeMiterLimit: Signal<String>? = null,
+    strokeOpacity: Signal<String>? = null,
+    strokeWidth: Signal<String>? = null,
+    textAnchor: Signal<String>? = null,
+    textDecoration: Signal<String>? = null,
+    textRendering: Signal<String>? = null,
+    transform: Signal<String>? = null,
+    transformOrigin: Signal<String>? = null,
+    unicodeBidi: Signal<String>? = null,
+    vectorEffect: Signal<String>? = null,
+    visibility: Signal<String>? = null,
+    width: Signal<String>? = null,
+    wordSpacing: Signal<String>? = null,
+    writingMode: Signal<String>? = null,
+    x: Signal<String>? = null,
+    y: Signal<String>? = null,
+    preserveAspectRatio: Signal<String>? = null,
+    viewBox: Signal<String>? = null,
+    onBlur: EventHandler<FocusEvent>? = null,
+    onClick: EventHandler<org.w3c.dom.pointerevents.PointerEvent>? = null,
+    onFocus: EventHandler<FocusEvent>? = null,
+    onFocusIn: EventHandler<FocusEvent>? = null,
+    onFocusOut: EventHandler<FocusEvent>? = null,
+    onKeyDown: EventHandler<KeyboardEvent>? = null,
+    onKeyUp: EventHandler<KeyboardEvent>? = null,
+    onLoad: EventHandler<Event>? = null,
+    onMouseDown: EventHandler<MouseEvent>? = null,
+    onMouseEnter: EventHandler<MouseEvent>? = null,
+    onMouseLeave: EventHandler<MouseEvent>? = null,
+    onMouseMove: EventHandler<MouseEvent>? = null,
+    onMouseOut: EventHandler<MouseEvent>? = null,
+    onMouseover: EventHandler<MouseEvent>? = null,
+    onMouseUp: EventHandler<MouseEvent>? = null,
+    onUnload: EventHandler<Event>? = null,
+    onWheel: EventHandler<WheelEvent>? = null,
+    data: Attributes? = null,
+): org.w3c.dom.svg.SVGSVGElement {
+    return tag(
+        document.createElementNS("http://www.w3.org/2000/svg", "svg") as org.w3c.dom.svg.SVGSVGElement,
+        buildMap {
+            className?.let { put("class", className) }
+            draggable?.let { put("draggable", draggable) }
+            id?.let { put("id", id) }
+            style?.let { put("style", style) }
+            tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
+            title?.let { put("title", title) }
+            alignmentBaseline?.let { put("alignment-baseline", alignmentBaseline) }
+            baselineShift?.let { put("baseline-shift", baselineShift) }
+            clip?.let { put("clip", clip) }
+            clipPath?.let { put("clip-path", clipPath) }
+            clipRule?.let { put("clip-rule", clipRule) }
+            color?.let { put("color", color) }
+            colorInterpolation?.let { put("color-interpolation", colorInterpolation) }
+            colorInterpolationFilters?.let { put("color-interpolation-filters", colorInterpolationFilters) }
+            cursor?.let { put("cursor", cursor) }
+            cx?.let { put("cx", cx) }
+            cy?.let { put("cy", cy) }
+            d?.let { put("d", d) }
+            direction?.let { put("direction", direction) }
+            display?.let { put("display", display) }
+            dominantBaseline?.let { put("dominant-baseline", dominantBaseline) }
+            fill?.let { put("fill", fill) }
+            fillOpacity?.let { put("fill-opacity", fillOpacity) }
+            fillRule?.let { put("fill-rule", fillRule) }
+            filter?.let { put("filter", filter) }
+            floodColor?.let { put("flood-color", floodColor) }
+            floodOpacity?.let { put("flood-opacity", floodOpacity) }
+            fontFamily?.let { put("font-family", fontFamily) }
+            fontSize?.let { put("font-size", fontSize) }
+            fontSizeAdjust?.let { put("font-size-adjust", fontSizeAdjust) }
+            fontStretch?.let { put("font-stretch", fontStretch) }
+            fontStyle?.let { put("font-style", fontStyle) }
+            fontVariant?.let { put("font-variant", fontVariant) }
+            fontWeight?.let { put("font-weight", fontWeight) }
+            glyphOrientationHorizontal?.let { put("glyph-orientation-horizontal", glyphOrientationHorizontal) }
+            glyphOrientationVertical?.let { put("glyph-orientation-vertical", glyphOrientationVertical) }
+            height?.let { put("height", height) }
+            imageRendering?.let { put("image-rendering", imageRendering) }
+            letterSpacing?.let { put("letter-spacing", letterSpacing) }
+            lightingColor?.let { put("lighting-color", lightingColor) }
+            markerEnd?.let { put("marker-end", markerEnd) }
+            markerMid?.let { put("marker-mid", markerMid) }
+            markerStart?.let { put("marker-start", markerStart) }
+            mask?.let { put("mask", mask) }
+            maskType?.let { put("mask-type", maskType) }
+            opacity?.let { put("opacity", opacity) }
+            overflow?.let { put("overflow", overflow) }
+            pointerEvents?.let { put("pointer-events", pointerEvents) }
+            r?.let { put("r", r) }
+            rx?.let { put("rx", rx) }
+            ry?.let { put("ry", ry) }
+            shapeRendering?.let { put("shape-rendering", shapeRendering) }
+            stopColor?.let { put("stop-color", stopColor) }
+            stopOpacity?.let { put("stop-opacity", stopOpacity) }
+            stroke?.let { put("stroke", stroke) }
+            strokeDashArray?.let { put("stroke-dasharray", strokeDashArray) }
+            strokeDashOffset?.let { put("stroke-dashoffset", strokeDashOffset) }
+            strokeLineCap?.let { put("stroke-linecap", strokeLineCap) }
+            strokeLineJoin?.let { put("stroke-linejoin", strokeLineJoin) }
+            strokeMiterLimit?.let { put("stroke-miterlimit", strokeMiterLimit) }
+            strokeOpacity?.let { put("stroke-opacity", strokeOpacity) }
+            strokeWidth?.let { put("stroke-width", strokeWidth) }
+            textAnchor?.let { put("text-anchor", textAnchor) }
+            textDecoration?.let { put("text-decoration", textDecoration) }
+            textRendering?.let { put("text-rendering", textRendering) }
+            transform?.let { put("transform", transform) }
+            transformOrigin?.let { put("transform-origin", transformOrigin) }
+            unicodeBidi?.let { put("unicode-bidi", unicodeBidi) }
+            vectorEffect?.let { put("vector-effect", vectorEffect) }
+            visibility?.let { put("visibility", visibility) }
+            width?.let { put("width", width) }
+            wordSpacing?.let { put("word-spacing", wordSpacing) }
+            writingMode?.let { put("writing-mode", writingMode) }
+            x?.let { put("x", x) }
+            y?.let { put("y", y) }
+            preserveAspectRatio?.let { put("preserveAspectRatio", preserveAspectRatio) }
+            viewBox?.let { put("viewBox", viewBox) }
+        },
+        data,
+        mapOf(
+            "blur" to onBlur, 
+            "click" to onClick, 
+            "focus" to onFocus, 
+            "focusin" to onFocusIn, 
+            "focusout" to onFocusOut, 
+            "keydown" to onKeyDown, 
+            "keyup" to onKeyUp, 
+            "load" to onLoad, 
+            "mousedown" to onMouseDown, 
+            "mouseEnter" to onMouseEnter, 
+            "mouseleave" to onMouseLeave, 
+            "mousemove" to onMouseMove, 
+            "mouseout" to onMouseOut, 
+            "mouseover" to onMouseover, 
+            "mouseup" to onMouseUp, 
+            "unload" to onUnload, 
+            "wheel" to onWheel, 
+        )
+    ) {}
 }
 
 @Suppress("unused")
@@ -3089,7 +3289,7 @@ public fun Html.textarea(
     children: Children
 ): HTMLTextAreaElement {
     return tag(
-        "textarea",
+        document.createElement("textarea") as HTMLTextAreaElement,
         buildMap {
             className?.let { put("class", className) }
             draggable?.let { put("draggable", draggable) }
@@ -3138,5 +3338,5 @@ public fun Html.textarea(
             "invalid" to onInvalid, 
         ),
         children = children
-    ) as HTMLTextAreaElement
+    )
 }
