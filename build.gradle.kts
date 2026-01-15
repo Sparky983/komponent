@@ -1,11 +1,13 @@
 import com.vanniktech.maven.publish.KotlinMultiplatform
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.dokka.gradle.engine.parameters.DokkaSourceSetSpec
+import java.net.URI
 
 plugins {
     kotlin("multiplatform") version "2.1.10"
     id("com.vanniktech.maven.publish") version "0.30.0"
-    id("org.jetbrains.dokka") version "2.0.0"
+    id("org.jetbrains.dokka") version "2.1.0"
 }
 
 repositories {
@@ -18,6 +20,20 @@ kotlin {
         browser {}
         compilerOptions {
             target = "es2015"
+        }
+    }
+}
+
+dokka {
+    dokkaPublications.html {
+        moduleName = project.name
+        moduleVersion = project.version.toString()
+        outputDirectory = layout.buildDirectory.dir("docs/html")
+    }
+    dokkaSourceSets.configureEach {
+        sourceLink {
+            remoteUrl = URI("https://github.com/sparky983/komponent/tree/main")
+            remoteLineSuffix = "#L"
         }
     }
 }
