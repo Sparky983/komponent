@@ -1,6 +1,7 @@
 import { defineConfig } from "vitepress"
 
 export default defineConfig({
+  base: "/docs/",
   title: "komponent",
   description: "The Komponent documentation",
   themeConfig: {

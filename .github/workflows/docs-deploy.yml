@@ -2,27 +2,18 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'docs/**'
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: false
+  deployments: write
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -31,29 +22,36 @@ jobs:
           cache: npm
           cache-dependency-path: docs/package-lock.json
 
-      - name: Setup GitHub Pages
-        uses: actions/configure-pages@v4
-
-      - name: Install dependencies
-        working-directory: docs
-        run: npm ci
-
-      - name: Build with VitePress
-        working-directory: docs
-        run: npm run docs:build
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Setup Java
+        uses: actions/setup-java@v4
         with:
-          path: docs/src/.vitepress/dist
+          distribution: temurin
+          java-version: 21
 
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Install docs dependencies
+        run: npm ci --prefix docs
+
+      - name: Build VitePress docs
+        run: npm run docs:build --prefix docs
+
+      - name: Build Dokka docs
+        run: ./gradlew dokkaHtml
+
+      - name: Assemble Pages output
+        run: |
+          rm -rf dist
+          mkdir -p dist/docs dist/api
+          cp -R docs/src/.vitepress/dist/* dist/docs/
+          cp -R build/docs/html/* dist/api/
+          printf "/docs/* /docs/404.html 404\n" > dist/_redirects
+
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=${{ secrets.CLOUDFLARE_PAGES_PROJECT }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
