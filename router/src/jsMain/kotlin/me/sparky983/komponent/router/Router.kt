@@ -158,7 +158,7 @@ public class Routes internal constructor() {
     internal var fallback: Renderer? = null
 
     /**
-     * Defines a new route with with the pattern.
+     * Defines a new route with the pattern.
      *
      * ```kotlin
      * Router {
