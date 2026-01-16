@@ -90,12 +90,14 @@ public fun Html.Router(
  *
  * @param path the client-side route
  * @param className the className prop
+ * @param resetScroll whether to scroll to the top of the page on navigate
  * @param children the children
  * @throws IllegalStateException if the router context could was not provided in this scope
  * @since 0.2.0
  */
 public fun Html.Link(
     path: Signal<String>,
+    resetScroll: Boolean = true,
     className: Signal<String>? = null,
     children: Children
 ) {
@@ -105,7 +107,7 @@ public fun Html.Link(
         href = path,
         onClick = { event ->
             if (!event.defaultPrevented) {
-                router.navigate(path.value)
+                router.navigate(path.value, resetScroll)
             }
             event.preventDefault()
         },
@@ -126,11 +128,13 @@ public class Router internal constructor() {
      * Navigates to the given path.
      *
      * @param path the path
+     * @param resetScroll whether to scroll to the top of the page
      * @since 0.2.0
      */
-    public fun navigate(path: String) {
+    public fun navigate(path: String, resetScroll: Boolean = true) {
         window.history.pushState(js("{}"), /*unused*/ "", path)
         locations.value = path
+        window.scrollTo(0.0, 0.0)
     }
 
     /**
