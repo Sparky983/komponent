@@ -1,0 +1,57 @@
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  deployments: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: docs/package-lock.json
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Install docs dependencies
+        run: npm ci --prefix docs
+
+      - name: Build VitePress docs
+        run: npm run docs:build --prefix docs
+
+      - name: Build Dokka docs
+        run: ./gradlew dokkaGenerate
+
+      - name: Assemble Pages output
+        run: |
+          rm -rf dist
+          mkdir -p dist/docs dist/api
+          cp -R docs/src/.vitepress/dist/* dist/docs/
+          cp -R build/docs/html/* dist/api/
+          printf "/ /docs 301\n/docs/* /docs/404.html 404\n" > dist/_redirects
+
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=komponent
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
