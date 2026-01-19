@@ -16,7 +16,9 @@ export default defineConfig({
         ]
       }
     ],
-
+    nav: [
+      { text: 'API Reference', link: 'https://komponent.sparky983.me/api' }
+    ],
     socialLinks: [
       { icon: 'github', link: 'https://github.com/Sparky983/komponent' }
     ]
