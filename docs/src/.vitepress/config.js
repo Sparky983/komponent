@@ -12,6 +12,7 @@ export default defineConfig({
           { text: 'Your First Component', link: '/component' },
           { text: 'Reactivity', link: '/reactivity' },
           { text: 'Context API', link: '/context' },
+          { text: 'DOM Manipulation', link: '/dom-manipulation' },
           { text: 'Client-side Routing', link: '/routing' }
         ]
       }
