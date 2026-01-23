@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.fir.extensions.FirExtensionApiInternals
 import org.jetbrains.kotlin.fir.extensions.FirExtensionRegistrar
 
 @OptIn(FirExtensionApiInternals::class)
-class KomponentExtensionRegisrar : FirExtensionRegistrar() {
+class KomponentExtensionRegistrar : FirExtensionRegistrar() {
     override fun ExtensionRegistrarContext.configurePlugin() {
         +::FirKomponentGenerator
     }
