@@ -16,7 +16,7 @@ repositories {
 kotlin {
     sourceSets {
         jsMain.dependencies {
-            implementation("me.sparky983.komponent:router:0.1.0")
+            implementation("me.sparky983.komponent:router:0.2.0")
         }
     }
 }
