@@ -2,6 +2,19 @@ package me.sparky983.komponent
 
 /**
  * DSL for building attributes.
+ * 
+ * Data attributes can be set using the attributes builder:
+ * ```kotlin
+ * fun Html.Counter() {
+ *     val count = signal(0)
+ *     button(
+ *         onClick = { count.value++ }, 
+ *         data = { "count" with count } // Sets the data-count attribute
+ *     ) {
+ *         text(count { "Count: $it" })
+ *     }
+ * }
+ * ```
  *
  * @since 0.2.0
  */
