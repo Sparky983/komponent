@@ -153,6 +153,14 @@ public fun <T> signal(initialValue: T): MutableSignal<T> {
     }
 }
 
+/**
+ * A signal that contains several elements rather than a single value.
+ * 
+ * @see For
+ * @see listSignal
+ * @see listSignalOf
+ * @since 0.1.0
+ */
 public class ListSignal<E> internal constructor(
     private val list: MutableList<E>
 ) : AbstractMutableList<E>() {
@@ -215,14 +223,29 @@ public class ListSignal<E> internal constructor(
         get() = list.size
 }
 
+/**
+ * Creates a list signal initially containing the elements in the given list.
+ * 
+ * @since 0.1.0
+ */
 public fun <E> listSignal(list: List<E>): ListSignal<E> {
     return ListSignal(list.toMutableList())
 }
 
+/**
+ * Creates an initially empty list signal.
+ * 
+ * @since 0.1.0
+ */
 public fun <E> listSignalOf(): ListSignal<E> {
     return ListSignal(mutableListOf())
 }
 
+/**
+ * Creates a list signal initially containing the given elements.
+ * 
+ * @since 0.1.0
+ */
 public fun <E> listSignalOf(vararg element: E): ListSignal<E> {
     return ListSignal(mutableListOf(*element))
 }
