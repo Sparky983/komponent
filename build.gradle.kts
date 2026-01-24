@@ -2,6 +2,8 @@ import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.targets.js.NpmVersions
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 import java.net.URI
 
 plugins {
@@ -20,9 +22,7 @@ kotlin {
     js {
         browser {
             testTask {
-                useKarma {
-                    useChrome()
-                }
+                useKarma {}
             }
             commonWebpackConfig {
                 sourceMaps = true
@@ -36,6 +36,7 @@ kotlin {
         jsTest {
             dependencies {
                 implementation(kotlin("test"))
+                implementation(npm("puppeteer", "24.36.0"))
             }
         }
     }
@@ -72,4 +73,8 @@ tasks.register<Task>("generate") {
     doLast {
         generate(file("src/jsMain/kotlin/me/sparky983/komponent/generated"))
     }
+}
+
+plugins.withType<YarnPlugin> {
+    rootProject.the<YarnRootExtension>().ignoreScripts = false
 }

@@ -22,7 +22,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Build
-        run: ./gradlew build
+        run: ./gradlew build -Pkotlin.js.browser.karma.browsers=chrome-headless-no-sandbox
 
   publish:
     if: github.ref_type == 'tag'
