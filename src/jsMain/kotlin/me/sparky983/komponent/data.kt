@@ -9,7 +9,7 @@ package me.sparky983.komponent
  *     val count = signal(0)
  *     button(
  *         onClick = { count.value++ }, 
- *         data = { "count" with count } // Sets the data-count attribute
+ *         data = { "is-even" with count { it % 2 == 0 } } // Sets the data-is-even attribute
  *     ) {
  *         text(count { "Count: $it" })
  *     }
