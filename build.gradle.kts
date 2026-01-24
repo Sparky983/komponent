@@ -1,11 +1,16 @@
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.targets.js.NpmVersions
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 import java.net.URI
 
 plugins {
     kotlin("multiplatform") version "2.3.0"
     id("com.vanniktech.maven.publish") version "0.36.0"
     id("org.jetbrains.dokka") version "2.1.0"
+    kotlin("plugin.power-assert") version "2.3.0"
 }
 
 repositories {
@@ -15,11 +20,31 @@ repositories {
 kotlin {
     explicitApi()
     js {
-        browser {}
+        browser {
+            testTask {
+                useKarma {}
+            }
+            commonWebpackConfig {
+                sourceMaps = true
+            }
+        }
         compilerOptions {
             target = "es2015"
         }
     }
+    sourceSets {
+        jsTest {
+            dependencies {
+                implementation(kotlin("test"))
+                implementation(npm("puppeteer", "24.36.0"))
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalKotlinGradlePluginApi::class)
+powerAssert {
+    functions = listOf("kotlin.assert", "kotlin.test.assertTrue", "kotlin.test.assertEquals", "kotlin.test.assertNull")
 }
 
 dokka {
@@ -48,4 +73,8 @@ tasks.register<Task>("generate") {
     doLast {
         generate(file("src/jsMain/kotlin/me/sparky983/komponent/generated"))
     }
+}
+
+plugins.withType<YarnPlugin> {
+    rootProject.the<YarnRootExtension>().ignoreScripts = false
 }
