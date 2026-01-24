@@ -8,7 +8,7 @@ Before installing, be sure to [set up a Kotlin/JS project][kotlin-js-setup].
 
 ```kt [build.gradle.kts]
 plugins {
-    id("me.sparky983.komponent") version "0.1.0"
+    id("me.sparky983.komponent") version "0.2.0"
 }
 ```
 
