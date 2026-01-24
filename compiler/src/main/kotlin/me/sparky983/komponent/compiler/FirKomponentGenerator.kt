@@ -1,6 +1,8 @@
 package me.sparky983.komponent.compiler
 
+import org.jetbrains.kotlin.KtSourceElement
 import org.jetbrains.kotlin.fir.FirSession
+import org.jetbrains.kotlin.fir.declarations.FirDeclarationDataRegistry
 import org.jetbrains.kotlin.fir.declarations.FirValueParameter
 import org.jetbrains.kotlin.fir.expressions.FirExpression
 import org.jetbrains.kotlin.fir.expressions.FirFunctionCall
@@ -18,6 +20,7 @@ import org.jetbrains.kotlin.fir.resolve.providers.symbolProvider
 import org.jetbrains.kotlin.fir.symbols.SymbolInternals
 import org.jetbrains.kotlin.fir.symbols.impl.ConeClassLikeLookupTagImpl
 import org.jetbrains.kotlin.fir.symbols.impl.FirNamedFunctionSymbol
+import org.jetbrains.kotlin.fir.symbols.impl.FirRegularClassSymbol
 import org.jetbrains.kotlin.fir.types.ConeClassLikeType
 import org.jetbrains.kotlin.fir.types.classId
 import org.jetbrains.kotlin.fir.types.impl.ConeClassLikeTypeImpl
@@ -169,4 +172,13 @@ class FirKomponentGenerator(session: FirSession) :
             }
         }
     }
+
+    override fun ownsSymbol(symbol: FirRegularClassSymbol): Boolean = false
+
+    override fun anchorElement(symbol: FirRegularClassSymbol): KtSourceElement = symbol.source!!
+
+    override fun restoreSymbol(
+        call: FirFunctionCall,
+        name: Name
+    ): FirRegularClassSymbol? = null
 }

@@ -1,11 +1,11 @@
 import com.vanniktech.maven.publish.JavaLibrary
 import com.vanniktech.maven.publish.JavadocJar
-import com.vanniktech.maven.publish.SonatypeHost
+import com.vanniktech.maven.publish.KotlinMultiplatform
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 plugins {
     kotlin("jvm")
-    id("com.vanniktech.maven.publish") version "0.32.0"
+    id("com.vanniktech.maven.publish") version "0.36.0"
     id("org.jetbrains.dokka") version "2.1.0"
 }
 
@@ -19,12 +19,9 @@ dependencies {
 }
 
 mavenPublishing {
-    configure(JavaLibrary(
-        javadocJar = JavadocJar.Dokka("dokkaHtml"),
-        sourcesJar = true
-    ))
+    configure(JavaLibrary(javadocJar = JavadocJar.Dokka("dokkaGenerate")))
     signAllPublications()
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    publishToMavenCentral()
 }
 
 tasks {

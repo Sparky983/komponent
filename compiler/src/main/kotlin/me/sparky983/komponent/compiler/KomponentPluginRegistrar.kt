@@ -5,6 +5,8 @@ import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.fir.extensions.FirExtensionRegistrarAdapter
 
 class KomponentPluginRegistrar : CompilerPluginRegistrar() {
+    override val pluginId: String = "komponent"
+
     override val supportsK2: Boolean
         get() = true
 
