@@ -12,7 +12,7 @@ internal class Fragment(contexts: Contexts) : Html(contexts) {
      * child. All children are placed relative to either the marker or 
      * previously added children.
      */
-    
+
     private val marker = document.createTextNode("")
     val children: MutableList<Html> = mutableListOf()
 
@@ -34,10 +34,10 @@ internal class Fragment(contexts: Contexts) : Html(contexts) {
         children.remove(element)
         val parent = marker.parentNode
         if (parent != null) {
-            element.onUnmount()
-            for (node in element.nodes()) {
-                parent.removeChild(node)
+            if (marker.isConnected) {
+                element.onUnmount()
             }
+            element.removeFromParent()
         }
     }
 
@@ -63,10 +63,10 @@ internal class Fragment(contexts: Contexts) : Html(contexts) {
         children.remove(element)
         val parent = marker.parentNode
         if (parent != null) {
-            element.onUnmount()
-            for (node in element.nodes()) {
-                parent.removeChild(node)
+            if (marker.isConnected) {
+                element.onUnmount()
             }
+            element.removeFromParent()
         }
         return element
     }
@@ -83,6 +83,12 @@ internal class Fragment(contexts: Contexts) : Html(contexts) {
     }
 
     override fun emit(child: Html) = add(child)
+    
+    override fun removeFromParent() {
+        marker.parentNode?.let { parent ->
+            nodes().forEach(parent::removeChild)
+        }
+    }
 
     override fun nodes(): Sequence<Node> {
         return children.asSequence().flatMap { it.nodes() } + marker

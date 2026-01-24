@@ -87,6 +87,11 @@ public sealed class Html(internal val contexts: Contexts) {
     internal abstract fun emit(child: Html)
 
     /**
+     * Removes this element from its parent.
+     */
+    internal abstract fun removeFromParent()
+
+    /**
      * Returns a shallow sequence of all actual dom nodes that this element 
      * represents.
      * 
@@ -110,6 +115,10 @@ internal class Tag internal constructor(
         }
 
         child.nodes().forEach(element::appendChild)
+    }
+
+    override fun removeFromParent() {
+        element.parentNode?.removeChild(element)
     }
 
     override fun nodes() = sequenceOf(element)
