@@ -134,7 +134,9 @@ public class Router internal constructor() {
     public fun navigate(path: String, resetScroll: Boolean = true) {
         window.history.pushState(js("{}"), /*unused*/ "", path)
         locations.value = path
-        window.scrollTo(0.0, 0.0)
+        if (resetScroll) {
+            window.scrollTo(0.0, 0.0)
+        }
     }
 
     /**
