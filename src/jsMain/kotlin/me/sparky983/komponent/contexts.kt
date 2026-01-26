@@ -1,7 +1,7 @@
 package me.sparky983.komponent
 
-import kotlin.reflect.KClass
-import kotlin.reflect.cast
+import kotlin.reflect.KType
+import kotlin.reflect.typeOf
 
 /**
  * Provides the given context value for the context type to all children.
@@ -14,12 +14,12 @@ public inline fun <reified T : Any> Html.Provide(
     value: T, 
     noinline children: Children
 ) {
-    Provide(T::class, value, children)
+    Provide(typeOf<T>(), value, children)
 }
 
 @PublishedApi
 internal fun <T : Any> Html.Provide(
-    type: KClass<T>,
+    type: KType,
     value: T,
     children: Children
 ) {
@@ -33,13 +33,13 @@ internal fun <T : Any> Html.Provide(
  * Represents a contexts scope.
  */
 internal sealed interface Contexts {
-    fun <T : Any> context(type: KClass<T>): T?
+    fun <T : Any> context(type: KType): T?
 
     /**
      * Represents a context scope with no values.
      */
     object Empty : Contexts {
-        override fun <T : Any> context(type: KClass<T>): T? = null
+        override fun <T : Any> context(type: KType): T? = null
     }
 }
 
@@ -52,13 +52,14 @@ internal sealed interface Contexts {
  * @param T the type of the context
  */
 private class Provider<T : Any>(
-    private val type: KClass<T>,
+    private val type: KType,
     private val value: T,
     private val parent: Contexts
 ) : Contexts {
-    override fun <T : Any> context(type: KClass<T>): T? {
+    override fun <T : Any> context(type: KType): T? {
         if (type == this.type) {
-            return type.cast(value)
+            @Suppress("UNCHECKED_CAST")
+            return value as T
         }
         return parent.context(type)
     }
