@@ -21,11 +21,11 @@ internal class Fragment(contexts: Contexts) : Html(contexts) {
 
         val parent = marker.parentNode
         if (parent != null) {
-            if (parent.isConnected) {
-                element.onMount()
-            }
             for (node in element.nodes()) {
                 parent.insertBefore(node, marker)
+            }
+            if (parent.isConnected) {
+                element.onMount()
             }
         }
     }
@@ -34,25 +34,25 @@ internal class Fragment(contexts: Contexts) : Html(contexts) {
         children.remove(element)
         val parent = marker.parentNode
         if (parent != null) {
+            element.removeFromParent()
             if (marker.isConnected) {
                 element.onUnmount()
             }
-            element.removeFromParent()
         }
     }
 
     fun add(index: Int, element: Html) {
         val parent = marker.parentNode
         if (parent != null) {
-            if (parent.isConnected) {
-                element.onMount()
-            }
             val after = children.asSequence()
                 .drop(index)
                 .flatMap { it.nodes() }
                 .elementAtOrElse(0) { marker }
             for (node in element.nodes()) {
                 parent.insertBefore(node, after)
+            }
+            if (parent.isConnected) {
+                element.onMount()
             }
         }
         children.add(index, element)
@@ -63,10 +63,10 @@ internal class Fragment(contexts: Contexts) : Html(contexts) {
         children.remove(element)
         val parent = marker.parentNode
         if (parent != null) {
+            element.removeFromParent()
             if (marker.isConnected) {
                 element.onUnmount()
             }
-            element.removeFromParent()
         }
         return element
     }

@@ -110,11 +110,12 @@ internal class Tag internal constructor(
     override fun emit(child: Html) {
         onMount(child::onMount)
         onUnmount(child::onUnmount)
+
+        child.nodes().forEach(element::appendChild)
+
         if (element.isConnected) {
             child.onMount()
         }
-
-        child.nodes().forEach(element::appendChild)
     }
 
     override fun removeFromParent() {
