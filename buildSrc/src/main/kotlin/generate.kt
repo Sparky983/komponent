@@ -81,28 +81,34 @@ fun generate(folder: File) {
                 children: Children
             ): T {
                 val tag = Tag(domNode, contexts)
-                for ((attribute, signal) in attributes) {
-                    val subscription = signal.subscribe {
-                        if (it == null) {
-                            domNode.removeAttribute(attribute)
+            
+                fun subscribe(attribute: String, signal: Signal<String?>) {
+                    fun set(value: String?) {
+                        if (value != null) {
+                            domNode.setAttribute(attribute, value)
                         } else {
-                            domNode.setAttribute(attribute, it)
+                            domNode.removeAttribute(attribute)
                         }
                     }
-                    tag.onMount { subscription.canceled = false }
-                    tag.onUnmount { subscription.canceled = true }
+                    val subscription = signal.subscribe { set(it) }
+                    subscription.canceled = true
+                    tag.onMount {
+                        if (subscription.canceled) {
+                            set(signal.value)
+                        }
+                        subscription.canceled = false
+                    }
+                    tag.onUnmount {
+                        subscription.canceled = true
+                    }
+                }
+            
+                for ((attribute, signal) in attributes) {
+                    subscribe(attribute, signal)
                 }
                 if (dataAttributes != null) {
-                    for ((attribute, value) in AttributesBuilder().apply(dataAttributes).attributes) {
-                        val subscription = value.subscribe {
-                            if (it != null) {
-                                domNode.setAttribute("data-${'$'}attribute", it)
-                            } else {
-                                domNode.removeAttribute("data-${'$'}attribute")
-                            }
-                        }
-                        tag.onMount { subscription.canceled = false }
-                        tag.onUnmount { subscription.canceled = true }
+                    for ((attribute, signal) in AttributesBuilder().apply(dataAttributes).attributes) {
+                        subscribe("data-${'$'}attribute", signal)
                     }
                 }
                 for ((event, handler) in events) {
