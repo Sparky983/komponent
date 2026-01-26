@@ -2,6 +2,8 @@ package me.sparky983.komponent
 
 import org.w3c.dom.Node
 import kotlin.reflect.KClass
+import kotlin.reflect.KType
+import kotlin.reflect.typeOf
 
 /**
  * Represents the API for passing around children.
@@ -48,10 +50,10 @@ public sealed class Html(internal val contexts: Contexts) {
     public inline fun <reified T : Any> context(
         message: String =
             "Context ${T::class.simpleName} was not provided in this scope"
-    ): T = context(T::class) ?: throw IllegalStateException(message)
+    ): T = context(typeOf<T>()) ?: throw IllegalStateException(message)
 
     @PublishedApi
-    internal fun <T : Any> context(type: KClass<T>): T? = contexts.context(type)
+    internal fun <T : Any> context(type: KType): T? = contexts.context(type)
 
     /**
      * Adds a function to be run when the receiving element is mounted.
