@@ -157,32 +157,80 @@ public fun <T> signal(initialValue: T): MutableSignal<T> {
  * A signal that contains several elements rather than a single value.
  * 
  * @see For
+ * @see MutableSignal
  * @see listSignal
  * @see listSignalOf
  * @since 0.1.0
  */
-public class ListSignal<E> internal constructor(
-    private val list: MutableList<E>
-) : AbstractMutableList<E>() {
-    private var mirrors = emptyMap<Subscription, Mirror>()
+public abstract class ListSignal<out E> internal constructor() : List<E> {
+    internal abstract fun mirrorInto(
+        fragment: Fragment,
+        mapper: (E) -> Html
+    ): Subscription
+}
 
-    private inner class Mirror(val fragment: Fragment, val mapper: (E) -> Html)
+/**
+ * An extension of [ListSignal] that is a [MutableList].
+ * 
+ * @see ListSignal
+ * @see listSignal
+ * @see listSignalOf
+ * @since 0.2.0
+ */
+public class MutableListSignal<E> internal constructor(
+    private val delegate: Delegate<E>
+) : ListSignal<E>(), MutableList<E> by delegate {
+    internal class Delegate<E>(val list: MutableList<E>) : AbstractMutableList<E>() {
+        var mirrors = emptyMap<Subscription, Mirror>()
 
-    internal fun mirrorInto(fragment: Fragment, mapper: (E) -> Html): Subscription {
+        inner class Mirror(val fragment: Fragment, val mapper: (E) -> Html)
+
+        private fun update(performer: Fragment.((E) -> Html) -> Unit) {
+            for (mirror in mirrors.values) {
+                mirror.fragment.performer(mirror.mapper)
+            }
+        } 
+
+        override fun add(index: Int, element: E) {
+            list.add(index, element)
+            update { this.add(index, it(element)) }
+        }
+
+        override fun removeAt(index: Int): E {
+            return list.removeAt(index).also {
+                update { this.removeAt(index) }
+            }
+        }
+
+        override fun set(index: Int, element: E): E {
+            return list.set(index, element).also {
+                update { this.set(index, it(element)) }
+            }
+        }
+
+        override fun isEmpty(): Boolean = list.isEmpty()
+
+        override fun get(index: Int): E = list[index]
+
+        override val size: Int
+            get() = list.size
+    }
+    
+    override fun mirrorInto(fragment: Fragment, mapper: (E) -> Html): Subscription {
         val subscription = object : Subscription {
             override var canceled: Boolean = true
                 set(value) {
                     if (value) {
                         if (!field) {
-                            val copy = mirrors.toMutableMap()
+                            val copy = delegate.mirrors.toMutableMap()
                             copy.remove(this)
-                            mirrors = copy
+                            delegate.mirrors = copy
                         }
                     } else {
                         if (field) {
-                            val copy = mirrors.toMutableMap()
-                            copy[this] = Mirror(fragment, mapper)
-                            mirrors = copy
+                            val copy = delegate.mirrors.toMutableMap()
+                            copy[this] = delegate.Mirror(fragment, mapper)
+                            delegate.mirrors = copy
                         }
                     }
                     field = value
@@ -191,36 +239,6 @@ public class ListSignal<E> internal constructor(
         subscription.canceled = false
         return subscription
     }
-
-    private fun update(performer: Fragment.((E) -> Html) -> Unit) {
-        for (mirror in mirrors.values) {
-            mirror.fragment.performer(mirror.mapper)
-        }
-    }
-
-    override fun add(index: Int, element: E) {
-        list.add(index, element)
-        update { this.add(index, it(element)) }
-    }
-
-    override fun removeAt(index: Int): E {
-        return list.removeAt(index).also {
-            update { this.removeAt(index) }
-        }
-    }
-
-    override fun set(index: Int, element: E): E {
-        return list.set(index, element).also {
-            update { this.set(index, it(element)) }
-        }
-    }
-
-    override fun isEmpty(): Boolean = list.isEmpty()
-
-    override fun get(index: Int): E = list[index]
-
-    override val size: Int
-        get() = list.size
 }
 
 /**
@@ -228,8 +246,8 @@ public class ListSignal<E> internal constructor(
  * 
  * @since 0.1.0
  */
-public fun <E> listSignal(list: List<E>): ListSignal<E> {
-    return ListSignal(list.toMutableList())
+public fun <E> listSignal(list: List<E>): MutableListSignal<E> {
+    return MutableListSignal(MutableListSignal.Delegate(list.toMutableList()))
 }
 
 /**
@@ -237,8 +255,8 @@ public fun <E> listSignal(list: List<E>): ListSignal<E> {
  * 
  * @since 0.1.0
  */
-public fun <E> listSignalOf(): ListSignal<E> {
-    return ListSignal(mutableListOf())
+public fun <E> listSignalOf(): MutableListSignal<E> {
+    return listSignal(mutableListOf())
 }
 
 /**
@@ -246,6 +264,6 @@ public fun <E> listSignalOf(): ListSignal<E> {
  * 
  * @since 0.1.0
  */
-public fun <E> listSignalOf(vararg element: E): ListSignal<E> {
-    return ListSignal(mutableListOf(*element))
+public fun <E> listSignalOf(vararg element: E): MutableListSignal<E> {
+    return listSignal(mutableListOf(*element))
 }
