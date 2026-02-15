@@ -289,6 +289,7 @@
       // instead, users should use the innerHTML attribute
       void: true
     },
+    summary: {},
     textarea: {
       type: "HTMLTextAreaElement",
       attributes: {
