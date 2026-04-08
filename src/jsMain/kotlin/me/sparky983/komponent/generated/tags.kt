@@ -566,6 +566,72 @@ public fun Html.button(
 }
 
 @Suppress("unused")
+public fun Html.canvas(
+    className: Signal<String>? = null,
+    draggable: Signal<String>? = null,
+    id: Signal<String>? = null,
+    style: Signal<String>? = null,
+    tabIndex: Signal<Int>? = null,
+    title: Signal<String>? = null,
+    height: Signal<Int>? = null,
+    width: Signal<Int>? = null,
+    onBlur: EventHandler<FocusEvent>? = null,
+    onClick: EventHandler<org.w3c.dom.pointerevents.PointerEvent>? = null,
+    onFocus: EventHandler<FocusEvent>? = null,
+    onFocusIn: EventHandler<FocusEvent>? = null,
+    onFocusOut: EventHandler<FocusEvent>? = null,
+    onKeyDown: EventHandler<KeyboardEvent>? = null,
+    onKeyUp: EventHandler<KeyboardEvent>? = null,
+    onLoad: EventHandler<Event>? = null,
+    onMouseDown: EventHandler<MouseEvent>? = null,
+    onMouseEnter: EventHandler<MouseEvent>? = null,
+    onMouseLeave: EventHandler<MouseEvent>? = null,
+    onMouseMove: EventHandler<MouseEvent>? = null,
+    onMouseOut: EventHandler<MouseEvent>? = null,
+    onMouseover: EventHandler<MouseEvent>? = null,
+    onMouseUp: EventHandler<MouseEvent>? = null,
+    onUnload: EventHandler<Event>? = null,
+    onWheel: EventHandler<WheelEvent>? = null,
+    data: Attributes? = null,
+    children: Children
+): HTMLCanvasElement {
+    return tag(
+        document.createElement("canvas") as HTMLCanvasElement,
+        buildMap {
+            className?.let { put("class", className) }
+            draggable?.let { put("draggable", draggable) }
+            id?.let { put("id", id) }
+            style?.let { put("style", style) }
+            tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
+            title?.let { put("title", title) }
+            height?.let { put("height", height(Any::toString)) }
+            width?.let { put("width", width(Any::toString)) }
+        },
+        data,
+        mapOf(
+            "blur" to onBlur, 
+            "click" to onClick, 
+            "focus" to onFocus, 
+            "focusin" to onFocusIn, 
+            "focusout" to onFocusOut, 
+            "keydown" to onKeyDown, 
+            "keyup" to onKeyUp, 
+            "load" to onLoad, 
+            "mousedown" to onMouseDown, 
+            "mouseEnter" to onMouseEnter, 
+            "mouseleave" to onMouseLeave, 
+            "mousemove" to onMouseMove, 
+            "mouseout" to onMouseOut, 
+            "mouseover" to onMouseover, 
+            "mouseup" to onMouseUp, 
+            "unload" to onUnload, 
+            "wheel" to onWheel, 
+        ),
+        children = children
+    )
+}
+
+@Suppress("unused")
 public fun Html.caption(
     className: Signal<String>? = null,
     draggable: Signal<String>? = null,
@@ -1360,6 +1426,74 @@ public fun Html.div(
             style?.let { put("style", style) }
             tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
             title?.let { put("title", title) }
+        },
+        data,
+        mapOf(
+            "blur" to onBlur, 
+            "click" to onClick, 
+            "focus" to onFocus, 
+            "focusin" to onFocusIn, 
+            "focusout" to onFocusOut, 
+            "keydown" to onKeyDown, 
+            "keyup" to onKeyUp, 
+            "load" to onLoad, 
+            "mousedown" to onMouseDown, 
+            "mouseEnter" to onMouseEnter, 
+            "mouseleave" to onMouseLeave, 
+            "mousemove" to onMouseMove, 
+            "mouseout" to onMouseOut, 
+            "mouseover" to onMouseover, 
+            "mouseup" to onMouseUp, 
+            "unload" to onUnload, 
+            "wheel" to onWheel, 
+        ),
+        children = children
+    )
+}
+
+@Suppress("unused")
+public fun Html.fieldset(
+    className: Signal<String>? = null,
+    draggable: Signal<String>? = null,
+    id: Signal<String>? = null,
+    style: Signal<String>? = null,
+    tabIndex: Signal<Int>? = null,
+    title: Signal<String>? = null,
+    disabled: Signal<Boolean>? = null,
+    form: Signal<String>? = null,
+    name: Signal<String>? = null,
+    onBlur: EventHandler<FocusEvent>? = null,
+    onClick: EventHandler<org.w3c.dom.pointerevents.PointerEvent>? = null,
+    onFocus: EventHandler<FocusEvent>? = null,
+    onFocusIn: EventHandler<FocusEvent>? = null,
+    onFocusOut: EventHandler<FocusEvent>? = null,
+    onKeyDown: EventHandler<KeyboardEvent>? = null,
+    onKeyUp: EventHandler<KeyboardEvent>? = null,
+    onLoad: EventHandler<Event>? = null,
+    onMouseDown: EventHandler<MouseEvent>? = null,
+    onMouseEnter: EventHandler<MouseEvent>? = null,
+    onMouseLeave: EventHandler<MouseEvent>? = null,
+    onMouseMove: EventHandler<MouseEvent>? = null,
+    onMouseOut: EventHandler<MouseEvent>? = null,
+    onMouseover: EventHandler<MouseEvent>? = null,
+    onMouseUp: EventHandler<MouseEvent>? = null,
+    onUnload: EventHandler<Event>? = null,
+    onWheel: EventHandler<WheelEvent>? = null,
+    data: Attributes? = null,
+    children: Children
+): HTMLFieldSetElement {
+    return tag(
+        document.createElement("fieldset") as HTMLFieldSetElement,
+        buildMap {
+            className?.let { put("class", className) }
+            draggable?.let { put("draggable", draggable) }
+            id?.let { put("id", id) }
+            style?.let { put("style", style) }
+            tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
+            title?.let { put("title", title) }
+            disabled?.let { put("disabled", disabled { if (it) "" else null }) }
+            form?.let { put("form", form) }
+            name?.let { put("name", name) }
         },
         data,
         mapOf(
@@ -3404,6 +3538,68 @@ public fun Html.textarea(
             "wheel" to onWheel, 
             "input" to onInput, 
             "invalid" to onInvalid, 
+        ),
+        children = children
+    )
+}
+
+@Suppress("unused")
+public fun Html.ul(
+    className: Signal<String>? = null,
+    draggable: Signal<String>? = null,
+    id: Signal<String>? = null,
+    style: Signal<String>? = null,
+    tabIndex: Signal<Int>? = null,
+    title: Signal<String>? = null,
+    onBlur: EventHandler<FocusEvent>? = null,
+    onClick: EventHandler<org.w3c.dom.pointerevents.PointerEvent>? = null,
+    onFocus: EventHandler<FocusEvent>? = null,
+    onFocusIn: EventHandler<FocusEvent>? = null,
+    onFocusOut: EventHandler<FocusEvent>? = null,
+    onKeyDown: EventHandler<KeyboardEvent>? = null,
+    onKeyUp: EventHandler<KeyboardEvent>? = null,
+    onLoad: EventHandler<Event>? = null,
+    onMouseDown: EventHandler<MouseEvent>? = null,
+    onMouseEnter: EventHandler<MouseEvent>? = null,
+    onMouseLeave: EventHandler<MouseEvent>? = null,
+    onMouseMove: EventHandler<MouseEvent>? = null,
+    onMouseOut: EventHandler<MouseEvent>? = null,
+    onMouseover: EventHandler<MouseEvent>? = null,
+    onMouseUp: EventHandler<MouseEvent>? = null,
+    onUnload: EventHandler<Event>? = null,
+    onWheel: EventHandler<WheelEvent>? = null,
+    data: Attributes? = null,
+    children: Children
+): HTMLUListElement {
+    return tag(
+        document.createElement("ul") as HTMLUListElement,
+        buildMap {
+            className?.let { put("class", className) }
+            draggable?.let { put("draggable", draggable) }
+            id?.let { put("id", id) }
+            style?.let { put("style", style) }
+            tabIndex?.let { put("tabindex", tabIndex(Any::toString)) }
+            title?.let { put("title", title) }
+        },
+        data,
+        mapOf(
+            "blur" to onBlur, 
+            "click" to onClick, 
+            "focus" to onFocus, 
+            "focusin" to onFocusIn, 
+            "focusout" to onFocusOut, 
+            "keydown" to onKeyDown, 
+            "keyup" to onKeyUp, 
+            "load" to onLoad, 
+            "mousedown" to onMouseDown, 
+            "mouseEnter" to onMouseEnter, 
+            "mouseleave" to onMouseLeave, 
+            "mousemove" to onMouseMove, 
+            "mouseout" to onMouseOut, 
+            "mouseover" to onMouseover, 
+            "mouseup" to onMouseUp, 
+            "unload" to onUnload, 
+            "wheel" to onWheel, 
         ),
         children = children
     )

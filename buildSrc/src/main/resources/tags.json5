@@ -26,7 +26,13 @@
         disabled: { type: "Boolean" }
       }
     },
-    // TODO: <canvas>
+    canvas: {
+      type: "HTMLCanvasElement",
+      attributes: {
+        height: { type:  "Int" },
+        width: { type:  "Int" }
+      }
+    },
     caption: { type: "HTMLTableCaptionElement" },
     cite: {},
     code: {},
@@ -66,7 +72,16 @@
       }
     },
     div: { type: "HTMLDivElement" },
-    // TODO: <dl>-<footer>
+    // TODO: <dl>-<embed>
+    fieldset: {
+      type: "HTMLFieldSetElement",
+      attributes: {
+        disabled: { type: "Boolean" },
+        form: {},
+        name: {}
+      }
+    },
+    // TODO: <figcaption>-<footer>
     form: {
       type: "HTMLFormElement",
       attributes: {
@@ -315,6 +330,9 @@
         input: { type: "InputEvent" },
         invalid: {}
       }
+    },
+    ul: {
+      type: "HTMLUListElement"
     }
   },
   global: {
