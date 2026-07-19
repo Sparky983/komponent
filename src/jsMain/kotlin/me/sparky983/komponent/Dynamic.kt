@@ -6,19 +6,27 @@ package me.sparky983.komponent
  * 
  * @param signal the value to track
  * @param component the renderer for each received value
+ * @param N the namespace of the component
+ * @param T the type of the tracked value
  * @since 0.1.0
  */
-public fun <T> Html.Dynamic(signal: Signal<T>, component: Html.(T) -> Unit) {
+public fun <N : Namespace, T> N.Dynamic(signal: Signal<T>, component: N.(T) -> Unit) {
     val holder = Fragment()
     val subscription = signal.subscribe {
-        holder.children.forEach { holder.remove(it) }
-        val fragment = Fragment()
-        holder.emit(fragment)
-        fragment.component(it)
+        holder.clear()
+        holder.render {
+            val fragment = Fragment()
+            fragment.emitSelf()
+            fragment.render {
+                component(it)
+            }
+        }
     }
 
-    holder.onMount { subscription.canceled = false }
-    holder.onUnmount { subscription.canceled = true }
+    holder.render {
+        onMount { subscription.canceled = false }
+        onUnmount { subscription.canceled = true }
+    }
 
-    emit(holder)
+    holder.emitSelf()
 }

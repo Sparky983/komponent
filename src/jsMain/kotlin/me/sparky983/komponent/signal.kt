@@ -156,6 +156,7 @@ public fun <T> signal(initialValue: T): MutableSignal<T> {
 /**
  * A signal that contains several elements rather than a single value.
  * 
+ * @param E the type of each element
  * @see For
  * @see MutableSignal
  * @see listSignal
@@ -163,15 +164,16 @@ public fun <T> signal(initialValue: T): MutableSignal<T> {
  * @since 0.1.0
  */
 public abstract class ListSignal<out E> internal constructor() : List<E> {
-    internal abstract fun mirrorInto(
-        fragment: Fragment,
-        mapper: (E) -> Html
+    internal abstract fun <N : Namespace> mirrorInto(
+        fragment: Fragment<N>,
+        renderer: N.(E) -> Unit
     ): Subscription
 }
 
 /**
  * An extension of [ListSignal] that is a [MutableList].
  * 
+ * @param E the type of each element
  * @see ListSignal
  * @see listSignal
  * @see listSignalOf
@@ -181,30 +183,62 @@ public class MutableListSignal<E> internal constructor(
     private val delegate: Delegate<E>
 ) : ListSignal<E>(), MutableList<E> by delegate {
     internal class Delegate<E>(val list: MutableList<E>) : AbstractMutableList<E>() {
-        var mirrors = emptyMap<Subscription, Mirror>()
+        var mirrors = emptyMap<Subscription, Mirror<*>>()
 
-        inner class Mirror(val fragment: Fragment, val mapper: (E) -> Html)
+        private interface Updater<E> {
+            fun <N : Namespace> update(
+                fragment: Fragment<N>,
+                renderer: N.(E) -> Unit
+            )
+        }
 
-        private fun update(performer: Fragment.((E) -> Html) -> Unit) {
+        inner class Mirror<N : Namespace>(
+            val fragment: Fragment<N>, 
+            val renderer: N.(E) -> Unit
+        )
+
+        private fun <N : Namespace> updateWith(mirror: Mirror<N>, updater: Updater<E>) =
+            updater.update(mirror.fragment, mirror.renderer)
+
+        private fun update(updater: Updater<E>) {
             for (mirror in mirrors.values) {
-                mirror.fragment.performer(mirror.mapper)
+                updateWith(mirror, updater)
             }
         } 
 
         override fun add(index: Int, element: E) {
             list.add(index, element)
-            update { this.add(index, it(element)) }
+            update(object : Updater<E> {
+                override fun <N : Namespace> update(
+                    fragment: Fragment<N>,
+                    renderer: N.(E) -> Unit
+                ) = fragment.add(index) { renderer(element) }
+            })
         }
 
         override fun removeAt(index: Int): E {
             return list.removeAt(index).also {
-                update { this.removeAt(index) }
+                update(object : Updater<E> {
+                    override fun <N : Namespace> update(
+                        fragment: Fragment<N>,
+                        renderer: N.(E) -> Unit
+                    ) {
+                        fragment.removeAt(index)
+                    }
+                })
             }
         }
 
         override fun set(index: Int, element: E): E {
             return list.set(index, element).also {
-                update { this.set(index, it(element)) }
+                update(object : Updater<E> {
+                    override fun <N : Namespace> update(
+                        fragment: Fragment<N>,
+                        renderer: N.(E) -> Unit
+                    ) {
+                        fragment.set(index) { renderer(element) }
+                    }
+                })
             }
         }
 
@@ -216,7 +250,10 @@ public class MutableListSignal<E> internal constructor(
             get() = list.size
     }
     
-    override fun mirrorInto(fragment: Fragment, mapper: (E) -> Html): Subscription {
+    override fun <N : Namespace> mirrorInto(
+        fragment: Fragment<N>,
+        renderer: N.(E) -> Unit
+    ): Subscription {
         val subscription = object : Subscription {
             override var canceled: Boolean = true
                 set(value) {
@@ -229,7 +266,7 @@ public class MutableListSignal<E> internal constructor(
                     } else {
                         if (field) {
                             val copy = delegate.mirrors.toMutableMap()
-                            copy[this] = delegate.Mirror(fragment, mapper)
+                            copy[this] = delegate.Mirror(fragment, renderer)
                             delegate.mirrors = copy
                         }
                     }
@@ -244,6 +281,8 @@ public class MutableListSignal<E> internal constructor(
 /**
  * Creates a list signal initially containing the elements in the given list.
  * 
+ * @param list the initial elements
+ * @param E the type of each element
  * @since 0.1.0
  */
 public fun <E> listSignal(list: List<E>): MutableListSignal<E> {
@@ -253,6 +292,7 @@ public fun <E> listSignal(list: List<E>): MutableListSignal<E> {
 /**
  * Creates an initially empty list signal.
  * 
+ * @param E the type of each element
  * @since 0.1.0
  */
 public fun <E> listSignalOf(): MutableListSignal<E> {
@@ -262,6 +302,8 @@ public fun <E> listSignalOf(): MutableListSignal<E> {
 /**
  * Creates a list signal initially containing the given elements.
  * 
+ * @param element the initial elements
+ * @param E the type of each element
  * @since 0.1.0
  */
 public fun <E> listSignalOf(vararg element: E): MutableListSignal<E> {

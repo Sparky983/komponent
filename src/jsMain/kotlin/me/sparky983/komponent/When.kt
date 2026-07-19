@@ -7,42 +7,42 @@ package me.sparky983.komponent
  * @param condition the conditional
  * @param fallback the component to render when [condition] is `false`
  * @param children the default component to render
+ * @param N the namespace of the component
  * @since 0.1.0
  */
-public fun Html.When(
+public fun <N : Namespace> N.When(
     condition: Signal<Boolean>,
-    fallback: Children? = null,
-    children: Children
+    fallback: (N.() -> Unit)? = null,
+    children: N.() -> Unit
 ) {
     val holder = Fragment()
 
-    val conditional = Fragment()
-    conditional.children()
-
-    val otherwise = if (fallback == null) {
-        null
-    } else {
-        Fragment().also { it.fallback() }
-    }
-
-    var visibility = false
-
-    val subscription = condition.subscribe { update ->
-        if (update != visibility) {
-            visibility = update
-            if (update) {
-                holder.add(conditional)
-            } else {
-                holder.remove(conditional)
-                if (otherwise != null) {
-                    holder.add(otherwise)
+    holder.render {
+        val conditional = Fragment()
+        conditional.render(children)
+    
+        val otherwise = if (fallback == null) {
+            null
+        } else {
+            Fragment().also { it.render(fallback) }
+        }
+    
+        var visibility: Boolean? = null
+    
+        val subscription = condition.subscribe { update ->
+            if (update != visibility) {
+                visibility = update
+                holder.clear()
+                if (update) {
+                    conditional.emitSelf()
+                } else {
+                    otherwise?.emitSelf()
                 }
             }
         }
+        onMount { subscription.canceled = false }
+        onUnmount { subscription.canceled = true }
     }
 
-    holder.onMount { subscription.canceled = false }
-    holder.onUnmount { subscription.canceled = true }
-
-    emit(holder)
+    holder.emitSelf()
 }

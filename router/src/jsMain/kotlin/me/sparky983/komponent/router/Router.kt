@@ -14,14 +14,14 @@ import me.sparky983.komponent.*
  * @since 0.2.0
  */
 public fun Html.Router(
-    root: (Html.(Children) -> Unit)? = null,
+    root: (Html.(Html.() -> Unit) -> Unit)? = null,
     routes: Routes.() -> Unit
 ) {
     val configuration = Routes()
     configuration.routes()
     val router = Router()
 
-    fun resolve(path: String): Children? {
+    fun resolve(path: String): (Html.() -> Unit)? {
         val segments = segments(path).toList()
 
         for ((patterns, renderer) in configuration.routes) {
@@ -68,7 +68,7 @@ public fun Html.Router(
             window.removeEventListener("popstate", callback)
         }
 
-        val page: Children = {
+        val page: Html.() -> Unit = {
             Dynamic(router.locations) {
                 val page = resolve(it) ?: {}
                 page()
@@ -99,7 +99,7 @@ public fun Html.Link(
     path: Signal<String>,
     resetScroll: Boolean = true,
     className: Signal<String>? = null,
-    children: Children
+    children: Html.() -> Unit
 ) {
     val router = context<Router>()
 
