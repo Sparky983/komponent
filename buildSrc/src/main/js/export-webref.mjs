@@ -163,10 +163,11 @@ const globalEventNames = new Set([
 // cannot easily be recovered procedurally
 // Taken from React: 
 // https://github.com/react/react/blob/900ae094d85b11c67d53dd14af50a2bda5db4495/packages/react-dom-bindings/src/events/DOMEventProperties.js#L40-L112
+// Some names differ due to acronyms capitalization
 const camelCasedEventNames = ["abort", "afterPrint", "animationCancel",
   "animationEnd", "animationIteration", "animationStart", "auxClick",
   "beforeInput", "beforeMatch", "beforePrint", "beforeToggle", "beforeUnload",
-  "beforeXRSelect", "blur", "cancel", "canPlay", "canPlayThrough", "change",
+  "beforeXrSelect", "blur", "cancel", "canPlay", "canPlayThrough", "change",
   "click", "close", "command", "contextLost", "contextMenu", "contextRestored",
   "copy", "cueChange", "cut", "drag", "dragEnd", "dragEnter", "dragLeave",
   "dragOver", "dragStart", "drop", "durationChange", "emptied", "ended",
