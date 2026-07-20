@@ -3,19 +3,6 @@
 
 package me.sparky983.komponent
 
-import me.sparky983.komponent.AttributesBuilder
-import me.sparky983.komponent.Contexts
-import me.sparky983.komponent.Element
-import me.sparky983.komponent.Html
-import me.sparky983.komponent.MathMl
-import me.sparky983.komponent.Namespace
-import me.sparky983.komponent.Signal
-import me.sparky983.komponent.Svg
-import me.sparky983.komponent.Tag
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.iterator
-
 import kotlinx.browser.document
 import org.w3c.dom.*
 import org.w3c.dom.events.*
