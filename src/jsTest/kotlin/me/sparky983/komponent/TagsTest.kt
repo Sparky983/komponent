@@ -24,4 +24,46 @@ class TagsTest {
         assertEquals("2", div.className)
         assertEquals("2", div.dataset["test"])
     }
+
+    @Test
+    fun `Test When recreates its children`() {
+        val visible = signal(true)
+        var renders = 0
+
+        mount(document.body!!) {
+            When(visible) {
+                renders++
+                div {}
+            }
+        }
+
+        assertEquals(1, renders)
+        visible.value = false
+        visible.value = true
+        assertEquals(2, renders)
+    }
+
+    @Test
+    fun `Test When creates a new lifecycle when shown again`() {
+        val visible = signal(true)
+        var nextInstance = 0
+        val mounted = mutableListOf<Int>()
+        val unmounted = mutableListOf<Int>()
+
+        mount(document.body!!) {
+            When(visible) {
+                val instance = ++nextInstance
+                onMount { mounted += instance }
+                onUnmount { unmounted += instance }
+                div {}
+            }
+        }
+
+        mounted.clear()
+        visible.value = false
+        assertEquals(listOf(1), unmounted)
+        visible.value = true
+        assertEquals(listOf(2), mounted)
+        assertEquals(listOf(1), unmounted)
+    }
 }

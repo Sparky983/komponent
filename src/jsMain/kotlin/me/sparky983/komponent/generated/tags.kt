@@ -32,9 +32,6 @@ private fun <T: Element> Html.tag(
         val subscription = signal.subscribe { set(it) }
         subscription.canceled = true
         tag.onMount {
-            if (subscription.canceled) {
-                set(signal.value)
-            }
             subscription.canceled = false
         }
         tag.onUnmount {

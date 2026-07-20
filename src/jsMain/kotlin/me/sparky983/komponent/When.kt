@@ -16,27 +16,17 @@ public fun Html.When(
 ) {
     val holder = Fragment()
 
-    val conditional = Fragment()
-    conditional.children()
-
-    val otherwise = if (fallback == null) {
-        null
-    } else {
-        Fragment().also { it.fallback() }
-    }
-
-    var visibility = false
+    var visibility: Boolean? = null
 
     val subscription = condition.subscribe { update ->
         if (update != visibility) {
             visibility = update
-            if (update) {
-                holder.add(conditional)
-            } else {
-                holder.remove(conditional)
-                if (otherwise != null) {
-                    holder.add(otherwise)
-                }
+            holder.children.toList().forEach(holder::remove)
+            val render = if (update) children else fallback
+            if (render != null) {
+                val branch = Fragment()
+                branch.render()
+                holder.add(branch)
             }
         }
     }
