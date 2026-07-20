@@ -3,6 +3,10 @@ package me.sparky983.komponent
 import kotlinx.browser.document
 import org.w3c.dom.Node
 
+/**
+ * A component that is flattened into its children. The fragment is live and may have modifications
+ * to its children that will be reflected in the DOM.
+ */
 internal class Fragment<N : Namespace>(contexts: Contexts, val parent: N) {
     private val element = object : LifecycleHelper<N, N>() {
         override fun emit(content: Element<N, *>): Unit = add(content)
