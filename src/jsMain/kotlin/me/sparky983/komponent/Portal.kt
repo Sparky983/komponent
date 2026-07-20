@@ -4,7 +4,7 @@ import kotlinx.browser.document
 import org.w3c.dom.Node
 
 /**
- * A component that renders its children to a [target] DOM element.
+ * A component that renders its children to a [target] HTML DOM node.
  *
  * Typically used to implement modals, toasts or other UI that needs to break
  * out of the UI tree.
@@ -13,14 +13,17 @@ import org.w3c.dom.Node
  * @param children the children
  * @since 0.3.0
  */
-public fun Html.Portal(target: Node = document.body!!, children: Children) {
-    val contents = Fragment().also(children)
-    val targetNode = Tag(target, contexts)
+public fun Namespace.Portal(target: Node = document.body!!, children: Html.() -> Unit) {
+    val targetNode = Tag<Html, Html>(target)
+    val contents = Html(targetNode, contexts).Fragment().apply {
+        render(children)
+    }
     onMount {
-        targetNode.emit(contents)
+        contents.emitSelf()
     }
     onUnmount {
+        targetNode.unmount()
+        @OptIn(Fragment.RemoveFromParent::class)
         contents.removeFromParent()
-        targetNode.onUnmount()
     }
 }

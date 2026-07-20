@@ -63,9 +63,8 @@ log("Hello, world!") // "Hello, world!"
 
 ## Reactive Components
 
-Komponent tags accept reactive values for all attributes. This means that you
-can always use a static (in this context, static means any regular old value) or
-reactive a value.
+Komponent tags accept reactive values for their generated attribute parameters.
+This means that you can use either a static value or a reactive value.
 
 ```kt
 fun Html.Counter() {
@@ -165,12 +164,12 @@ fun Html.Tabs(tab: MutableSignal<Tab>) {
 Reactive lists use a different kind of signal known as a `ListSignal` since 
 signals cannot track mutations to the value, only mutations of the value itself.
 
-To create a list signal, use `flowList(List<E>)` or `flowListOf(*E)`. 
+To create a list signal, use `listSignal(List<E>)` or `listSignalOf(*E)`.
 
 ```kt
 data class User(val name: String, val age: Int)
 
-val users = flowListOf(User(name = "Foo", age = 17))
+val users = listSignalOf(User(name = "Foo", age = 17))
 
 button(onClick = { users.add(User(name = "Bar", age = 17)) }) {
     text("Add new user")

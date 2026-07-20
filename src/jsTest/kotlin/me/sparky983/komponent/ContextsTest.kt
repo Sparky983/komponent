@@ -16,8 +16,8 @@ class ContextsTest {
         lateinit var actualOuter: List<Int>
 
         mount(document.body!!) {
-            Provide<List<Int>>(outer) {
-                Provide<List<Int>>(inner) {
+            Provide(outer) {
+                Provide(inner) {
                     actualInner = context<List<Int>>()
                 }
                 actualOuter = context<List<Int>>()
@@ -33,7 +33,7 @@ class ContextsTest {
         lateinit var getContext: () -> String
         
         mount(document.body!!) {
-            Provide<String>("context") {
+            Provide("context") {
                 getContext = { context<String>() }
             }
         }

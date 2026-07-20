@@ -1,0 +1,8 @@
+{
+  "name": "komponent-codegen",
+  "private": true,
+  "devDependencies": {
+    "@webref/elements": "2.7.1",
+    "@webref/idl": "3.81.3"
+  }
+}

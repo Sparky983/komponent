@@ -1,7 +1,7 @@
 package me.sparky983.komponent
 
 /**
- * DSL for building attributes.
+ * DSL for building data attributes.
  * 
  * Data attributes can be set using the attributes builder:
  * ```kotlin

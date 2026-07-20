@@ -8,25 +8,25 @@ import kotlin.reflect.typeOf
  * 
  * @param value the context value
  * @param children the children
+ * @param N the namespace of the component
  * @param T the context type
  */
-public inline fun <reified T : Any> Html.Provide(
+public inline fun <N : Namespace, reified T : Any> N.Provide(
     value: T, 
-    noinline children: Children
+    noinline children: N.() -> Unit
 ) {
     Provide(typeOf<T>(), value, children)
 }
 
 @PublishedApi
-internal fun <T : Any> Html.Provide(
+internal fun <N : Namespace, T : Any> N.Provide(
     type: KType,
     value: T,
-    children: Children
+    children: N.() -> Unit
 ) {
-    Fragment(Provider(type, value, parent = contexts)).also {
-        it.children()
-        emit(it)
-    }
+    val provide = Fragment(Provider(type, value, parent = contexts))
+    provide.render(children)
+    provide.emitSelf()
 }
 
 /**

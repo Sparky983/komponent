@@ -3,26 +3,23 @@ package me.sparky983.komponent
 /**
  * A reactive list component that updates as [each] updates.
  * 
+ * @param each the list to track
  * @param children a function that renders each child
+ * @param N the namespace of the component
+ * @param E the type of each element
  * @since 0.1.0
  */
-public fun <E> Html.For(each: ListSignal<E>, children: Html.(E) -> Unit) {
+public fun <N : Namespace, E> N.For(each: ListSignal<E>, children: N.(E) -> Unit) {
     val fragment = Fragment()
 
-    each.forEach {
-        val element = Fragment()
-        element.children(it)
-        fragment.add(element)
+    fragment.render {
+        each.forEach { fragment.add { children(it) } }
     }
 
-    val subscription = each.mirrorInto(fragment) {
-        val element = Fragment()
-        element.children(it)
-        element
-    }
+    val subscription = each.mirrorInto(fragment) { children(it) }
 
     onMount { subscription.canceled = false }
     onUnmount { subscription.canceled = true }
 
-    emit(fragment)
+    fragment.emitSelf()
 }
