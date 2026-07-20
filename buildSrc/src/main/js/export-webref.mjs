@@ -9,9 +9,17 @@ const [elementSpecs, idlSpecs] = await Promise.all([elements.listAll(), idl.pars
 const definitions = new Map();
 const includes = new Map();
 const enums = new Set();
+const obsoleteMembers = new WeakSet();
+let foundObsoleteHtmlIdl = false;
 
-for (const ast of Object.values(idlSpecs)) {
+for (const [shortname, ast] of Object.entries(idlSpecs)) {
+  let obsolete = false;
   for (const definition of ast) {
+    // The HTML specification emits its obsolete element and attribute IDL as one final block.
+    if (shortname === "html" && definition.name === "HTMLMarqueeElement") {
+      obsolete = true;
+      foundObsoleteHtmlIdl = true;
+    }
     if (definition.type === "enum") {
       enums.add(definition.name);
     }
@@ -24,6 +32,9 @@ for (const ast of Object.values(idlSpecs)) {
     if (definition.type !== "interface" && definition.type
         !== "interface mixin") {
       continue;
+    }
+    if (obsolete) {
+      definition.members.forEach(member => obsoleteMembers.add(member));
     }
     const existing = definitions.get(definition.name) ?? {
       inheritance: null, members: [],
@@ -40,6 +51,10 @@ for (const ast of Object.values(idlSpecs)) {
     existing.members.push(...definition.members);
     definitions.set(definition.name, existing);
   }
+}
+
+if (!foundObsoleteHtmlIdl) {
+  throw new Error("Could not find the obsolete HTML IDL block");
 }
 
 function extAttr(member, name) {
@@ -217,7 +232,8 @@ function metadataFor(interfaceName, namespace) {
           {
             name,
             parameter: member.name,
-            type: kotlinType(member.idlType)
+            type: kotlinType(member.idlType),
+            obsolete: obsoleteMembers.has(member)
           });
     }
     if (member.name.startsWith("on")

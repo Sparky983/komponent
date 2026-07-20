@@ -113,6 +113,13 @@ private fun <T : org.w3c.dom.Element, N : Namespace> N.generatedVoidTag(
     return domNode
 }
 
+/**
+ * @param charset an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param coords an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param name an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param rev an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param shape an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.a(
     charset: Signal<String>? = null,
     className: Signal<String>? = null,
@@ -966,6 +973,9 @@ public fun Html.applet(
     )
 }
 
+/**
+ * @param noHref an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.area(
     alt: Signal<String>? = null,
     className: Signal<String>? = null,
@@ -2979,6 +2989,14 @@ public fun Html.blockquote(
     )
 }
 
+/**
+ * @param aLink an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param background an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param bgColor an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param link an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param text an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param vLink an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.body(
     aLink: Signal<String>? = null,
     background: Signal<String>? = null,
@@ -3084,6 +3102,9 @@ public fun Html.body(
     )
 }
 
+/**
+ * @param clear an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.br(
     className: Signal<String>? = null,
     clear: Signal<String>? = null,
@@ -3244,6 +3265,9 @@ public fun Html.canvas(
     )
 }
 
+/**
+ * @param align an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.caption(
     align: Signal<String>? = null,
     className: Signal<String>? = null,
@@ -4025,6 +4049,13 @@ public fun Html.code(
     )
 }
 
+/**
+ * @param align an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param ch an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param chOff an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param vAlign an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param width an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.col(
     align: Signal<String>? = null,
     ch: Signal<String>? = null,
@@ -4083,6 +4114,13 @@ public fun Html.col(
     )
 }
 
+/**
+ * @param align an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param ch an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param chOff an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param vAlign an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param width an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.colgroup(
     align: Signal<String>? = null,
     ch: Signal<String>? = null,
@@ -4885,6 +4923,9 @@ public fun Html.dialog(
     )
 }
 
+/**
+ * @param compact an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 @Deprecated("Obsolete markup element. See https://html.spec.whatwg.org/multipage/obsolete.html#dir")
 public fun Html.dir(
     className: Signal<String>? = null,
@@ -4937,6 +4978,9 @@ public fun Html.dir(
     )
 }
 
+/**
+ * @param align an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.div(
     align: Signal<String>? = null,
     className: Signal<String>? = null,
@@ -4988,6 +5032,9 @@ public fun Html.div(
     )
 }
 
+/**
+ * @param compact an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.dl(
     className: Signal<String>? = null,
     compact: Signal<Boolean>? = null,
@@ -5525,6 +5572,10 @@ public fun Html.em(
     )
 }
 
+/**
+ * @param align an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param name an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.embed(
     align: Signal<String>? = null,
     className: Signal<String>? = null,
@@ -6171,6 +6222,11 @@ public fun Html.figure(
     )
 }
 
+/**
+ * @param color an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param face an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param size an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 @Deprecated("Obsolete markup element. See https://html.spec.whatwg.org/multipage/obsolete.html#font")
 public fun Html.font(
     className: Signal<String>? = null,
@@ -6529,6 +6585,15 @@ public fun Html.form(
     )
 }
 
+/**
+ * @param frameBorder an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param marginHeight an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param marginWidth an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param name an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param noResize an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param scrolling an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param src an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 @Deprecated("Obsolete markup element. See https://html.spec.whatwg.org/multipage/obsolete.html#frame")
 public fun Html.frame(
     className: Signal<String>? = null,
@@ -6590,6 +6655,10 @@ public fun Html.frame(
     )
 }
 
+/**
+ * @param cols an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param rows an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 @Deprecated("Obsolete markup element. See https://html.spec.whatwg.org/multipage/obsolete.html#frameset")
 public fun Html.frameset(
     className: Signal<String>? = null,
@@ -6747,6 +6816,9 @@ public fun Html.geolocation(
     )
 }
 
+/**
+ * @param align an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.h1(
     align: Signal<String>? = null,
     className: Signal<String>? = null,
@@ -6798,6 +6870,9 @@ public fun Html.h1(
     )
 }
 
+/**
+ * @param align an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.h2(
     align: Signal<String>? = null,
     className: Signal<String>? = null,
@@ -6849,6 +6924,9 @@ public fun Html.h2(
     )
 }
 
+/**
+ * @param align an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.h3(
     align: Signal<String>? = null,
     className: Signal<String>? = null,
@@ -6900,6 +6978,9 @@ public fun Html.h3(
     )
 }
 
+/**
+ * @param align an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.h4(
     align: Signal<String>? = null,
     className: Signal<String>? = null,
@@ -6951,6 +7032,9 @@ public fun Html.h4(
     )
 }
 
+/**
+ * @param align an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.h5(
     align: Signal<String>? = null,
     className: Signal<String>? = null,
@@ -7002,6 +7086,9 @@ public fun Html.h5(
     )
 }
 
+/**
+ * @param align an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.h6(
     align: Signal<String>? = null,
     className: Signal<String>? = null,
@@ -7588,6 +7675,13 @@ public fun Html.hgroup(
     )
 }
 
+/**
+ * @param align an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param color an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param noShade an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param size an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param width an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.hr(
     align: Signal<String>? = null,
     className: Signal<String>? = null,
@@ -7644,6 +7738,9 @@ public fun Html.hr(
     )
 }
 
+/**
+ * @param version an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.html(
     className: Signal<String>? = null,
     title: Signal<String>? = null,
@@ -7938,6 +8035,13 @@ public fun Html.i(
     )
 }
 
+/**
+ * @param align an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param frameBorder an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param marginHeight an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param marginWidth an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param scrolling an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.iframe(
     align: Signal<String>? = null,
     allow: Signal<String>? = null,
@@ -8011,6 +8115,13 @@ public fun Html.iframe(
     )
 }
 
+/**
+ * @param align an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param border an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param hspace an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param name an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param vspace an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.img(
     align: Signal<String>? = null,
     alt: Signal<String>? = null,
@@ -8081,6 +8192,10 @@ public fun Html.img(
     )
 }
 
+/**
+ * @param align an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param useMap an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.input(
     accept: Signal<String>? = null,
     align: Signal<String>? = null,
@@ -8615,6 +8730,9 @@ public fun Html.label(
     )
 }
 
+/**
+ * @param align an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.legend(
     align: Signal<String>? = null,
     className: Signal<String>? = null,
@@ -8666,6 +8784,9 @@ public fun Html.legend(
     )
 }
 
+/**
+ * @param type an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.li(
     className: Signal<String>? = null,
     title: Signal<String>? = null,
@@ -8719,6 +8840,11 @@ public fun Html.li(
     )
 }
 
+/**
+ * @param charset an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param rev an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param target an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.link(
     blocking: Signal<String>? = null,
     charset: Signal<String>? = null,
@@ -8793,6 +8919,9 @@ public fun Html.link(
     )
 }
 
+/**
+ * @param width an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 @Deprecated("Obsolete markup element. See https://html.spec.whatwg.org/multipage/obsolete.html#listing")
 public fun Html.listing(
     className: Signal<String>? = null,
@@ -9382,6 +9511,18 @@ public fun Html.mark(
     )
 }
 
+/**
+ * @param behavior an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param bgColor an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param direction an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param height an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param hspace an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param scrollAmount an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param scrollDelay an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param trueSpeed an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param vspace an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param width an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 @Deprecated("Obsolete markup element. See https://html.spec.whatwg.org/multipage/obsolete.html#the-marquee-element")
 public fun Html.marquee(
     behavior: Signal<String>? = null,
@@ -9452,6 +9593,9 @@ public fun Html.marquee(
     )
 }
 
+/**
+ * @param compact an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.menu(
     className: Signal<String>? = null,
     compact: Signal<Boolean>? = null,
@@ -9747,6 +9891,9 @@ public fun Html.menuitem(
     )
 }
 
+/**
+ * @param scheme an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.meta(
     className: Signal<String>? = null,
     content: Signal<String>? = null,
@@ -11221,6 +11368,18 @@ public fun Html.noscript(
     )
 }
 
+/**
+ * @param align an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param archive an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param border an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param code an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param codeType an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param declare an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param hspace an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param standby an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param useMap an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param vspace an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.`object`(
     align: Signal<String>? = null,
     archive: Signal<String>? = null,
@@ -11298,6 +11457,9 @@ public fun Html.`object`(
     )
 }
 
+/**
+ * @param compact an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.ol(
     className: Signal<String>? = null,
     compact: Signal<Boolean>? = null,
@@ -11514,6 +11676,9 @@ public fun Html.output(
     )
 }
 
+/**
+ * @param align an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.p(
     align: Signal<String>? = null,
     className: Signal<String>? = null,
@@ -11565,6 +11730,12 @@ public fun Html.p(
     )
 }
 
+/**
+ * @param name an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param type an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param `value` an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param valueType an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 @Deprecated("Obsolete markup element. See https://html.spec.whatwg.org/multipage/obsolete.html#param")
 public fun Html.`param`(
     className: Signal<String>? = null,
@@ -11968,6 +12139,9 @@ public fun Html.portal(
     )
 }
 
+/**
+ * @param width an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.pre(
     className: Signal<String>? = null,
     title: Signal<String>? = null,
@@ -13366,6 +13540,11 @@ public fun Html.samp(
     )
 }
 
+/**
+ * @param charset an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param event an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param htmlFor an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.script(
     blocking: Signal<String>? = null,
     charset: Signal<String>? = null,
@@ -14967,6 +15146,9 @@ public fun Html.strong(
     )
 }
 
+/**
+ * @param type an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.style(
     blocking: Signal<String>? = null,
     className: Signal<String>? = null,
@@ -15751,6 +15933,17 @@ public fun Html.sup(
     )
 }
 
+/**
+ * @param align an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param bgColor an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param border an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param cellPadding an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param cellSpacing an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param frame an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param rules an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param summary an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param width an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.table(
     align: Signal<String>? = null,
     bgColor: Signal<String>? = null,
@@ -15818,6 +16011,12 @@ public fun Html.table(
     )
 }
 
+/**
+ * @param align an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param ch an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param chOff an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param vAlign an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.tbody(
     align: Signal<String>? = null,
     ch: Signal<String>? = null,
@@ -15875,6 +16074,17 @@ public fun Html.tbody(
     )
 }
 
+/**
+ * @param align an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param axis an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param bgColor an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param ch an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param chOff an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param height an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param noWrap an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param vAlign an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param width an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.td(
     abbr: Signal<String>? = null,
     align: Signal<String>? = null,
@@ -16070,6 +16280,12 @@ public fun Html.textarea(
     )
 }
 
+/**
+ * @param align an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param ch an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param chOff an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param vAlign an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.tfoot(
     align: Signal<String>? = null,
     ch: Signal<String>? = null,
@@ -16127,6 +16343,17 @@ public fun Html.tfoot(
     )
 }
 
+/**
+ * @param align an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param axis an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param bgColor an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param ch an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param chOff an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param height an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param noWrap an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param vAlign an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param width an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.th(
     abbr: Signal<String>? = null,
     align: Signal<String>? = null,
@@ -16202,6 +16429,12 @@ public fun Html.th(
     )
 }
 
+/**
+ * @param align an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param ch an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param chOff an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param vAlign an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.thead(
     align: Signal<String>? = null,
     ch: Signal<String>? = null,
@@ -16359,6 +16592,13 @@ public fun Html.title(
     )
 }
 
+/**
+ * @param align an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param bgColor an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param ch an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param chOff an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param vAlign an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.tr(
     align: Signal<String>? = null,
     bgColor: Signal<String>? = null,
@@ -16959,6 +17199,10 @@ public fun Html.u(
     )
 }
 
+/**
+ * @param compact an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ * @param type an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 public fun Html.ul(
     className: Signal<String>? = null,
     compact: Signal<Boolean>? = null,
@@ -17554,6 +17798,9 @@ public fun Html.wbr(
     )
 }
 
+/**
+ * @param width an [obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)
+ */
 @Deprecated("Obsolete markup element. See https://html.spec.whatwg.org/multipage/obsolete.html#xmp")
 public fun Html.xmp(
     className: Signal<String>? = null,

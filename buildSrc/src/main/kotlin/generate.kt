@@ -21,7 +21,12 @@ data class ElementDefinition(
 )
 
 @Serializable
-data class AttributeDefinition(val name: String, val parameter: String, val type: String)
+data class AttributeDefinition(
+    val name: String,
+    val parameter: String,
+    val type: String,
+    val obsolete: Boolean = false,
+)
 @Serializable
 data class EventDefinition(val name: String, val parameter: String, val type: String)
 
@@ -263,7 +268,18 @@ private fun buildFile(data: WebrefData): String = buildString {
         val type = returnType(element)
         val attributes = element.attributes.distinctBy { it.parameter }
         val events = element.events.distinctBy { it.parameter }
+        val obsoleteAttributes = attributes.filter { it.obsolete }
         appendLine()
+        if (obsoleteAttributes.isNotEmpty()) {
+            appendLine("/**")
+            for (attribute in obsoleteAttributes) {
+                appendLine(
+                    " * @param ${identifier(attribute.parameter)} an " +
+                        "[obsolete markup attribute](https://html.spec.whatwg.org/multipage/obsolete.html)"
+                )
+            }
+            appendLine(" */")
+        }
         if (element.obsolete) {
             appendLine(
                 "@Deprecated(\"Obsolete markup element. See ${
