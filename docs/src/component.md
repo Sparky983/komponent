@@ -64,10 +64,9 @@ Props can also be reactive. See [Reactivity](reactivity.md#compiler).
 
 ### Children
 
-Sometimes, props include other components. In this case, the `Children` type 
-should be used as the last parameter. The `Children` type is actually a 
-shorthand for `Html.() -> Unit` which is tedious to write every time so we can
-just use the shorthand.
+Sometimes, props include other components. In this case, an `Html.() -> Unit`
+function should be used as the last parameter. Components for another namespace
+use that namespace as the receiver instead, such as `Svg.() -> Unit`.
 
 ```kt
 enum class ButtonKind {
@@ -75,7 +74,7 @@ enum class ButtonKind {
     SECONDARY
 }
 
-fun Html.Button(kind: ButtonKind, children: Children) {
+fun Html.Button(kind: ButtonKind, children: Html.() -> Unit) {
     when (kind) {
         PRIMARY -> button(className = "primary") {
             children() // [!code ++]
@@ -100,7 +99,7 @@ fun main() {
     }
 }
 
-fun MyApp() {
+fun Html.MyApp() {
     // ...
 }
 ```

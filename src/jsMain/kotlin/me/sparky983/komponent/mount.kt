@@ -1,7 +1,7 @@
 package me.sparky983.komponent
 
 /**
- * Mounts the children to the given dom node.
+ * Mounts the children to the given DOM node.
  * 
  * @param to where the children should be mounted to
  * @param children the children

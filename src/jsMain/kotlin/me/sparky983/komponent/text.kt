@@ -3,7 +3,7 @@ package me.sparky983.komponent
 import kotlinx.browser.document
 
 /**
- * A text element with the given content.
+ * A text node with the given content.
  *
  * @param content the text content
  * @since 0.1.0

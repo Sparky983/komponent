@@ -1,7 +1,8 @@
 # DOM Manipulation
 
-All HTML tag components (`p`, `h1`, `input`) return their underlying DOM 
-elements. These elements can be used to imperatively manipulate the DOM.
+Generated tag components return their underlying DOM elements using the most
+specific available type. These elements can be used to imperatively manipulate
+the DOM.
 
 ## Example: Focussing input
 

@@ -10,7 +10,7 @@ First, using the `Provide` component simply takes the value, and then any
 children will be able to access the component within their scope.
 
 ```kt
-fun MyApp() {
+fun Html.MyApp() {
     val darkMode = signal(false)
     
     Provide(darkMode) {
@@ -23,13 +23,13 @@ Now, any children nested inside the `Provide` component will have access to the
 same value by its type.
 
 ```kt
-fun MyApp() {
+fun Html.MyApp() {
     Provide(darkMode) {
         Toggle() // [!code ++]
     }
 }
 
-fun Toggle() { // [!code ++]
+fun Html.Toggle() { // [!code ++]
     val darkMode = context<MutableSignal<Boolean>>() // [!code ++]
     button(onClick = { darkMode.value = !darkMode.value }) { // [!code ++]
         text("Toggle light/dark mode") // [!code ++]
