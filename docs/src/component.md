@@ -120,8 +120,7 @@ fun Html.Button() {
 
 ### Life Cycle Events
 
-All elements have two life cycle stages that can occur an indefinite amount 
-of times: 
+All elements have two life cycle stages, each of which occurs at most once: 
 - Mounting
 - Unmounting
 

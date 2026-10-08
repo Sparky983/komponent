@@ -3,6 +3,9 @@ package me.sparky983.komponent
 /**
  * A dynamic conditional component. Renders [children] while the condition is 
  * `true`, otherwise the [fallback] condition.
+ * 
+ * Each time [children] or [fallback] is shown, it is rendered again as new
+ * elements, with their own life cycle.
  *  
  * @param condition the conditional
  * @param fallback the component to render when [condition] is `false`

@@ -59,11 +59,11 @@ class TagsTest {
             }
         }
 
-        mounted.clear()
+        assertEquals(listOf(1), mounted)
         visible.value = false
         assertEquals(listOf(1), unmounted)
         visible.value = true
-        assertEquals(listOf(2), mounted)
+        assertEquals(listOf(1, 2), mounted)
         assertEquals(listOf(1), unmounted)
     }
 }
