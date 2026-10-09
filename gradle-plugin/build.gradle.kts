@@ -1,7 +1,10 @@
+import com.vanniktech.maven.publish.GradlePublishPlugin
+
 plugins {
     `java-gradle-plugin`
     kotlin("jvm")
-    id("com.gradle.plugin-publish") version "1.2.1"
+    id("com.gradle.plugin-publish") version "1.3.1"
+    id("com.vanniktech.maven.publish") version "0.36.0"
 }
 
 repositories {
@@ -27,10 +30,22 @@ gradlePlugin {
     }
 }
 
+mavenPublishing {
+    configure(GradlePublishPlugin())
+    signAllPublications()
+    if (version.toString().endsWith("-SNAPSHOT")) {
+        publishToMavenCentral()
+    }
+}
+
 tasks {
     jar {
         manifest {
             attributes("Implementation-Version" to version)
         }
+    }
+
+    publishPlugins {
+        onlyIf { !version.toString().endsWith("-SNAPSHOT") }
     }
 }

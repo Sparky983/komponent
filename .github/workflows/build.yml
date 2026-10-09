@@ -1,5 +1,10 @@
 on:
   push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
@@ -25,9 +30,12 @@ jobs:
         run: ./gradlew build -Pkotlin.js.browser.karma.browsers=chrome-headless-no-sandbox
 
   publish:
-    if: github.ref_type == 'tag'
+    if: github.event_name == 'push'
     needs: build
     runs-on: ubuntu-latest
+    concurrency:
+      group: publish
+      cancel-in-progress: false
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -45,8 +53,8 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Publish to Maven
-        run: ./gradlew publish "-Pversion=${GITHUB_REF_NAME:1}"
+      - name: Publish
+        run: ./gradlew publish publishPlugins
         env:
           GRADLE_PUBLISH_KEY: ${{ secrets.GRADLE_PUBLISH_KEY }}
           GRADLE_PUBLISH_SECRET: ${{ secrets.GRADLE_PUBLISH_SECRET }}
