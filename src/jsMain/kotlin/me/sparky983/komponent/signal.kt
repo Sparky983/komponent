@@ -229,6 +229,12 @@ public class MutableListSignal<E> internal constructor(
             }
         }
 
+        override fun removeRange(fromIndex: Int, toIndex: Int) {
+            for (index in toIndex - 1 downTo fromIndex) {
+                removeAt(index)
+            }
+        }
+
         override fun isEmpty(): Boolean = list.isEmpty()
 
         override fun get(index: Int): E = list[index]

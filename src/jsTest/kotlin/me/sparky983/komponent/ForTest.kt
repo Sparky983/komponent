@@ -147,4 +147,35 @@ class ForTest {
         list[0] = "e"
         assertEquals(listOf("e=0"), updates)
     }
+
+    @Test
+    fun `Test indexed clear does not update indices`() {
+        val list = listSignalOf("a", "b", "c", "d")
+        var updates = 0
+
+        mount(container()) {
+            For(list) { index, _ ->
+                index.subscribe { updates++ }
+            }
+        }
+
+        updates = 0
+        list.clear()
+        assertEquals(0, updates)
+    }
+
+    @Test
+    fun `Test indexed range removal`() {
+        val list = listSignalOf("a", "b", "c", "d")
+        val container = container()
+
+        mount(container) {
+            For(list) { index, element ->
+                text(index { "$it:$element;" })
+            }
+        }
+
+        list.subList(1, 3).clear()
+        assertEquals("0:a;1:d;", container.textContent)
+    }
 }
