@@ -163,10 +163,33 @@ public fun <T> signal(initialValue: T): MutableSignal<T> {
  * @since 0.1.0
  */
 public abstract class ListSignal<out E> internal constructor() : List<E> {
-    internal abstract fun mirrorInto(
-        fragment: Fragment,
-        mapper: (E) -> Html
-    ): Subscription
+    /**
+     * Creates a new subscription, notifying the observer of each mutation to
+     * the list.
+     * 
+     * Unlike [Signal.subscribe], the current elements are not replayed.
+     */
+    internal abstract fun observe(observer: ListObserver<E>): Subscription
+}
+
+/**
+ * Receives the mutations of a [ListSignal].
+ */
+internal interface ListObserver<in E> {
+    /**
+     * Called after [element] was inserted at [index].
+     */
+    fun added(index: Int, element: E)
+
+    /**
+     * Called after the element at [index] was removed.
+     */
+    fun removed(index: Int)
+
+    /**
+     * Called after the element at [index] was replaced by [element].
+     */
+    fun replaced(index: Int, element: E)
 }
 
 /**
@@ -181,30 +204,34 @@ public class MutableListSignal<E> internal constructor(
     private val delegate: Delegate<E>
 ) : ListSignal<E>(), MutableList<E> by delegate {
     internal class Delegate<E>(val list: MutableList<E>) : AbstractMutableList<E>() {
-        var mirrors = emptyMap<Subscription, Mirror>()
+        var observers = emptyMap<Subscription, ListObserver<E>>()
 
-        inner class Mirror(val fragment: Fragment, val mapper: (E) -> Html)
-
-        private fun update(performer: Fragment.((E) -> Html) -> Unit) {
-            for (mirror in mirrors.values) {
-                mirror.fragment.performer(mirror.mapper)
+        private fun update(performer: ListObserver<E>.() -> Unit) {
+            for (observer in observers.values) {
+                observer.performer()
             }
         } 
 
         override fun add(index: Int, element: E) {
             list.add(index, element)
-            update { this.add(index, it(element)) }
+            update { added(index, element) }
         }
 
         override fun removeAt(index: Int): E {
             return list.removeAt(index).also {
-                update { this.removeAt(index) }
+                update { removed(index) }
             }
         }
 
         override fun set(index: Int, element: E): E {
             return list.set(index, element).also {
-                update { this.set(index, it(element)) }
+                update { replaced(index, element) }
+            }
+        }
+
+        override fun removeRange(fromIndex: Int, toIndex: Int) {
+            for (index in toIndex - 1 downTo fromIndex) {
+                removeAt(index)
             }
         }
 
@@ -216,21 +243,21 @@ public class MutableListSignal<E> internal constructor(
             get() = list.size
     }
     
-    override fun mirrorInto(fragment: Fragment, mapper: (E) -> Html): Subscription {
+    override fun observe(observer: ListObserver<E>): Subscription {
         val subscription = object : Subscription {
             override var canceled: Boolean = true
                 set(value) {
                     if (value) {
                         if (!field) {
-                            val copy = delegate.mirrors.toMutableMap()
+                            val copy = delegate.observers.toMutableMap()
                             copy.remove(this)
-                            delegate.mirrors = copy
+                            delegate.observers = copy
                         }
                     } else {
                         if (field) {
-                            val copy = delegate.mirrors.toMutableMap()
-                            copy[this] = delegate.Mirror(fragment, mapper)
-                            delegate.mirrors = copy
+                            val copy = delegate.observers.toMutableMap()
+                            copy[this] = observer
+                            delegate.observers = copy
                         }
                     }
                     field = value

@@ -74,11 +74,8 @@ internal class Fragment(contexts: Contexts) : Html(contexts) {
 
     fun set(index: Int, element: Html): Html {
         val previous = children[index]
-        val parent = marker.parentNode
-        if (parent != null) {
-            add(index, element)
-            remove(previous)
-        }
+        add(index, element)
+        remove(previous)
         return previous
     }
 
