@@ -4,6 +4,8 @@ package me.sparky983.komponent
  * A component that updates [component] dynamically as [signal] receives 
  * updates.
  * 
+ * Each received value is rendered as new elements, with their own life cycle.
+ * 
  * @param signal the value to track
  * @param component the renderer for each received value
  * @since 0.1.0

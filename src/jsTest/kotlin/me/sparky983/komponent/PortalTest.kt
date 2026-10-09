@@ -5,6 +5,7 @@ import org.w3c.dom.HTMLDivElement
 import org.w3c.dom.Text
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 class PortalTest {
     @Test
@@ -51,5 +52,27 @@ class PortalTest {
         visible.value = false
         assertEquals(1, onMount)
         assertEquals(1, onUnmount)
+    }
+
+    @Test
+    fun `Test top level Portal fires onMount once`() {
+        var onMount = 0
+
+        mount(document.body!!) {
+            Portal {
+                onMount { onMount++ }
+            }
+        }
+
+        assertEquals(1, onMount)
+    }
+
+    @Test
+    fun `Test mounting to disconnected target fails`() {
+        assertFailsWith<IllegalStateException> {
+            mount(document.body!!) {
+                Portal(target = document.createElement("div")) {}
+            }
+        }
     }
 }
