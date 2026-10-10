@@ -106,3 +106,32 @@ internal class Fragment(contexts: Contexts) : Html(contexts) {
  * A fragment element.
  */
 internal fun Html.Fragment() = Fragment(contexts)
+
+/**
+ * A fragment component.
+ *
+ * Groups child elements so that elements emitted out-of-order are inserted inside the fragment
+ * block rather than at the end of the parent.
+ *
+ * For example:
+ * ```kotlin
+ * text("1")
+ * Fragment {
+ *     launch {
+ *         repeat(8) {
+ *             delay(1.seconds)
+ *             text("${it + 2}")
+ *         }
+ *     }
+ * }
+ * text("10")
+ * ```
+ *
+ * @param children the children
+ * @since 0.3.0
+ */
+public fun Html.Fragment(children: Children) {
+    val fragment = Fragment()
+    fragment.children()
+    emit(fragment)
+}
