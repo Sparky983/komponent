@@ -37,6 +37,9 @@ public interface Signal<out T> {
     /**
      * Maps this signal with the given mapping function.
      * 
+     * There are no guarantees of how many times the provided mapper may be
+     * invoked.
+     * 
      * @param mapper the mapping function
      * @return the new signal
      * @param R the resulting type of the mapping function
@@ -71,6 +74,69 @@ public interface Subscription {
      * @since 0.1.0
      */
     public var canceled: Boolean
+}
+
+/**
+ * A signal that has been mapped from another by a mapping function.
+ * 
+ * @param original the original signal
+ * @param mapper the mapping function
+ * @param T the type of the original signal
+ * @param R the type of the mapped signal
+ * @see Signal.invoke
+ */
+private class MappedSignal<T, R>(
+    private val original: Signal<T>,
+    private val mapper: (T) -> R
+) : Signal<R> {
+    private var subscriptions = emptyMap<Subscription, (R) -> Unit>()
+    private var upstream: Subscription? = null
+
+    override val value: R
+        get() = mapper(original.value)
+
+    override fun subscribe(subscriber: (R) -> Unit): Subscription {
+        val hasUpstream = upstream != null
+        val mapper = this.mapper
+        val subscription = object : Subscription {
+            override var canceled: Boolean = true
+                set(value) {
+                    if (value) {
+                        if (!field) {
+                            val copy = subscriptions.toMutableMap()
+                            copy.remove(this)
+                            subscriptions = copy
+                            if (copy.isEmpty()) {
+                                upstream!!.canceled = true
+                            }
+                        }
+                    } else if (field) {
+                        val copy = subscriptions.toMutableMap()
+                        copy[this] = subscriber
+                        subscriptions = copy
+                        val local = upstream
+                        if (local == null) {
+                            upstream = original.subscribe { value ->
+                                val mapped = mapper(value)
+                                for (subscriber in subscriptions.values) {
+                                    subscriber(mapped)
+                                }
+                            }
+                        } else if (local.canceled) {
+                            local.canceled = false
+                        }
+                    }
+                    field = value
+                }
+        }
+        subscription.canceled = false
+        if (hasUpstream) {
+            subscriber(value)
+        }
+        return subscription
+    }
+
+    override fun <M> invoke(mapper: (R) -> M): Signal<M> = MappedSignal(this, mapper)
 }
 
 /**
@@ -120,12 +186,9 @@ public fun <T> signal(initialValue: T): MutableSignal<T> {
                 }
             }
 
-        override fun <M> invoke(mapper: (T) -> M): Signal<M> {
-            val mapped = signal(mapper(value))
-            subscribe { mapped.value = mapper(it) }
-            return mapped
-        }
+        override fun <M> invoke(mapper: (T) -> M): Signal<M> = MappedSignal(this, mapper)
 
+        // TODO: shared subscription management helper
         override fun subscribe(subscriber: (T) -> Unit): Subscription {
             val subscription = object : Subscription {
                 override var canceled: Boolean = true
@@ -136,12 +199,10 @@ public fun <T> signal(initialValue: T): MutableSignal<T> {
                                 copy.remove(this)
                                 subscriptions = copy
                             }
-                        } else {
-                            if (field) {
-                                val copy = subscriptions.toMutableMap()
-                                copy[this] = subscriber
-                                subscriptions = copy
-                            }
+                        } else if (field) {
+                            val copy = subscriptions.toMutableMap()
+                            copy[this] = subscriber
+                            subscriptions = copy
                         }
                         field = value
                     }
@@ -253,12 +314,10 @@ public class MutableListSignal<E> internal constructor(
                             copy.remove(this)
                             delegate.observers = copy
                         }
-                    } else {
-                        if (field) {
-                            val copy = delegate.observers.toMutableMap()
-                            copy[this] = observer
-                            delegate.observers = copy
-                        }
+                    } else if (field) {
+                        val copy = delegate.observers.toMutableMap()
+                        copy[this] = observer
+                        delegate.observers = copy
                     }
                     field = value
                 }
