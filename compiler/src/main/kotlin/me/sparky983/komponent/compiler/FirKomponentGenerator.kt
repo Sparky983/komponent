@@ -1,9 +1,11 @@
 package me.sparky983.komponent.compiler
 
 import org.jetbrains.kotlin.KtSourceElement
+import org.jetbrains.kotlin.descriptors.Visibilities
 import org.jetbrains.kotlin.fir.FirSession
-import org.jetbrains.kotlin.fir.declarations.FirDeclarationDataRegistry
+import org.jetbrains.kotlin.fir.copy
 import org.jetbrains.kotlin.fir.declarations.FirValueParameter
+import org.jetbrains.kotlin.fir.declarations.utils.visibility
 import org.jetbrains.kotlin.fir.expressions.FirExpression
 import org.jetbrains.kotlin.fir.expressions.FirFunctionCall
 import org.jetbrains.kotlin.fir.expressions.buildResolvedArgumentList
@@ -26,6 +28,7 @@ import org.jetbrains.kotlin.fir.types.classId
 import org.jetbrains.kotlin.fir.types.impl.ConeClassLikeTypeImpl
 import org.jetbrains.kotlin.fir.types.isSubtypeOf
 import org.jetbrains.kotlin.fir.types.resolvedType
+import org.jetbrains.kotlin.fir.visibilityChecker
 import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
@@ -42,8 +45,7 @@ class FirKomponentGenerator(session: FirSession) :
             Name.identifier("Signal")
         )
     }
-    
-    @OptIn(SymbolInternals::class)
+
     override fun intercept(
         callInfo: CallInfo,
         symbol: FirNamedFunctionSymbol
@@ -52,10 +54,51 @@ class FirKomponentGenerator(session: FirSession) :
             val type = parameter.resolvedReturnType
             if (type is ConeClassLikeType
                 && type.lookupTag.classId == SIGNAL_CLASS_ID) {
-                return CallReturnType(symbol.resolvedReturnTypeRef)
+                return CallReturnType(symbol.resolvedReturnTypeRef) { synthetic ->
+                    makeVisibleIfOriginalIsVisible(callInfo, symbol, synthetic)
+                }
             }
         }
         return null
+    }
+
+    /**
+     * Makes the [synthetic] declaration of a private top-level function public
+     * if the [original] is visible from the call site.
+     */
+    @OptIn(SymbolInternals::class)
+    private fun makeVisibleIfOriginalIsVisible(
+        callInfo: CallInfo,
+        original: FirNamedFunctionSymbol,
+        synthetic: FirNamedFunctionSymbol
+    ) {
+        /*
+         * When calls are refined, the compiler creates a synthetic declaration
+         * with a new symbol, which the call points to until [transform]
+         * replaces it with the original. Private access is checked by looking
+         * up the file that declares the function by its symbol, which fails
+         * for the synthetic declaration, so it is made public if the original
+         * is visible.
+         */
+
+        if (original.visibility != Visibilities.Private
+            || original.callableId.classId != null) {
+            return
+        }
+
+        val isVisible = session.visibilityChecker.isVisible(
+            original.fir,
+            callInfo.session,
+            callInfo.containingFile,
+            callInfo.containingDeclarations,
+            dispatchReceiver = null
+        )
+
+        if (isVisible) {
+            synthetic.fir.replaceStatus(
+                synthetic.fir.status.copy(visibility = Visibilities.Public)
+            )
+        }
     }
 
     @OptIn(SymbolInternals::class)
