@@ -255,7 +255,7 @@
       keyup: { type: "KeyboardEvent", parameter: "keyUp" },
       load: {},
       mousedown: { type: "MouseEvent", parameter: "mouseDown" },
-      mouseEnter: { type: "MouseEvent", parameter: "mouseEnter" },
+      mouseenter: { type: "MouseEvent", parameter: "mouseEnter" },
       mouseleave: { type: "MouseEvent", parameter: "mouseLeave" },
       mousemove: { type: "MouseEvent", parameter: "mouseMove" },
       mouseout: { type: "MouseEvent", parameter: "mouseOut" },
