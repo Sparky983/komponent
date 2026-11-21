@@ -2,9 +2,11 @@ on:
   push:
     branches:
       - main
+      - ver/**
   pull_request:
     branches:
       - main
+      - ver/**
 
 jobs:
   build:
@@ -34,7 +36,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     concurrency:
-      group: publish
+      group: publish-${{ github.ref }}
       cancel-in-progress: false
     steps:
       - name: Checkout repository
